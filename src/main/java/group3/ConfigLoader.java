@@ -12,7 +12,7 @@ public class ConfigLoader
         configFile = new java.util.Properties();
         try {
             configFile.load(ConfigLoader.class.getClassLoader().
-                    getResourceAsStream("resources/config/config.cfg"));
+                    getResourceAsStream("config/config.cfg"));
         }catch(Exception eta){
             eta.printStackTrace();
         }
@@ -20,7 +20,7 @@ public class ConfigLoader
 
     public String getProperty(String key)
     {
-        String value = this.configFile.getProperty(key);
+        String value = configFile.getProperty(key);
         return value;
     }
 }
