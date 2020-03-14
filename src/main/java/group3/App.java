@@ -2,7 +2,10 @@ package group3;
 
 import spoon.Launcher;
 import spoon.reflect.CtModel;
-import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.*;
+import spoon.reflect.visitor.filter.TypeFilter;
+
+import java.util.List;
 
 public class App 
 {
@@ -14,13 +17,26 @@ public class App
 
         cfg = new ConfigLoader();
         codeSampleFileName = cfg.getProperty("codeSampleFileName");
-        codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
+        System.out.println(codeSampleFileName);
 
         Launcher launcher = new Launcher();
-        launcher.addInputResource(codeSampleFilePath);
+        launcher.addInputResource(codeSampleFileName);
         launcher.buildModel();
         CtModel model = launcher.getModel();
-        //CtClass l = Launcher.parseClass("class A { void m() { System.out.println(\"yeah\");} }");
-        //System.out.println(l);
+
+        // list all packages of the model
+        for(CtPackage p : model.getAllPackages()) {
+            System.out.println("package: " + p.getQualifiedName());
+        }
+        // list all classes of the model
+        for(CtType<?> s : model.getAllTypes()) {
+            System.out.println("class: " + s.getQualifiedName());
+        }
+
+        // list all classes (different method)
+        for (CtType<?> ctClass : launcher.getFactory().Class().getAll()) {
+            System.out.println("class: " + ctClass.getQualifiedName());
+        }
+
     }
 }
