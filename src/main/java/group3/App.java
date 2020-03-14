@@ -8,7 +8,7 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-	// CtClass l = Launcher.parseClass("class A { void m() { System.out.println(\"yeah\");} }");
-        // System.out.println(l);
+	    CtClass l = Launcher.parseClass("class A { void m() { System.out.println(\"yeah\");} }");
+	    System.out.println(l);
     }
 }
