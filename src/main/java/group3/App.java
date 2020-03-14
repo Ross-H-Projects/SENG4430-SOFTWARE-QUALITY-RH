@@ -14,12 +14,12 @@ public class App
 
         cfg = new ConfigLoader();
         codeSampleFileName = cfg.getProperty("codeSampleFileName");
-        codeSampleFilePath = String.format("resources/code_samples/%s", codeSampleFileName);
-        System.out.println(codeSampleFilePath);
-        //Launcher launcher = new Launcher();
-        //launcher.addInputResource(codeSampleFilePath);
-        //launcher.buildModel();
-        //CtModel model = launcher.getModel();
+        codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
+
+        Launcher launcher = new Launcher();
+        launcher.addInputResource(codeSampleFilePath);
+        launcher.buildModel();
+        CtModel model = launcher.getModel();
         //CtClass l = Launcher.parseClass("class A { void m() { System.out.println(\"yeah\");} }");
         //System.out.println(l);
     }
