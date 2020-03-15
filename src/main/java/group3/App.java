@@ -3,20 +3,21 @@ package group3;
 import spoon.Launcher;
 import spoon.reflect.CtModel;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
 import java.util.List;
+import java.util.Set;
 
-public class App 
+public class App
 {
     public static void main(String[] args )
     {
         Launcher launcher = new Launcher();
         configInit(launcher);
-        //launcher.buildModel();
-        //CtModel model = launcher.getModel();
+        List<CtClass> a = getLauncherClassObjectByClassName(launcher, "WordCount");
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
@@ -29,17 +30,19 @@ public class App
     }
     public static void importCodeSample(Launcher launcher, String codeSampleFilePath) {
         launcher.addInputResource(codeSampleFilePath);
+        launcher.buildModel();
+        List<CtClass> classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount"));
     }
     //Class().getAll() returns a wildcard List<CtType<?>> rather than a List<CtClass>
     //Not sure if its possible to get a more specific type returned
-    public List<CtType<?>> getAllLauncherClassObjects(Launcher launcher) {
+    public static List<CtType<?>> getAllLauncherClassObjects(Launcher launcher) {
         return launcher.getFactory().Class().getAll();
     }
-    public List<CtClass> getLauncherClassObjectByClassName(Launcher launcher, String className) {
+    public static List<CtClass> getLauncherClassObjectByClassName(Launcher launcher, String className) {
         List<CtClass> classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount"));
         return classList;
     }
-    public String getClassQualifiedName(CtClass classObject) {
+    public static String getClassQualifiedName(CtClass classObject) {
         return classObject.getQualifiedName();
     }
 
