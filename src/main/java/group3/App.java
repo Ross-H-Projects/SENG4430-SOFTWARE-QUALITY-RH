@@ -22,14 +22,6 @@ public class App
         configInit(launcher);
         CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
         CtMethod methodObject = getMethods(classObject).get(0);
-
-        CtIterator iterator = new CtIterator(methodObject);
-        while (iterator.hasNext()) {
-            CtElement el = iterator.next();
-            System.out.println(el.toString());
-            System.out.println("---");
-        }
-
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
