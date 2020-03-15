@@ -10,7 +10,7 @@ import spoon.reflect.visitor.filter.NamedElementFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+
 
 public class App
 {
@@ -18,7 +18,7 @@ public class App
     {
         Launcher launcher = new Launcher();
         configInit(launcher);
-//        List<CtClass> a = getLauncherClassObjectByClassName(launcher, "WordCount");
+//        CtClass a = getLauncherClassObjectByClassName(launcher, "WordCount");
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
@@ -39,8 +39,8 @@ public class App
     public static List<CtType<?>> getAllLauncherClassObjects(Launcher launcher) {
         return launcher.getFactory().Class().getAll();
     }
-    public static List<CtClass> getLauncherClassObjectByClassName(Launcher launcher, String className) {
-        List<CtClass> classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount"));
+    public static CtClass getLauncherClassObjectByClassName(Launcher launcher, String className) {
+        CtClass classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount")).get(0);
         return classList;
     }
     public static String getClassQualifiedName(CtClass classObject) {
@@ -55,6 +55,10 @@ public class App
         CtMethod<?> methodObject = (CtMethod<?>) classObject.getMethodsByName(methodName).get(0);
         return methodObject;
     }
+    //get getters of variables
+    //get variables
+    //get comments
+    //other stuffs
 
 // Commented out for loop print of objects for now
 //        // list all packages of the model
