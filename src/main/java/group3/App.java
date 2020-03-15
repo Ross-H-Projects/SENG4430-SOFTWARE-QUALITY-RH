@@ -2,8 +2,10 @@ package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
+import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
@@ -18,7 +20,16 @@ public class App
     {
         Launcher launcher = new Launcher();
         configInit(launcher);
-//        CtClass a = getLauncherClassObjectByClassName(launcher, "WordCount");
+        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
+        CtMethod methodObject = getMethods(classObject).get(0);
+
+        CtIterator iterator = new CtIterator(methodObject);
+        while (iterator.hasNext()) {
+            CtElement el = iterator.next();
+            System.out.println(el.toString());
+            System.out.println("---");
+        }
+
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
@@ -55,10 +66,24 @@ public class App
         CtMethod<?> methodObject = (CtMethod<?>) classObject.getMethodsByName(methodName).get(0);
         return methodObject;
     }
-    //get getters of variables
-    //get variables
-    //get comments
-    //other stuffs
+    //Temp. Looking at iterating over elements in a method. Still got to make sense of this.
+    public static void iterateOverMethodElements(CtMethod methodObject){
+        CtIterator iterator = new CtIterator(methodObject);
+        while (iterator.hasNext()) {
+            CtElement el = iterator.next();
+            System.out.println(el.toString());
+            System.out.println("---");
+        }
+
+        //Have to find proper filter applied if using getElements
+        //methodObject.getElements();
+
+        //methodObject.asIterable() achieves same as CtIterator above
+//        System.out.println(methodObject.asIterable());
+//        for (CtElement bla : methodObject.asIterable()) {
+//            System.out.println(bla.prettyprint());
+//        }
+    }
 
 // Commented out for loop print of objects for now
 //        // list all packages of the model
@@ -75,3 +100,4 @@ public class App
 //            System.out.println("class: " + ctClass.getQualifiedName());
 //        }
 }
+
