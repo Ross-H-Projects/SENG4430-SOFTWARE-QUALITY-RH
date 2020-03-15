@@ -64,6 +64,8 @@ public class App
         while (iterator.hasNext()) {
             CtElement el = iterator.next();
             System.out.println(el.toString());
+            //Output role of element in method body
+            System.out.println(el.getRoleInParent());
             System.out.println("---");
         }
 
