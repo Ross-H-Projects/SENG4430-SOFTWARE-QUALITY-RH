@@ -1,13 +1,14 @@
 package group3;
 
 import spoon.Launcher;
-import spoon.reflect.CtModel;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class App
     {
         Launcher launcher = new Launcher();
         configInit(launcher);
-        List<CtClass> a = getLauncherClassObjectByClassName(launcher, "WordCount");
+//        List<CtClass> a = getLauncherClassObjectByClassName(launcher, "WordCount");
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
@@ -44,6 +45,15 @@ public class App
     }
     public static String getClassQualifiedName(CtClass classObject) {
         return classObject.getQualifiedName();
+    }
+    public static ArrayList<CtMethod> getMethods(CtClass classObject){
+        Collection methodsCollection = classObject.getMethods();
+        ArrayList<CtMethod> methodsArrayList = new ArrayList<>(methodsCollection);
+        return methodsArrayList;
+    }
+    public static CtMethod getMethodByName(CtClass classObject, String methodName) {
+        CtMethod<?> methodObject = (CtMethod<?>) classObject.getMethodsByName(methodName).get(0);
+        return methodObject;
     }
 
 // Commented out for loop print of objects for now
