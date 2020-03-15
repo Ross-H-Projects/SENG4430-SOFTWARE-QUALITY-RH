@@ -27,7 +27,7 @@ public class App
         codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
         importCodeSample(launcher, codeSampleFilePath);
     }
-    public void importCodeSample(Launcher launcher, String codeSampleFilePath) {
+    public static void importCodeSample(Launcher launcher, String codeSampleFilePath) {
         launcher.addInputResource(codeSampleFilePath);
     }
     //Class().getAll() returns a wildcard List<CtType<?>> rather than a List<CtClass>
