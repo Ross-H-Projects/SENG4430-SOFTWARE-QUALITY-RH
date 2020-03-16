@@ -2,15 +2,17 @@ package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
+import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+
 
 public class App
 {
@@ -18,7 +20,8 @@ public class App
     {
         Launcher launcher = new Launcher();
         configInit(launcher);
-//        List<CtClass> a = getLauncherClassObjectByClassName(launcher, "WordCount");
+        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
+        CtMethod methodObject = getMethods(classObject).get(0);
     }
     public static void configInit(Launcher launcher) {
         ConfigLoader cfg;
@@ -39,8 +42,8 @@ public class App
     public static List<CtType<?>> getAllLauncherClassObjects(Launcher launcher) {
         return launcher.getFactory().Class().getAll();
     }
-    public static List<CtClass> getLauncherClassObjectByClassName(Launcher launcher, String className) {
-        List<CtClass> classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount"));
+    public static CtClass getLauncherClassObjectByClassName(Launcher launcher, String className) {
+        CtClass classList = Query.getElements(launcher.getFactory(), new NamedElementFilter<>(CtClass.class, "WordCount")).get(0);
         return classList;
     }
     public static String getClassQualifiedName(CtClass classObject) {
@@ -54,6 +57,26 @@ public class App
     public static CtMethod getMethodByName(CtClass classObject, String methodName) {
         CtMethod<?> methodObject = (CtMethod<?>) classObject.getMethodsByName(methodName).get(0);
         return methodObject;
+    }
+    //Temp. Looking at iterating over elements in a method. Still got to make sense of this.
+    public static void iterateOverMethodElements(CtMethod methodObject){
+        CtIterator iterator = new CtIterator(methodObject);
+        while (iterator.hasNext()) {
+            CtElement el = iterator.next();
+            System.out.println(el.toString());
+            //Output role of element in method body
+            System.out.println(el.getRoleInParent());
+            System.out.println("---");
+        }
+
+        //Have to find proper filter applied if using getElements
+        //methodObject.getElements();
+
+        //methodObject.asIterable() achieves same as CtIterator above
+//        System.out.println(methodObject.asIterable());
+//        for (CtElement bla : methodObject.asIterable()) {
+//            System.out.println(bla.prettyprint());
+//        }
     }
 
 // Commented out for loop print of objects for now
@@ -71,3 +94,4 @@ public class App
 //            System.out.println("class: " + ctClass.getQualifiedName());
 //        }
 }
+
