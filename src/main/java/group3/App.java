@@ -31,8 +31,8 @@ public class App
 //        System.out.println(methodObject);
     }
 
-    public static void processArgs(String[] arguements) {
-        if (arguements.length < 2) {
+    public static void processArgs(String[] arguments) {
+        if (arguments.length < 2) {
             System.out.println("Error: Invalid Arguements");
             System.out.println("Correct Arguements: <SourceFile> <metric 1>  [[metric 2] .. [metric n]]");
             System.exit(1);
@@ -44,8 +44,8 @@ public class App
         ));
 
 
-        for (int i = 1; i < arguements.length; i++) {
-            if (!metrics.contains(arguements[i])) {
+        for (int i = 1; i < arguments.length; i++) {
+            if (!metrics.contains(arguments[i])) {
                 System.out.println("Error: Invalid metric");
                 System.exit(1);
             }
@@ -53,13 +53,13 @@ public class App
 
     }
 
-    public static void performAnalyses(Launcher launcher, String[] arguements) {
+    public static void performAnalyses(Launcher launcher, String[] arguments) {
 
-        for (int i = 1; i < arguements.length; i++) {
-            switch (arguements[i]) {
+        for (int i = 1; i < arguments.length; i++) {
+            switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    depthInheritanceAnalysis.performAnalysis(launcher, arguements[0]);
+                    depthInheritanceAnalysis.performAnalysis(arguments[0]);
                     break;
                 default:
             }
