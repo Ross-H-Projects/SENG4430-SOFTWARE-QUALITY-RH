@@ -22,12 +22,14 @@ public class App
         configInit(launcher);
         CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
         CtMethod methodObject = getMethods(classObject).get(0);
+
+        System.out.println(methodObject);
     }
     public static void configInit(Launcher launcher) {
-        ConfigLoader cfg;
+        group3.ConfigLoader cfg;
         String codeSampleFileName;
         String codeSampleFilePath;
-        cfg = new ConfigLoader();
+        cfg = new group3.ConfigLoader();
         codeSampleFileName = cfg.getProperty("codeSampleFileName");
         codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
         importCodeSample(launcher, codeSampleFilePath);
