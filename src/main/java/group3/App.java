@@ -24,7 +24,7 @@ public class App
         Launcher launcher = new Launcher();
         //configInit(launcher);
 
-        performAnalyses(launcher, args);
+        performAnalyses(args);
 
 //        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
 //        CtMethod methodObject = getMethods(classObject).get(0);
@@ -62,7 +62,7 @@ public class App
 
     }
 
-    public static void performAnalyses(Launcher launcher, String[] arguments) {
+    public static void performAnalyses(String[] arguments) {
 
         for (int i = 2; i < arguments.length; i++) {
             switch (arguments[i]) {
