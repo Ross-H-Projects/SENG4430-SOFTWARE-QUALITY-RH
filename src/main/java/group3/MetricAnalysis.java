@@ -4,5 +4,5 @@ import spoon.Launcher;
 
 public abstract class MetricAnalysis {
 
-    public abstract int performAnalysis(String fileName);
+    public abstract int performAnalysis(String fileOrDirectory, String fileOrDirectoryName);
 }

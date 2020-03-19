@@ -16,15 +16,25 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
 
     }
 
-    public int performAnalysis (String fileName) {
+    public int performAnalysis (String fileOrDirectory, String fileOrDirectoryName) {
         System.out.println("accessing performAnalysis in DepthInheritanceTreeAnalysis..");
 
-        Launcher launcher = Utilities.importCodeSample(fileName);
+        System.out.println("file or directory: " + fileOrDirectory);
 
+        Launcher launcher;
+        if (fileOrDirectory.toLowerCase().equals("f")) { // file
+            launcher = Utilities.importCodeSample(fileOrDirectoryName);
+        } else { // directory
+            // todo
+            //  actually implement a method to import multiple files in a directory
+            launcher = Utilities.importCodeSample(fileOrDirectoryName);
+        }
 
-        //List<CtClass> a = launcher.getFactory().getModel().getElements(new TypeFilter<>(CtClass.class));
+        List<CtClass> a = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass>(CtClass.class));
 
-        System.out.println(a);
+        for (CtClass c : a) {
+            System.out.println(c.getQualifiedName());
+        }
 
         return 0;
     }

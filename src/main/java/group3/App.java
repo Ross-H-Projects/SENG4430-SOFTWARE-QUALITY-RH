@@ -22,7 +22,7 @@ public class App
         processArgs(args);
 
         Launcher launcher = new Launcher();
-        configInit(launcher);
+        //configInit(launcher);
 
         performAnalyses(launcher, args);
 
@@ -32,9 +32,18 @@ public class App
     }
 
     public static void processArgs(String[] arguments) {
-        if (arguments.length < 2) {
+        if (arguments.length < 3) {
             System.out.println("Error: Invalid Arguements");
-            System.out.println("Correct Arguements: <SourceFile> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("Correct Arguements: [f | d] <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("/nWhere f means you are specifying a file input and d means you are specifying a directory input.");
+            System.exit(1);
+        }
+
+        if (!arguments[0].equals("d")
+                && !arguments[0].equals("f")
+                && !arguments[0].equals("D")
+                && !arguments[0].equals("F")) {
+            System.out.println("Error: You must specify whether you are processing a file (f) or a directory (d).");
             System.exit(1);
         }
 
@@ -44,7 +53,7 @@ public class App
         ));
 
 
-        for (int i = 1; i < arguments.length; i++) {
+        for (int i = 2; i < arguments.length; i++) {
             if (!metrics.contains(arguments[i])) {
                 System.out.println("Error: Invalid metric");
                 System.exit(1);
@@ -55,11 +64,11 @@ public class App
 
     public static void performAnalyses(Launcher launcher, String[] arguments) {
 
-        for (int i = 1; i < arguments.length; i++) {
+        for (int i = 2; i < arguments.length; i++) {
             switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    depthInheritanceAnalysis.performAnalysis(arguments[0], arguments[1]);
                     break;
                 default:
             }
