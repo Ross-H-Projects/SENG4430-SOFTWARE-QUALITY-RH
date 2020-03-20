@@ -1,5 +1,7 @@
 package group3;
 
+import main.java.group3.DepthInheritanceTreeAnalysis;
+import main.java.group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
@@ -9,25 +11,68 @@ import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 public class App
 {
+
     public static void main(String[] args )
     {
-        Launcher launcher = new Launcher();
-        configInit(launcher);
-        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
-        CtMethod methodObject = getMethods(classObject).get(0);
+        processArgs(args);
+        performAnalyses(args);
+
+        //Launcher launcher = new Launcher();
+        //configInit(launcher);
+
+
+
+//        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
+//        CtMethod methodObject = getMethods(classObject).get(0);
+//        System.out.println(methodObject);
     }
+
+    public static void processArgs(String[] arguments) {
+        if (arguments.length < 2) {
+            System.out.println("Error: Invalid Arguements");
+            System.out.println("Correct Arguements: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.exit(1);
+        }
+
+        // check metrics
+        HashSet<String> metrics = new HashSet<String>(Arrays.asList(
+                "inheritance_depth"
+        ));
+
+
+        for (int i = 1; i < arguments.length; i++) {
+            if (!metrics.contains(arguments[i])) {
+                System.out.println("Error: Invalid metric");
+                System.exit(1);
+            }
+        }
+
+    }
+
+    public static void performAnalyses(String[] arguments) {
+
+        for (int i = 1; i < arguments.length; i++) {
+            switch (arguments[i]) {
+                case "inheritance_depth":
+                    MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
+                    depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    break;
+                default:
+            }
+        }
+    }
+
+
     public static void configInit(Launcher launcher) {
-        ConfigLoader cfg;
+        group3.ConfigLoader cfg;
         String codeSampleFileName;
         String codeSampleFilePath;
-        cfg = new ConfigLoader();
+        cfg = new group3.ConfigLoader();
         codeSampleFileName = cfg.getProperty("codeSampleFileName");
         codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
         importCodeSample(launcher, codeSampleFilePath);
