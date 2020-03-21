@@ -1,7 +1,5 @@
 package group3;
 
-import main.java.group3.DepthInheritanceTreeAnalysis;
-import main.java.group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;

@@ -1,11 +1,8 @@
-package main.java.group3;
+package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
-import spoon.reflect.declaration.CtElement;
-import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
-import spoon.reflect.visitor.filter.NamedElementFilter;
 import spoon.reflect.visitor.filter.TypeFilter;
 
 import java.util.List;
