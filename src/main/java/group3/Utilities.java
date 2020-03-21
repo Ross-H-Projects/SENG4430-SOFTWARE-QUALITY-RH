@@ -1,4 +1,4 @@
-package main.java.group3;
+package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;

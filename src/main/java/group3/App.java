@@ -1,7 +1,5 @@
 package group3;
 
-import main.java.group3.DepthInheritanceTreeAnalysis;
-import main.java.group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
@@ -34,17 +32,18 @@ public class App
 
     public static void processArgs(String[] arguments) {
         if (arguments.length < 2) {
-            System.out.println("Error: Invalid Arguements");
-            System.out.println("Correct Arguements: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("Error: Invalid Arguments");
+            System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("Example Arguments to place in Intellij run config: Inheritance_Example/InheritanceExample.java inheritance_depth");
             System.exit(1);
         }
 
-        // check metrics
+        // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth"
         ));
 
-
+        //Checks if all metric args passed in are valid metrics
         for (int i = 1; i < arguments.length; i++) {
             if (!metrics.contains(arguments[i])) {
                 System.out.println("Error: Invalid metric");
