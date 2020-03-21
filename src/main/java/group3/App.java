@@ -32,8 +32,8 @@ public class App
 
     public static void processArgs(String[] arguments) {
         if (arguments.length < 2) {
-            System.out.println("Error: Invalid Arguements");
-            System.out.println("Correct Arguements: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("Error: Invalid Arguments");
+            System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
             System.out.println("Example Arguments to place in Intellij run config: Inheritance_Example/InheritanceExample.java inheritance_depth");
             System.exit(1);
         }
