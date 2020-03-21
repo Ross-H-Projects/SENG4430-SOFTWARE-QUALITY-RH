@@ -20,8 +20,8 @@ public class App
         processArgs(args);
         performAnalyses(args);
 
-        //Launcher launcher = new Launcher();
-        //configInit(launcher);
+//        Launcher launcher = new Launcher();
+//        configInit(launcher);
 
 
 
@@ -65,7 +65,6 @@ public class App
             }
         }
     }
-
 
     public static void configInit(Launcher launcher) {
         group3.ConfigLoader cfg;
