@@ -38,12 +38,12 @@ public class App
             System.exit(1);
         }
 
-        // check metrics
+        // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth"
         ));
 
-
+        //Checks if all metric args passed in are valid metrics
         for (int i = 1; i < arguments.length; i++) {
             if (!metrics.contains(arguments[i])) {
                 System.out.println("Error: Invalid metric");
