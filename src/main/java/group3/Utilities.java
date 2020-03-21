@@ -9,11 +9,8 @@ import java.util.List;
 
 public class Utilities {
     public static Launcher importCodeSample (String fileName) {
-        String filePath;
-        filePath = String.format("code_samples/%s", fileName);
-
         Launcher launcher = new Launcher();
-        launcher.addInputResource(filePath);
+        launcher.addInputResource(fileName);
         launcher.buildModel();
 
         return launcher;

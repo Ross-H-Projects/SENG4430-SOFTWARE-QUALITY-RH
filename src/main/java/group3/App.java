@@ -23,18 +23,13 @@ public class App
         //Launcher launcher = new Launcher();
         //configInit(launcher);
 
-
-
-//        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
-//        CtMethod methodObject = getMethods(classObject).get(0);
-//        System.out.println(methodObject);
     }
 
     public static void processArgs(String[] arguments) {
         if (arguments.length < 2) {
             System.out.println("Error: Invalid Arguments");
             System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
-            System.out.println("Example Arguments to place in Intellij run config: Inheritance_Example/InheritanceExample.java inheritance_depth");
+            System.out.println("Example Arguments to place in Intellij run config: code_samples/Inheritance_Example/InheritanceExample.java inheritance_depth");
             System.exit(1);
         }
 
@@ -122,20 +117,5 @@ public class App
 //            System.out.println(bla.prettyprint());
 //        }
     }
-
-// Commented out for loop print of objects for now
-//        // list all packages of the model
-//        for(CtPackage p : model.getAllPackages()) {
-//            System.out.println("package: " + p.getQualifiedName());
-//        }
-//        // list all classes of the model
-//        for(CtType<?> s : model.getAllTypes()) {
-//            System.out.println("class: " + s.getQualifiedName());
-//        }
-//
-//        // list all classes (different method)
-//        for (CtType<?> ctClass : launcher.getFactory().Class().getAll()) {
-//            System.out.println("class: " + ctClass.getQualifiedName());
-//        }
 }
 
