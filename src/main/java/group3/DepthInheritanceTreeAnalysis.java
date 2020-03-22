@@ -23,6 +23,10 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
 
         for (CtClass c : a) {
             System.out.println(c.getQualifiedName());
+            if (c.getSuperclass() != null) {
+                System.out.println(c.getSuperclass().getQualifiedName());
+            }
+            System.out.println("------------------");
         }
 
         return 0;

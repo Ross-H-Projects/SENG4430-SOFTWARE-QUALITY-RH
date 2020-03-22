@@ -5,6 +5,7 @@ public class A {
     A() {
         System.out.println("A constructor");
     }
+
 }
 
 
@@ -25,4 +26,6 @@ public class C extends B {
         super();
         System.out.println("C constructor");
     }
+
+
 }
