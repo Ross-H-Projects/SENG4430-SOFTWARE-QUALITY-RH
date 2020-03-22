@@ -1,11 +1,16 @@
 package group3.metric_analysis.conditonal_nesting;
 
 import group3.MetricAnalysis;
+import group3.Utilities;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ClassTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.MethodTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ProgramTracker;
+import spoon.Launcher;
+import spoon.reflect.declaration.CtClass;
+import spoon.reflect.visitor.Query;
+import spoon.reflect.visitor.filter.TypeFilter;
 
-import java.util.HashMap;
+import java.util.List;
 
 public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
     private ProgramTracker programTracker;
@@ -14,11 +19,19 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
     }
 
     public int performAnalysis (String fileName) {
-//        System.out.println("accessing performAnalysis in DepthOfConditionalNestingAnalysis..");
-//
-//        Launcher launcher = Utilities.importCodeSample(fileName);
-//
+        System.out.println("accessing performAnalysis in DepthOfConditionalNestingAnalysis..");
+
+        Launcher launcher = Utilities.importCodeSample(fileName);
+        SourceCodeIteration codeIterator = new SourceCodeIteration();
+        codeIterator.setLauncher(launcher);
+        System.out.println("Forced param");
+        codeIterator.setRootClass("ConditionalTest");
         return 0;
+    }
+
+    public void iterateOverProgram(Launcher launcher) {
+        List<CtClass> program_enterance = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass>(CtClass.class));
+        System.out.println("LETS DO THIS");
     }
 
     public void setProgramTracker() {
