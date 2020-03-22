@@ -7,6 +7,8 @@ import group3.metric_analysis.conditonal_nesting.metric_trackers.MethodTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ProgramTracker;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtMethod;
+import spoon.reflect.declaration.CtType;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
@@ -26,12 +28,15 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
         codeIterator.setLauncher(launcher);
         System.out.println("Forced param");
         codeIterator.setRootClass("ConditionalTest");
-        return 0;
-    }
 
-    public void iterateOverProgram(Launcher launcher) {
-        List<CtClass> program_enterance = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass>(CtClass.class));
-        System.out.println("LETS DO THIS");
+        for(CtType currentClass: codeIterator.getClasses()) {
+            System.out.println(currentClass.getSimpleName());
+            for(CtMethod method: codeIterator.getClassMethods(currentClass)) {
+                System.out.println(method.getSimpleName());
+                System.out.println(method.getBody().prettyprint());
+            }
+        }
+        return 0;
     }
 
     public void setProgramTracker() {
