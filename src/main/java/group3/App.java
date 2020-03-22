@@ -35,7 +35,7 @@ public class App
 
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
-                "inheritance_depth"
+                "inheritance_depth", "fog_index"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -55,6 +55,10 @@ public class App
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
                     depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    break;
+                case "fog_index":
+                    MetricAnalysis fogIndexAnalysis = new FogIndexAnalysis();
+                    fogIndexAnalysis.performAnalysis(arguments[0]);
                     break;
                 default:
             }
