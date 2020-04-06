@@ -55,7 +55,10 @@ public class App
             switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    DepthInheritanceTreeReturn x = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
+
+                    System.out.println(x.getA());
+
                     break;
                 default:
             }
