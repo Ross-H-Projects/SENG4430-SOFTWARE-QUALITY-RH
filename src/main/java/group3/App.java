@@ -55,9 +55,9 @@ public class App
             switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    DepthInheritanceTreeReturn x = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    DepthInheritanceTreeReturn metricResults = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
 
-                    System.out.println(x.getA());
+                    System.out.println("Maximum Depth of Inheritance is: " + metricResults.getMaxDepth());
 
                     break;
                 default:
