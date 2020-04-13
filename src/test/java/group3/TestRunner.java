@@ -11,13 +11,13 @@ public class TestRunner {
             System.out.println(failure.toString());
         }
 
-        System.out.println();
+
 
         String testResultMessage;
         if (result.wasSuccessful()) {
-            testResultMessage = "All " + result.getRunCount() + " test(s) ran with no errors.";
+            testResultMessage = "\nAll " + result.getRunCount() + " test(s) ran with no errors.";
         } else {
-            testResultMessage = "Failure, " + result.getFailureCount() + " of " + result.getRunCount() + " test(s) failed.";
+            testResultMessage = "\nFailure, " + result.getFailureCount() + " of " + result.getRunCount() + " test(s) failed.";
         }
 
         System.out.println(testResultMessage);

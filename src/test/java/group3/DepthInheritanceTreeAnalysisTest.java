@@ -30,6 +30,6 @@ public class DepthInheritanceTreeAnalysisTest
     {
         DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
         DepthInheritanceTreeReturn testerResult =  (DepthInheritanceTreeReturn) tester.performAnalysis("code_samples\\test_code_samples\\DepthInheritance_2");
-        assertEquals("Depth of Inheritance for DepthInheritance_2 directory must be 2", 2, testerResult.getMaxDepth());
+        assertEquals("Depth of Inheritance for DepthInheritance_2 directory must be 2", 3, testerResult.getMaxDepth());
     }
 }
