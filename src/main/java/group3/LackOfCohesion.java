@@ -1,5 +1,6 @@
 // based on the description of cohesion here:
 // https://help.semmle.com/wiki/pages/viewpage.action?pageId=29394037
+// try https://archive.is/Hc0TG if the above link does not work.
 
 
 package group3;
