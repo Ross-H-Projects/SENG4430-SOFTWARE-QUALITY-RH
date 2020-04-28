@@ -1,5 +1,6 @@
 package group3;
 
+import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
@@ -37,7 +38,8 @@ public class App
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth",
-                "cohesion_score"
+                "cohesion_score",
+                "depth_conditional_nesting"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -68,6 +70,10 @@ public class App
 
                     System.out.println("Lack of Cohesion place holder shit");
 
+                    break;
+                case "depth_conditional_nesting":
+                    MetricAnalysis depthConditionalNesting = new DepthOfConditionalNestingAnalysis();
+                    depthConditionalNesting.performAnalysis(arguments[0]);
                     break;
                 default:
 

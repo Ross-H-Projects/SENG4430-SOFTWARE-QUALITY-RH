@@ -6,13 +6,10 @@ import group3.metric_analysis.conditonal_nesting.metric_trackers.ClassTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.MethodTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ProgramTracker;
 import spoon.Launcher;
-import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
-import spoon.reflect.visitor.Query;
-import spoon.reflect.visitor.filter.TypeFilter;
-
-import java.util.List;
+import spoon.reflect.visitor.CtIterator;
 
 public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
     private ProgramTracker programTracker;
@@ -33,7 +30,13 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
             System.out.println(currentClass.getSimpleName());
             for(CtMethod method: codeIterator.getClassMethods(currentClass)) {
                 System.out.println(method.getSimpleName());
-                System.out.println(method.getBody().prettyprint());
+                CtIterator iterator = new CtIterator(method);
+                while (iterator.hasNext()) {
+                    CtElement el = iterator.next();
+                    System.out.println(el.toString());
+                    //Output role of element in method body
+                    System.out.println("---");
+                }
             }
         }
         return 0;
