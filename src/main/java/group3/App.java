@@ -9,6 +9,7 @@ import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
+
 import java.util.*;
 
 
@@ -23,24 +24,20 @@ public class App
 //        Launcher launcher = new Launcher();
 //        configInit(launcher);
 
-
-
-//        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
-//        CtMethod methodObject = getMethods(classObject).get(0);
-//        System.out.println(methodObject);
     }
 
     public static void processArgs(String[] arguments) {
         if (arguments.length < 2) {
             System.out.println("Error: Invalid Arguments");
             System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
-            System.out.println("Example Arguments to place in Intellij run config: Inheritance_Example/InheritanceExample.java inheritance_depth");
+            System.out.println("Example Arguments to place in Intellij run config: code_samples/Inheritance_Example/InheritanceExample.java inheritance_depth");
             System.exit(1);
         }
 
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
-                "inheritance_depth"
+                "inheritance_depth",
+                "cohesion_score"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -59,9 +56,21 @@ public class App
             switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    DepthInheritanceTreeReturn depthInheritanceTreeResults = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
+
+                    System.out.println("Maximum Depth of Inheritance is: " + depthInheritanceTreeResults.getMaxDepth());
+
+                    break;
+
+                case "cohesion_score":
+                    MetricAnalysis lackOfCohesion = new LackOfCohesion();
+                    LackOfCohesionReturn lackOfCohesionResult = (LackOfCohesionReturn) lackOfCohesion.performAnalysis(arguments[0]);
+
+                    System.out.println("Lack of Cohesion place holder shit");
+
                     break;
                 default:
+
             }
         }
     }
@@ -121,20 +130,5 @@ public class App
 //            System.out.println(bla.prettyprint());
 //        }
     }
-
-// Commented out for loop print of objects for now
-//        // list all packages of the model
-//        for(CtPackage p : model.getAllPackages()) {
-//            System.out.println("package: " + p.getQualifiedName());
-//        }
-//        // list all classes of the model
-//        for(CtType<?> s : model.getAllTypes()) {
-//            System.out.println("class: " + s.getQualifiedName());
-//        }
-//
-//        // list all classes (different method)
-//        for (CtType<?> ctClass : launcher.getFactory().Class().getAll()) {
-//            System.out.println("class: " + ctClass.getQualifiedName());
-//        }
 }
 
