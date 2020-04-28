@@ -37,7 +37,8 @@ public class App
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth",
-                "cohesion_score"
+                "cohesion_score",
+                "fan_out"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -50,7 +51,7 @@ public class App
 
     }
 
-    public static void performAnalyses(String[] arguments) {
+        public static void performAnalyses(String[] arguments) {
 
         for (int i = 1; i < arguments.length; i++) {
             switch (arguments[i]) {
@@ -68,6 +69,12 @@ public class App
 
                     System.out.println("Lack of Cohesion place holder shit");
 
+                    break;
+                case "fan_out":
+                    MetricAnalysis fanOutAnalysis = new FanOutAnalysis();
+                    FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
+
+//                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
                     break;
                 default:
 
