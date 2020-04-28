@@ -1,30 +1,18 @@
 package group3;
 
 public class DepthInheritanceTreeReturn extends MetricReturn {
-    private int a;
-    private String b;
+    private int maxDepth;
 
 
     public DepthInheritanceTreeReturn() {
-        a = 1;
-        b = "abc 13";
+        this.maxDepth = 0;
     }
 
-    public int getA () {
-        return this.a;
+    public int getMaxDepth () {
+        return this.maxDepth;
     }
 
-    public String getB() {
-        return this.b;
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
     }
-
-    public void setA(int a) {
-        this.a = a;
-    }
-
-    public void setB(String b) {
-        this.b = b;
-    }
-
-
 }

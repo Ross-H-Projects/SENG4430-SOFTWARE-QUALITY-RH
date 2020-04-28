@@ -36,7 +36,8 @@ public class App
 
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
-                "inheritance_depth"
+                "inheritance_depth",
+                "cohesion_score"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -55,12 +56,21 @@ public class App
             switch (arguments[i]) {
                 case "inheritance_depth":
                     MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    DepthInheritanceTreeReturn x = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
+                    DepthInheritanceTreeReturn depthInheritanceTreeResults = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
 
-                    System.out.println(x.getA());
+                    System.out.println("Maximum Depth of Inheritance is: " + depthInheritanceTreeResults.getMaxDepth());
+
+                    break;
+
+                case "cohesion_score":
+                    MetricAnalysis lackOfCohesion = new LackOfCohesion();
+                    LackOfCohesionReturn lackOfCohesionResult = (LackOfCohesionReturn) lackOfCohesion.performAnalysis(arguments[0]);
+
+                    System.out.println("Lack of Cohesion place holder shit");
 
                     break;
                 default:
+
             }
         }
     }
