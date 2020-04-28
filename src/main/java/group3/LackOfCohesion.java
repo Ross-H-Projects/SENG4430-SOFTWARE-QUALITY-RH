@@ -7,6 +7,7 @@ package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
@@ -20,12 +21,14 @@ public class LackOfCohesion extends MetricAnalysis {
 
     private HashMap<String, CtClass<?>> ctClasses;
     private HashMap<String, Integer> classCohesionScores;
+    private HashMap<String, HashMap<String, Boolean>> classMethodPairs;
 
     public LackOfCohesion () {
         n1 = 0;
         n2 = 0;
         ctClasses = new HashMap<String, CtClass<?>>();
         classCohesionScores = new HashMap<String, Integer>();
+        classMethodPairs = new HashMap<String, HashMap<String, Boolean>>();
     }
 
     public MetricReturn performAnalysis (String fileName) {
@@ -42,7 +45,65 @@ public class LackOfCohesion extends MetricAnalysis {
     }
 
     private int calculateCohesionForClass (CtClass<?> currentClass) {
-        System.out.println(currentClass);
+
+        boolean methodPairExists;
+        String methodASignature;
+        String methodBSignature
+        for (CtMethod<?> methodA : currentClass.getMethods()) {
+            methodASignature = methodA.getSignature();
+            for (CtMethod<?> methodB : currentClass.getMethods()) {
+                // don't check method against itself
+                if (methodASignature.equals(methodBSignature)) {
+                    continue;
+                }
+
+                methodBSignature = methodB.getSignature();
+                methodPairExists = checkForMethodPair(methodASignature, methodBSignature);
+                // don't check method pair that have already been compared
+                if (methodPairExists) {
+                    continue;
+                }
+
+                createMethodPair(methodASignature, methodBSignature);
+                compareMethodPairCoherence();
+            }
+        }
+
+
         return 0;
+    }
+
+    private void compareMethodPairCoherence (CtMethod<?> methodA, CtMethod<?> methodB) {
+        
+    }
+
+    private boolean checkForMethodPair (String methodA, String methodB) {
+        boolean ret = false;
+
+        try {
+            classMethodPairs.get(methodA).get(methodB);
+            ret = true;
+        } catch (Exception e) {
+
+        }
+
+        try {
+            classMethodPairs.get(methodB).get(methodA);
+            ret = true;
+        } catch (Exception e) {
+
+        }
+
+        return ret;
+    }
+
+    private void createMethodPair (String methodA, String methodB) {
+        if (classMethodPairs.get(methodA) == null) {
+            classMethodPairs.put(methodA, new HashMap<String, Boolean>());
+        }
+
+        if (classMethodPairs.get(methodA).get(methodB) == null) {
+            classMethodPairs.get(methodA).put(methodB, false);
+        }
     }
 }
