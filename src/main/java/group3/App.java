@@ -9,25 +9,85 @@ import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import java.util.*;
 
 
 public class App
 {
+
     public static void main(String[] args )
     {
-        Launcher launcher = new Launcher();
-        configInit(launcher);
-        CtClass classObject = getLauncherClassObjectByClassName(launcher, "WordCount");
-        CtMethod methodObject = getMethods(classObject).get(0);
+        processArgs(args);
+        performAnalyses(args);
+
+        //Launcher launcher = new Launcher();
+        //configInit(launcher);
+
     }
+
+    public static void processArgs(String[] arguments) {
+        if (arguments.length < 2) {
+            System.out.println("Error: Invalid Arguments");
+            System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
+            System.out.println("Example Arguments to place in Intellij run config: code_samples/Inheritance_Example/InheritanceExample.java inheritance_depth");
+            System.exit(1);
+        }
+
+        // List of metrics that can be passed in via args
+        HashSet<String> metrics = new HashSet<String>(Arrays.asList(
+                "inheritance_depth",
+                "cohesion_score",
+                "fan_out"
+        ));
+
+        //Checks if all metric args passed in are valid metrics
+        for (int i = 1; i < arguments.length; i++) {
+            if (!metrics.contains(arguments[i])) {
+                System.out.println("Error: Invalid metric");
+                System.exit(1);
+            }
+        }
+
+    }
+
+        public static void performAnalyses(String[] arguments) {
+
+        for (int i = 1; i < arguments.length; i++) {
+            switch (arguments[i]) {
+                case "inheritance_depth":
+                    MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
+                    DepthInheritanceTreeReturn depthInheritanceTreeResults = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
+
+                    System.out.println("Maximum Depth of Inheritance is: " + depthInheritanceTreeResults.getMaxDepth());
+
+                    break;
+
+                case "cohesion_score":
+                    MetricAnalysis lackOfCohesion = new LackOfCohesion();
+                    LackOfCohesionReturn lackOfCohesionResult = (LackOfCohesionReturn) lackOfCohesion.performAnalysis(arguments[0]);
+
+                    System.out.println("Lack of Cohesion place holder shit");
+
+                    break;
+                case "fan_out":
+                    MetricAnalysis fanOutAnalysis = new FanOutAnalysis();
+                    FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
+
+//                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
+                    break;
+                default:
+
+            }
+        }
+    }
+
+
     public static void configInit(Launcher launcher) {
-        ConfigLoader cfg;
+        group3.ConfigLoader cfg;
         String codeSampleFileName;
         String codeSampleFilePath;
-        cfg = new ConfigLoader();
+        cfg = new group3.ConfigLoader();
         codeSampleFileName = cfg.getProperty("codeSampleFileName");
         codeSampleFilePath = String.format("code_samples/%s", codeSampleFileName);
         importCodeSample(launcher, codeSampleFilePath);
@@ -78,20 +138,5 @@ public class App
 //            System.out.println(bla.prettyprint());
 //        }
     }
-
-// Commented out for loop print of objects for now
-//        // list all packages of the model
-//        for(CtPackage p : model.getAllPackages()) {
-//            System.out.println("package: " + p.getQualifiedName());
-//        }
-//        // list all classes of the model
-//        for(CtType<?> s : model.getAllTypes()) {
-//            System.out.println("class: " + s.getQualifiedName());
-//        }
-//
-//        // list all classes (different method)
-//        for (CtType<?> ctClass : launcher.getFactory().Class().getAll()) {
-//            System.out.println("class: " + ctClass.getQualifiedName());
-//        }
 }
 
