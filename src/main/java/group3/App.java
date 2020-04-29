@@ -38,7 +38,8 @@ public class App
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth",
                 "cohesion_score",
-                "fan_out"
+                "fan_out",
+                "coupling"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -75,6 +76,12 @@ public class App
                     FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
 
 //                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
+                    break;
+
+                case "coupling":
+                    MetricAnalysis couplingAnalysis = new CouplingAnalysis();
+                    CouplingReturn  couplingResults = (CouplingReturn) couplingAnalysis.performAnalysis(arguments[0]);
+
                     break;
                 default:
 
