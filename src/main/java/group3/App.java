@@ -75,9 +75,9 @@ public class App
 
 //                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
                     break;
-                case "fog_index":
-                    MetricAnalysis fogIndexAnalysis = new FogIndexAnalysis();
-                    fogIndexAnalysis.performAnalysis(arguments[0]);
+                case "length_of_identifiers":
+                    MetricAnalysis lengthOfIdentifiers = new LengthOfIdentifiers();
+                    LengthOfIdentifiersReturn lengthOfIdentifiersResult = (LengthOfIdentifiersReturn) lengthOfIdentifiers.performAnalysis(arguments[0]);
                     break;
                 default:
 
