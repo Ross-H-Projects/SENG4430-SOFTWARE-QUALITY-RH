@@ -13,6 +13,10 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     public MetricReturn performAnalysis(String fileName) {
         Launcher launcher = Utilities.importCodeSample(fileName);
         List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
+        for (CtClass<?> c : classes) {
+            //TODO: Add class name to some HashMap
+            //TODO: Within class, access all method names and variable names
+        }
         //TODO: Calculate length of identifiers
         return null;
     }
