@@ -9,7 +9,6 @@ import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
-
 import java.util.*;
 
 
@@ -36,7 +35,7 @@ public class App
 
         // List of metrics that can be passed in via args
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
-                "inheritance_depth",
+                "inheritance_depth", "fog_index",
                 "cohesion_score",
                 "fan_out"
         ));
@@ -75,6 +74,10 @@ public class App
                     FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
 
 //                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
+                    break;
+                case "fog_index":
+                    MetricAnalysis fogIndexAnalysis = new FogIndexAnalysis();
+                    fogIndexAnalysis.performAnalysis(arguments[0]);
                     break;
                 default:
 
