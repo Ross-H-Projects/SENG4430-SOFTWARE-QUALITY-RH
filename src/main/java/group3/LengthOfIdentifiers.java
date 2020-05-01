@@ -16,7 +16,7 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         for (CtClass<?> c : classes) {
             //Loads of "get" methods that can be used on c, need to figure out relevant ones for me
             //TODO: Add class name to some HashMap
-            //TODO: Within class, access all method names and variable names
+            //TODO: Within class, access all method names, parameter names and variable names
             //TODO: Maybe add something so that if any identifier is less than 3 letters long
             //      the user of this system should get a warning and exact location of identifier?
         }
