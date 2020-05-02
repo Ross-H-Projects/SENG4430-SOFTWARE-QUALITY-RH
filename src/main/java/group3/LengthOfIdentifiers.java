@@ -10,30 +10,58 @@ import java.util.List;
 
 public class LengthOfIdentifiers extends MetricAnalysis {
 
-    private HashMap<CtClass<?>, Double > classAverageLengthOfIdentifiers; //Here each class' average length of identifiers will be stored
-    private HashMap<CtClass<?>, String > tooShortIdentifier; //Average length of identifier doesn't say much, this will store all identifiers that have a length less than 4
+    //TODO: Maybe add this code: private HashMap<CtClass<?>, String > tooShortIdentifier; //Average length of identifier doesn't say much, this will store all identifiers that have a length less than 4
+    SumResult classNames, methodNames, parameterNames, variableNames;
 
     @Override
     public MetricReturn performAnalysis(String fileName) {
         Launcher launcher = Utilities.importCodeSample(fileName);
         List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
+        classNames = calculateClassNameAverage(classes);
+
         for (CtClass<?> c : classes) {
-            //Loads of "get" methods that can be used on c, need to figure out relevant ones for me
-            //TODO: Within class, access all method names, parameter names and variable names
-            //TODO: Maybe add something so that if any identifier is less than 3 letters long
-            //      the user of this system should get a warning and exact location of identifier?
+            calculateClassAverageLengthOfIdentifiers(c);
         }
-        //TODO: Calculate average length of identifiers
-        return null;
+
+        LengthOfIdentifiersReturn metricResult = new LengthOfIdentifiersReturn();
+        metricResult.setAverageLengthOfIdentifiers(calculateCompleteAverage());
+        return metricResult;
     }
 
-    private int calculateAverageLengthOfIdentifiers(CtClass<?> currentClass){
+    private SumResult calculateClassNameAverage(List<CtClass<?>> classes) {
+        //TODO: sum length of all class names and store in classNames variable
+        return classNames;
+    }
+
+    private void calculateClassAverageLengthOfIdentifiers(CtClass<?> currentClass){
         calculateSumMethods(currentClass);
-        
-        return 0; //TODO: Complete this. Should this even be an int?
+        calculateSumParameters(currentClass);
+        calculateSumVariables(currentClass);
     }
 
-    class SumResult{
+    private SumResult calculateSumMethods(CtClass<?> currentClass) {
+        //TODO: Access all method names in class and calculate sum of letters + amount of methods, add results to methodNames variable
+        return methodNames;
+    }
+
+    private SumResult calculateSumParameters (CtClass<?> currentClass) {
+        //TODO: Calculate all parameter names' length in current class sum and amount
+        return parameterNames;
+    }
+
+    private SumResult calculateSumVariables(CtClass<?> currentClass) {
+        //TODO: Calculate  sum length of all variables in current class and store result in variableNames
+        return variableNames;
+    }
+
+    private double calculateCompleteAverage() {
+        double completeSum = (classNames.getSum() + methodNames.getSum() + parameterNames.getSum() + variableNames.getSum());
+        double completeAmount = (classNames.getAmountOfNumbers() + methodNames.getAmountOfNumbers()
+                + parameterNames.getAmountOfNumbers() + variableNames.getAmountOfNumbers());
+        return completeSum/completeAmount;
+    }
+
+    static class SumResult{ //Should it be static?
         private int sum;
         private int amountOfNumbers;
 
@@ -49,9 +77,6 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         public int getAmountOfNumbers() {
             return amountOfNumbers;
         }
-    }
-
-    private SumResult calculateSumMethods(CtClass<?> currentClass) {
     }
 
 }
