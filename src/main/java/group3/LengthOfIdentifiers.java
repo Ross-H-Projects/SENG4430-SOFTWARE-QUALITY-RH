@@ -28,7 +28,30 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     }
 
     private int calculateAverageLengthOfIdentifiers(CtClass<?> currentClass){
+        calculateSumMethods(currentClass);
+        
         return 0; //TODO: Complete this. Should this even be an int?
+    }
+
+    class SumResult{
+        private int sum;
+        private int amountOfNumbers;
+
+        public SumResult(int sum, int amountOfNumbers) {
+            this.sum = sum;
+            this.amountOfNumbers = amountOfNumbers;
+        }
+
+        public int getSum() {
+            return sum;
+        }
+
+        public int getAmountOfNumbers() {
+            return amountOfNumbers;
+        }
+    }
+
+    private SumResult calculateSumMethods(CtClass<?> currentClass) {
     }
 
 }
