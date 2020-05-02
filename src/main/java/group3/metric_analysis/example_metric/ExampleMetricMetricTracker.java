@@ -6,32 +6,33 @@ import group3.metric_analysis.conditonal_nesting.metric_trackers.MethodTracker;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassTracker extends MetricTracker {
+public class ExampleMetricMetricTracker extends MetricTracker {
     HashMap<String, HashMap<String, Integer>> metricCountsMap = new HashMap<String, HashMap<String, Integer>>();
 
-    public String getMetricProgramLevelJson() {
-    }
+//    public String getMetricProgramLevelJson() {
+//    }
+//
+//    public String getMetricClassLevelJson() {
+//    }
 
-    public String getMetricClassLevelJson() {
-    }
+//    public String getMetricMethodLevelJson() {
+//        for (Map.Entry<String, HashMap<String, Integer>> entry : metricCountsMap.entrySet()) {
+//            String class_name = entry.getKey();
+//            Object class_methods = entry.getValue();
+//        }
+//    }
 
-    public String getMetricMethodLevelJson() {
-        for (Map.Entry<String, HashMap<String, Integer>> entry : metricCountsMap.entrySet()) {
-            String class_name = entry.getKey();
-            Object class_methods = entry.getValue();
-        }
-    }
-
-    public int getTotalProgramCount() {
-    }
+//    public int getTotalProgramCount() {
+//    }
     public int getTotalClassCount(Map.Entry<String, Map<String, Integer>> classObject) {
-        for (Map.Entry<String, Map<String, Integer>> entry : classObject.entrySet()) {
-            String class_name = entry.getKey();
-            Object class_methods = entry.getValue();
-        }
+        return 0;
+//        for (Map.Entry<String, Map<String, Integer>> entry : classObject.entrySet()) {
+//            String class_name = entry.getKey();
+//            Object class_methods = entry.getValue();
+//        }
     }
 
-    public int getTotalMethodCount() {}
+//    public int getTotalMethodCount() {}
 
     public String toJson(MetricOutputLevel outputLevel) {
         String jsonString = "";

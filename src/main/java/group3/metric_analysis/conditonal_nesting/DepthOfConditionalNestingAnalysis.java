@@ -41,7 +41,7 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
                 }
             }
         }
-        return ObjectUtils.Null;
+        return null;
     }
 
     public void setProgramTracker() {

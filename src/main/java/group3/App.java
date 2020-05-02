@@ -1,4 +1,5 @@
 package group3;
+import group3.metric_analysis.Metrics;
 import org.apache.commons.cli.*;
 import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
@@ -20,6 +21,18 @@ public class App
 
     public static void main(String[] args )
     {
+        Metrics metrics = processArgs(args);
+        Launcher launcher = Utilities.importCodeSample(args[1]);
+        metrics.runMetrics(launcher);
+    }
+
+    public static Metrics processArgs(String[] args) {
+        if (args.length < 2) {
+            System.out.println("Error: Invalid Arguments");
+            System.out.println("Correct Arguments: <SourceFileOrDirectory>  [-m \"metric [metric flags]\"]");
+            System.exit(1);
+        }
+
         Options options = new Options();
 
         options.addOption("m", true, "metric and definitions");
@@ -32,77 +45,8 @@ public class App
             e.printStackTrace();
         }
 
+        return new Metrics(cmd.getOptionValues("m"));
 
-        for (String b : cmd.getOptionValues("m")) {
-            System.out.println(b);
-        }
-
-        processArgs(args);
-        performAnalyses(args);
-
-//        Launcher launcher = new Launcher();
-//        configInit(launcher);
-
-    }
-
-    public static void processArgs(String[] arguments) {
-        if (arguments.length < 2) {
-            System.out.println("Error: Invalid Arguments");
-            System.out.println("Correct Arguments: <SourceFileOrDirectory> <metric 1>  [[metric 2] .. [metric n]]");
-            System.out.println("Example Arguments to place in Intellij run config: code_samples/Inheritance_Example/InheritanceExample.java inheritance_depth");
-            System.exit(1);
-        }
-
-        // List of metrics that can be passed in via args
-        HashSet<String> metrics = new HashSet<String>(Arrays.asList(
-                "inheritance_depth",
-                "cohesion_score",
-                "depth_conditional_nesting"
-                "fan_out"
-        ));
-
-        //Checks if all metric args passed in are valid metrics
-        for (int i = 1; i < arguments.length; i++) {
-            if (!metrics.contains(arguments[i])) {
-                System.out.println("Error: Invalid metric");
-                System.exit(1);
-            }
-        }
-
-    }
-
-        public static void performAnalyses(String[] arguments) {
-
-        for (int i = 1; i < arguments.length; i++) {
-            switch (arguments[i]) {
-                case "inheritance_depth":
-                    MetricAnalysis depthInheritanceAnalysis = new DepthInheritanceTreeAnalysis();
-                    DepthInheritanceTreeReturn depthInheritanceTreeResults = (DepthInheritanceTreeReturn) depthInheritanceAnalysis.performAnalysis(arguments[0]);
-
-                    System.out.println("Maximum Depth of Inheritance is: " + depthInheritanceTreeResults.getMaxDepth());
-
-                    break;
-
-                case "cohesion_score":
-                    MetricAnalysis lackOfCohesion = new LackOfCohesion();
-                    LackOfCohesionReturn lackOfCohesionResult = (LackOfCohesionReturn) lackOfCohesion.performAnalysis(arguments[0]);
-
-                    System.out.println("Lack of Cohesion place holder shit");
-
-                    break;
-                case "depth_conditional_nesting":
-                    MetricAnalysis depthConditionalNesting = new DepthOfConditionalNestingAnalysis();
-                    depthConditionalNesting.performAnalysis(arguments[0]);
-                case "fan_out":
-                    MetricAnalysis fanOutAnalysis = new FanOutAnalysis();
-                    FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
-
-//                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
-                    break;
-                default:
-
-            }
-        }
     }
 
     public static void configInit(Launcher launcher) {
