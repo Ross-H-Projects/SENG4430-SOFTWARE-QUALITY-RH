@@ -7,7 +7,7 @@ public class FanOutTracker extends MetricTracker {
 
     private FanOutAnalysis fanOutAnalysis;
 
-    public FanOutTracker(String args) {
+    public FanOutTracker(String[] args) {
         fanOutAnalysis = new FanOutAnalysis();
     }
 

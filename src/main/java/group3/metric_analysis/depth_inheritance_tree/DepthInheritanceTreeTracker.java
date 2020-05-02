@@ -6,7 +6,7 @@ import spoon.Launcher;
 public class DepthInheritanceTreeTracker extends MetricTracker {
     private DepthInheritanceTreeAnalysis depthInheritanceTreeAnalysis;
 
-    public DepthInheritanceTreeTracker(String args) {
+    public DepthInheritanceTreeTracker(String[] args) {
         depthInheritanceTreeAnalysis = new DepthInheritanceTreeAnalysis();
     }
 

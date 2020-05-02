@@ -44,8 +44,6 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
                 maxDepth= (currentDepth > maxDepth) ? currentDepth : maxDepth;
             }
         }
-
-
     }
 
     private int depthInheritanceRecursive(CtClass<?> currentClass) {

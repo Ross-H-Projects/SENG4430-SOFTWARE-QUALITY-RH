@@ -9,13 +9,13 @@ import java.util.Map;
 public class CommentsCountTracker extends MetricTracker {
     private CommentsCountAnalysis commentsCountAnalysis;
 
-    public CommentsCountTracker(String args) {
+    public CommentsCountTracker(String[] args) {
         commentsCountAnalysis = new CommentsCountAnalysis();
     }
 
     @Override
     public void run(Launcher launcher) {
-
+        commentsCountAnalysis.performAnalysis(launcher);
     }
 
     public String toJson() {

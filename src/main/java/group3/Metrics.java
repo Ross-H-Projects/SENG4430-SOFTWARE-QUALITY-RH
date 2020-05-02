@@ -6,6 +6,7 @@ import group3.metric_analysis.fan_out.FanOutTracker;
 import spoon.Launcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Metrics {
@@ -14,11 +15,12 @@ public class Metrics {
     public Metrics (String[] metricDefinitions) {
         metricTrackers = new ArrayList<>();
         for (String def : metricDefinitions) {
-            String arr[] = def.split(" ", 2);
+
+            String arr[] = def.split(" ");
             MetricTracker tracker;
             switch (arr[0]) {
                 case "inheritance_depth":
-                    tracker = new DepthInheritanceTreeTracker(arr[1]);
+                    tracker = new DepthInheritanceTreeTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
 //                case "cohesion_score":
 ////                    tracker = new CohesionScoreTracker(arr[1]);
@@ -27,10 +29,10 @@ public class Metrics {
 ////                    tracker = new DepthConditionalNestingTracker(arr[1]);
 //                    break;
                 case "fan_out":
-                    tracker = new FanOutTracker(arr[1]);
+                    tracker = new FanOutTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
                 case "comments_count":
-                    tracker = new CommentsCountTracker(arr[1]);
+                    tracker = new CommentsCountTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
                 default:
                     throw new IllegalArgumentException("Metric " + arr[0] + " is invalid");

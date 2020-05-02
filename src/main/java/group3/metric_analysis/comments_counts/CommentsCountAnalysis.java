@@ -28,9 +28,6 @@ public class CommentsCountAnalysis extends MetricAnalysis {
             }
             classCommentsCountScores.put(classObject.getQualifiedName(), methodCommentsCountScores);
         }
-
-        System.out.println(classCommentsCountScores);
-
     }
 
     private int calculateCommentCountForMethod (CtMethod<?> method) {

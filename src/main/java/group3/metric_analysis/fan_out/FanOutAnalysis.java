@@ -36,10 +36,6 @@ public class FanOutAnalysis extends MetricAnalysis {
             }
             classFanOutScores.put(classObject.getQualifiedName(), methodFanOutScores);
         }
-
-        System.out.println("FANOUT SCORES");
-        System.out.println(classFanOutScores);
-
     }
 
     private int calculateFanOutForMethod (CtMethod<?> method) {
