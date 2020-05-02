@@ -2,10 +2,12 @@ package group3;
 
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
 import java.util.List;
+import java.util.Set;
 
 public class LengthOfIdentifiers extends MetricAnalysis {
 
@@ -41,7 +43,11 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     }
 
     private SumResult calculateSumMethods(CtClass<?> currentClass) {
-        //TODO: Access all method names in class and calculate sum of letters + amount of methods, add results to methodNames variable
+        Set<CtMethod<?>> methods = currentClass.getMethods();
+        for(CtMethod<?> method : methods){
+            methodNames.setSum(methodNames.getSum() + method.getSimpleName().length()); //TODO: Is getSimpleName() correct? toString()?
+            methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
+        }
         return methodNames;
     }
 
