@@ -5,7 +5,6 @@ import spoon.reflect.declaration.CtClass;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class LengthOfIdentifiers extends MetricAnalysis {
@@ -17,30 +16,25 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     public MetricReturn performAnalysis(String fileName) {
         Launcher launcher = Utilities.importCodeSample(fileName);
         List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
-        classNames = calculateClassNameAverage(classes);
-
-        methodNames = new SumResult();
-        parameterNames = new SumResult();
-        variableNames = new SumResult();
-        for (CtClass<?> c : classes) {
-            calculateClassAverageLengthOfIdentifiers(c);
-        }
-
+        calculateLengthOfIdentifierAverage(classes); //This is where the magic starts
         LengthOfIdentifiersReturn metricResult = new LengthOfIdentifiersReturn();
         metricResult.setAverageLengthOfIdentifiers(calculateCompleteAverage());
         return metricResult;
     }
 
-    private SumResult calculateClassNameAverage(List<CtClass<?>> classes) {
+    private void calculateLengthOfIdentifierAverage(List<CtClass<?>> classes) {
         classNames = new SumResult();
+        methodNames = new SumResult();
+        parameterNames = new SumResult();
+        variableNames = new SumResult();
         for (CtClass<?> c : classes) {
             classNames.setSum(classNames.getSum()+ c.toString().length()); //TODO: Is c.toString() the correct method here? getLabel()? getQualifiedName()? getSimpleName()? prettyprint()?
             classNames.setAmountOfNumbers(classNames.getAmountOfNumbers() + 1);
+            calculateAverageLengthOfIdentifiersWithinClass(c);
         }
-        return classNames;
     }
 
-    private void calculateClassAverageLengthOfIdentifiers(CtClass<?> currentClass){
+    private void calculateAverageLengthOfIdentifiersWithinClass(CtClass<?> currentClass){
         calculateSumMethods(currentClass);
         calculateSumParameters(currentClass);
         calculateSumVariables(currentClass);
