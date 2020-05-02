@@ -27,7 +27,8 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         return null;
     }
 
-    private int calculateLengthOfIdentifiers(CtClass<?> currentClass){
+    private int calculateAverageLengthOfIdentifiers(CtClass<?> currentClass){
         return 0; //TODO: Complete this. Should this even be an int?
     }
+
 }
