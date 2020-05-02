@@ -19,7 +19,8 @@ public class CommentsCountAnalysis extends MetricAnalysis {
     public CommentsCountAnalysis() {
     }
 
-    public MetricReturn performAnalysis (String fileName) {
-        return null;
+    @Override
+    public void performAnalysis(Launcher launcher) {
+
     }
 }

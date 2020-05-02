@@ -1,11 +1,10 @@
 package group3;
 
 
+import spoon.Launcher;
+
 public abstract class MetricTracker {
-    public enum MetricOutputLevel {
-        PROGRAM_LEVEL,
-        CLASS_LEVEL,
-        METHOD_LEVEL
-    }
-    public abstract String toJson(MetricOutputLevel outputLevel);
+    public abstract void run(Launcher launcher);
+
+    public abstract String toJson();
 }
