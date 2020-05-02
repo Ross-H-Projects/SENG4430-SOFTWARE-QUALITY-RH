@@ -30,7 +30,7 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         parameterNames = new SumResult();
         variableNames = new SumResult();
         for (CtClass<?> c : classes) {
-            classNames.setSum(classNames.getSum()+ c.toString().length()); //TODO: Is c.toString() the correct method here? getLabel()? getQualifiedName()? getSimpleName()? prettyprint()?
+            classNames.setSum(classNames.getSum()+ c.getSimpleName().length()); //TODO: Is c.getSimpleName() the correct method here? getLabel()? getQualifiedName()? toString()? prettyprint()?
             classNames.setAmountOfNumbers(classNames.getAmountOfNumbers() + 1);
             calculateAverageLengthOfIdentifiersWithinClass(c);
         }
@@ -42,23 +42,20 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         calculateSumVariables(currentClass);
     }
 
-    private SumResult calculateSumMethods(CtClass<?> currentClass) {
+    private void calculateSumMethods(CtClass<?> currentClass) {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
             methodNames.setSum(methodNames.getSum() + method.getSimpleName().length()); //TODO: Is getSimpleName() correct? toString()?
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
         }
-        return methodNames;
     }
 
-    private SumResult calculateSumParameters (CtClass<?> currentClass) {
+    private void calculateSumParameters (CtClass<?> currentClass) {
         //TODO: Calculate all parameter names' length in current class sum and amount
-        return parameterNames;
     }
 
-    private SumResult calculateSumVariables(CtClass<?> currentClass) {
+    private void calculateSumVariables(CtClass<?> currentClass) {
         //TODO: Calculate  sum length of all variables in current class and store result in variableNames
-        return variableNames;
     }
 
     private double calculateCompleteAverage() {
