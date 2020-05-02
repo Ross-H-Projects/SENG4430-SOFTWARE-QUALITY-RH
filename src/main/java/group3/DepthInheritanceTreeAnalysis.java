@@ -13,26 +13,26 @@ import java.util.List;
 
 public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
     private HashMap<String, Integer> visited_classes;
-    private HashMap<String, CtClass> ctClasses;
+    private HashMap<String, CtClass<?>> ctClasses;
 
 
     public DepthInheritanceTreeAnalysis() {
         visited_classes = new HashMap<String, Integer>();
-        ctClasses = new HashMap<String, CtClass>();
+        ctClasses = new HashMap<String, CtClass<?>>();
     }
 
     public MetricReturn performAnalysis (String fileName) {
 
         Launcher launcher = Utilities.importCodeSample(fileName);
-        List<CtClass> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass>(CtClass.class));
+        List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
 
-        for (CtClass c : classes) {
+        for (CtClass<?> c : classes) {
             ctClasses.put(c.getQualifiedName(), c);
         }
 
         int maxDepth = 0;
         int currentDepth;
-        for (CtClass c : classes) {
+        for (CtClass<?> c : classes) {
             if (!visited_classes.containsKey(c.getQualifiedName())) {
                 currentDepth = depthInheritanceRecursive(c);
 
@@ -47,7 +47,7 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
         return metricResults;
     }
 
-    private int depthInheritanceRecursive(CtClass currentClass) {
+    private int depthInheritanceRecursive(CtClass<?> currentClass) {
 
         if (!visited_classes.containsKey(currentClass.getQualifiedName())) {
             visited_classes.put(currentClass.getQualifiedName(), 0);
@@ -57,7 +57,7 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
 
 
         if (currentClass.getSuperclass() != null) {
-            CtClass superClass = ctClasses.get(currentClass.getSuperclass().getQualifiedName());
+            CtClass<?> superClass = ctClasses.get(currentClass.getSuperclass().getQualifiedName());
 
             int thisClassDepth = 1 + depthInheritanceRecursive(superClass);
             visited_classes.put(currentClass.getQualifiedName(), thisClassDepth);

@@ -40,6 +40,7 @@ public class App
                 "inheritance_depth",
                 "cohesion_score",
                 "depth_conditional_nesting"
+                "fan_out"
         ));
 
         //Checks if all metric args passed in are valid metrics
@@ -52,7 +53,7 @@ public class App
 
     }
 
-    public static void performAnalyses(String[] arguments) {
+        public static void performAnalyses(String[] arguments) {
 
         for (int i = 1; i < arguments.length; i++) {
             switch (arguments[i]) {
@@ -74,6 +75,11 @@ public class App
                 case "depth_conditional_nesting":
                     MetricAnalysis depthConditionalNesting = new DepthOfConditionalNestingAnalysis();
                     depthConditionalNesting.performAnalysis(arguments[0]);
+                case "fan_out":
+                    MetricAnalysis fanOutAnalysis = new FanOutAnalysis();
+                    FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
+
+//                    System.out.println("Greatest fan out value is: " + fanOutResults.getMaxFanOut());
                     break;
                 default:
 
