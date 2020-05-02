@@ -1,5 +1,6 @@
 package group3;
 
+import group3.metric_analysis.comments_counts.CommentsCountTracker;
 import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import spoon.Launcher;
@@ -27,6 +28,9 @@ public class Metrics {
 //                    break;
                 case "fan_out":
                     tracker = new FanOutTracker(arr[1]);
+                    break;
+                case "comments_count":
+                    tracker = new CommentsCountTracker(arr[1]);
                     break;
                 default:
                     throw new IllegalArgumentException("Metric " + arr[0] + " is invalid");
