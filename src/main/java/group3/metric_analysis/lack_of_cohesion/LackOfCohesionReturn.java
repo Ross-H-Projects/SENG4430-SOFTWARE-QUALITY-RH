@@ -1,6 +1,6 @@
-package group3;
+package group3.metric_analysis.lack_of_cohesion;
 
-public class LackOfCohesionReturn extends MetricReturn {
+public class LackOfCohesionReturn {
     private int cohesionScore;
 
 

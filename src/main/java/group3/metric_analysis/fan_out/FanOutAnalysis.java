@@ -1,5 +1,6 @@
-package group3;
+package group3.metric_analysis.fan_out;
 
+import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtClass;
@@ -36,6 +37,7 @@ public class FanOutAnalysis extends MetricAnalysis {
             classFanOutScores.put(classObject.getQualifiedName(), methodFanOutScores);
         }
 
+        System.out.println("FANOUT SCORES");
         System.out.println(classFanOutScores);
 
     }

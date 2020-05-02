@@ -1,19 +1,7 @@
 package group3;
-import group3.metric_analysis.Metrics;
 import org.apache.commons.cli.*;
-import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
+//import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
-import spoon.reflect.declaration.CtClass;
-import spoon.reflect.declaration.CtElement;
-import spoon.reflect.declaration.CtMethod;
-import spoon.reflect.declaration.CtType;
-import spoon.reflect.visitor.CtIterator;
-import spoon.reflect.visitor.Query;
-import spoon.reflect.visitor.filter.NamedElementFilter;
-
-import org.apache.commons.cli.*;
-
-import java.util.*;
 
 
 public class App
@@ -27,6 +15,7 @@ public class App
     {
         processArgs(args);
         metrics.runMetrics(launcher);
+
     }
 
     public static void processArgs(String[] args) {
@@ -49,7 +38,7 @@ public class App
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
-        launcher = Utilities.importCodeSample(args[1]);
+        launcher = Utilities.importCodeSample(args[0]);
     }
 
 //    public static void configInit(Launcher launcher) {

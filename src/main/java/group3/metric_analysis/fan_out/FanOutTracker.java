@@ -1,15 +1,13 @@
-package group3;
+package group3.metric_analysis.fan_out;
 
+import group3.MetricTracker;
 import spoon.Launcher;
-
-import java.util.HashMap;
 
 public class FanOutTracker extends MetricTracker {
 
     private FanOutAnalysis fanOutAnalysis;
 
     public FanOutTracker(String args) {
-        System.out.println(args);
         fanOutAnalysis = new FanOutAnalysis();
     }
 
