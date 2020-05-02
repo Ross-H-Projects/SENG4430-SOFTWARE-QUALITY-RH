@@ -3,6 +3,7 @@ package group3;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtMethod;
+import spoon.reflect.declaration.CtParameter;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
@@ -37,22 +38,24 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     }
 
     private void calculateAverageLengthOfIdentifiersWithinClass(CtClass<?> currentClass){
-        calculateSumMethods(currentClass);
-        calculateSumParameters(currentClass);
+        calculateSumMethodsAndParameters(currentClass);
         calculateSumVariables(currentClass);
     }
 
-    private void calculateSumMethods(CtClass<?> currentClass) {
+    private void calculateSumMethodsAndParameters(CtClass<?> currentClass) {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
             methodNames.setSum(methodNames.getSum() + method.getSimpleName().length()); //TODO: Is getSimpleName() correct? toString()?
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
-            //calculateSumParameters(method.getParameters()); //TODO: Change layout a bit and complete parameter calculations here
+            calculateSumParameters(method.getParameters());
         }
     }
 
-    private void calculateSumParameters (CtClass<?> currentClass) {
-        //TODO: Change setup a bit so the parameter is a list of CtParameters
+    private void calculateSumParameters (List<CtParameter<?>> parameters) {
+        for (CtParameter<?> parameter : parameters){
+            parameterNames.setSum(parameterNames.getSum() + parameter.getSimpleName().length());//TODO: Is getSimpleName() correct?
+            parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
+        }
     }
 
     private void calculateSumVariables(CtClass<?> currentClass) {
