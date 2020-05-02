@@ -8,13 +8,14 @@ public class App
 {
 
     private static Launcher launcher;
+    private static Launcher launcherNoComments;
     private static Metrics metrics;
 //    private static Outputs outputs;
 
     public static void main(String[] args )
     {
         processArgs(args);
-        metrics.runMetrics(launcher);
+        metrics.runMetrics(launcher, launcherNoComments);
 
     }
 
@@ -38,7 +39,8 @@ public class App
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
-        launcher = Utilities.importCodeSample(args[0]);
+        launcher = Utilities.importCodeSample(args[0], true);
+        launcherNoComments = Utilities.importCodeSample(args[0], false);
     }
 
 //    public static void configInit(Launcher launcher) {
