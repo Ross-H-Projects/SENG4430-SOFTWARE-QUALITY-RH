@@ -1,5 +1,6 @@
 package group3;
-
+import org.apache.commons.cli.*;
+import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
@@ -21,8 +22,8 @@ public class App
         processArgs(args);
         performAnalyses(args);
 
-        //Launcher launcher = new Launcher();
-        //configInit(launcher);
+//        Launcher launcher = new Launcher();
+//        configInit(launcher);
 
     }
 
@@ -38,6 +39,7 @@ public class App
         HashSet<String> metrics = new HashSet<String>(Arrays.asList(
                 "inheritance_depth",
                 "cohesion_score",
+                "depth_conditional_nesting"
                 "fan_out"
         ));
 
@@ -70,6 +72,9 @@ public class App
                     System.out.println("Lack of Cohesion place holder shit");
 
                     break;
+                case "depth_conditional_nesting":
+                    MetricAnalysis depthConditionalNesting = new DepthOfConditionalNestingAnalysis();
+                    depthConditionalNesting.performAnalysis(arguments[0]);
                 case "fan_out":
                     MetricAnalysis fanOutAnalysis = new FanOutAnalysis();
                     FanOutReturn fanOutResults = (FanOutReturn) fanOutAnalysis.performAnalysis(arguments[0]);
@@ -81,7 +86,6 @@ public class App
             }
         }
     }
-
 
     public static void configInit(Launcher launcher) {
         group3.ConfigLoader cfg;
