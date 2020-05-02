@@ -47,11 +47,12 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         for(CtMethod<?> method : methods){
             methodNames.setSum(methodNames.getSum() + method.getSimpleName().length()); //TODO: Is getSimpleName() correct? toString()?
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
+            //calculateSumParameters(method.getParameters()); //TODO: Change layout a bit and complete parameter calculations here
         }
     }
 
     private void calculateSumParameters (CtClass<?> currentClass) {
-        //TODO: Calculate all parameter names' length in current class sum and amount
+        //TODO: Change setup a bit so the parameter is a list of CtParameters
     }
 
     private void calculateSumVariables(CtClass<?> currentClass) {
