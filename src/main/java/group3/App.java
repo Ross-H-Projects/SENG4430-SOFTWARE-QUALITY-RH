@@ -9,6 +9,7 @@ import spoon.reflect.visitor.CtIterator;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 
+import org.apache.commons.cli.*;
 
 import java.util.*;
 
@@ -18,6 +19,23 @@ public class App
 
     public static void main(String[] args )
     {
+        Options options = new Options();
+
+        options.addOption("m", true, "metric and definitions");
+
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        for (String b : cmd.getOptionValues("m")) {
+            System.out.println(b);
+        }
+
         processArgs(args);
         performAnalyses(args);
 
