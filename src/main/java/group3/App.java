@@ -69,7 +69,7 @@ public class App
                     MetricAnalysis lackOfCohesion = new LackOfCohesion();
                     LackOfCohesionReturn lackOfCohesionResult = (LackOfCohesionReturn) lackOfCohesion.performAnalysis(arguments[0]);
 
-                    System.out.println("Lack of Cohesion place holder shit");
+                    System.out.println("Lack of Cohesion place holder");
 
                     break;
                 case "depth_conditional_nesting":
