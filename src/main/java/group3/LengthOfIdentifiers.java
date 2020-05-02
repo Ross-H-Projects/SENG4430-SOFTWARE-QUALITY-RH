@@ -20,7 +20,7 @@ public class LengthOfIdentifiers extends MetricAnalysis {
             //TODO: Maybe add something so that if any identifier is less than 3 letters long
             //      the user of this system should get a warning and exact location of identifier?
         }
-        //TODO: Calculate length of identifiers
+        //TODO: Calculate average length of identifiers
         return null;
     }
 
