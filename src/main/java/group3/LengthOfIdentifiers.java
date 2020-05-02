@@ -19,6 +19,9 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
         classNames = calculateClassNameAverage(classes);
 
+        methodNames = new SumResult();
+        parameterNames = new SumResult();
+        variableNames = new SumResult();
         for (CtClass<?> c : classes) {
             calculateClassAverageLengthOfIdentifiers(c);
         }
@@ -29,7 +32,11 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     }
 
     private SumResult calculateClassNameAverage(List<CtClass<?>> classes) {
-        //TODO: sum length of all class names and store in classNames variable
+        classNames = new SumResult();
+        for (CtClass<?> c : classes) {
+            classNames.setSum(classNames.getSum()+ c.toString().length()); //TODO: Is c.toString() the correct method here? getLabel()? getQualifiedName()? getSimpleName()? prettyprint()?
+            classNames.setAmountOfNumbers(classNames.getAmountOfNumbers() + 1);
+        }
         return classNames;
     }
 
@@ -65,9 +72,9 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         private int sum;
         private int amountOfNumbers;
 
-        public SumResult(int sum, int amountOfNumbers) {
-            this.sum = sum;
-            this.amountOfNumbers = amountOfNumbers;
+        public SumResult() {
+            this.sum = 0;
+            this.amountOfNumbers = 0;
         }
 
         public int getSum() {
@@ -76,6 +83,14 @@ public class LengthOfIdentifiers extends MetricAnalysis {
 
         public int getAmountOfNumbers() {
             return amountOfNumbers;
+        }
+
+        public void setSum(int sum) {
+            this.sum = sum;
+        }
+
+        public void setAmountOfNumbers(int amountOfNumbers) {
+            this.amountOfNumbers = amountOfNumbers;
         }
     }
 
