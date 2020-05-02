@@ -1,5 +1,6 @@
-package group3;
+package group3.metric_analysis.fan_out;
 
+import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtClass;
@@ -23,9 +24,11 @@ public class FanOutAnalysis extends MetricAnalysis {
         classFanOutScores = new HashMap<String, HashMap<String, Integer>>();
     }
 
-    public MetricReturn performAnalysis (String fileName) {
-        Launcher launcher = Utilities.importCodeSample(fileName);
+    public HashMap<String, HashMap<String, Integer>> getClassFanOutScores() {
+        return classFanOutScores;
+    }
 
+    public void performAnalysis (Launcher launcher) {
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
             HashMap<String, Integer> methodFanOutScores = new HashMap<String, Integer>();
             for (CtMethod<?> methodObject : getMethods(classObject)) {
@@ -33,10 +36,6 @@ public class FanOutAnalysis extends MetricAnalysis {
             }
             classFanOutScores.put(classObject.getQualifiedName(), methodFanOutScores);
         }
-
-        System.out.println(classFanOutScores);
-
-        return (MetricReturn) new FanOutReturn(classFanOutScores);
     }
 
     private int calculateFanOutForMethod (CtMethod<?> method) {

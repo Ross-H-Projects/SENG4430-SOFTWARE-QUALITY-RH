@@ -23,4 +23,9 @@ public class ConfigLoader
         String value = configFile.getProperty(key);
         return value;
     }
+    public String[] getPropertyArray(String key)
+    {
+        String[] values = configFile.getProperty(key).split(",");
+        return values;
+    }
 }
