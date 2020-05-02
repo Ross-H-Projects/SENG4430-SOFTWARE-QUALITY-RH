@@ -1,10 +1,12 @@
 package group3.metric_analysis.conditonal_nesting;
 
 import group3.MetricAnalysis;
+import group3.MetricReturn;
 import group3.Utilities;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ClassTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.MethodTracker;
 import group3.metric_analysis.conditonal_nesting.metric_trackers.ProgramTracker;
+import org.apache.commons.lang3.ObjectUtils;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
@@ -17,7 +19,7 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
     public DepthOfConditionalNestingAnalysis() {
     }
 
-    public int performAnalysis (String fileName) {
+    public MetricReturn performAnalysis (String fileName) {
         System.out.println("accessing performAnalysis in DepthOfConditionalNestingAnalysis..");
 
         Launcher launcher = Utilities.importCodeSample(fileName);
@@ -39,7 +41,7 @@ public class DepthOfConditionalNestingAnalysis extends MetricAnalysis {
                 }
             }
         }
-        return 0;
+        return ObjectUtils.Null;
     }
 
     public void setProgramTracker() {
