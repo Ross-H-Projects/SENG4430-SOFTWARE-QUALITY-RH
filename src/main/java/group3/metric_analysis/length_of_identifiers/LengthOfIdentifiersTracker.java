@@ -18,6 +18,7 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
 
     @Override
     public String toJson() {
-        return lengthOfIdentifiersAnalysis.getClassLengthOfIdentifiersScores().toString();
+        return "Class average scores: " + lengthOfIdentifiersAnalysis.getClassLengthOfIdentifiersScores().toString()
+                + "Noteworthy identifiers" + lengthOfIdentifiersAnalysis.getNoteworthyLengthOfIdentifierScores(); //TODO: Decide how to go about showing notwortyLengthOfIdentifiers
     }
 }
