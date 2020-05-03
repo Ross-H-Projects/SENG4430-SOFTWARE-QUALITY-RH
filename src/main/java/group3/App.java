@@ -40,6 +40,7 @@ public class App
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
