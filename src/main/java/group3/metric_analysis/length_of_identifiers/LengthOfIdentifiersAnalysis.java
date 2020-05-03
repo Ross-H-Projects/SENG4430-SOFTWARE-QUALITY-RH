@@ -36,7 +36,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     }
     private void calculateLengthOfIdentifierAverage(List<CtClass<?>> classes) {
         for (CtClass<?> c : classes) {
-            classNames = new SumResult();
+            classNames = new SumResult(); //Resets all these variables for every new class
             methodNames = new SumResult();
             parameterNames = new SumResult();
             variableNames = new SumResult();
@@ -70,7 +70,8 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         for (CtParameter<?> parameter : parameters){
             int parameterLength = parameter.getSimpleName().length();
             if(parameterLength < 5){
-                noteworthyLengthOfIdentifierScores.put("Parameter for: " + method.getSignature(), parameterLength);
+                noteworthyLengthOfIdentifierScores.put("Parameter " + parameter.getSimpleName() +
+                        "for: " + method.getSignature(), parameterLength);
             }
             parameterNames.setSum(parameterNames.getSum() + parameter.getSimpleName().length());
             parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
