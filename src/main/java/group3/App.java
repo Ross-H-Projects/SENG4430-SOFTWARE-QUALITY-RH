@@ -43,7 +43,12 @@ public class App
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
-        outputs = new Outputs(cmd.getOptionValues("o"));
+
+        // If no output options given, default to cmd
+        String[] outputOptions = cmd.getOptionValues("o");
+        if (outputOptions == null) outputOptions = new String[] {"cmd"};
+        outputs = new Outputs(outputOptions);
+
         launcher = Utilities.importCodeSample(args[0], true);
         launcherNoComments = Utilities.importCodeSample(args[0], false);
     }

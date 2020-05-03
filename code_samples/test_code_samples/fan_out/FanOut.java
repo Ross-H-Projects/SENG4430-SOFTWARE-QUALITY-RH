@@ -1,6 +1,5 @@
 public class FanOut1 {
-    public FanOut1() {
+    public void test() {
         test();
-        //test();
     }
 }
