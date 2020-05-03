@@ -31,7 +31,6 @@ public class FanOutAnalysis extends MetricAnalysis {
             HashMap<String, Integer> methodFanOutScores = new HashMap<String, Integer>();
             for (CtMethod<?> methodObject : getMethods(classObject)) {
                 methodFanOutScores.put(methodObject.getSignature(), calculateFanOutForMethod(methodObject));
-                System.out.println(methodObject.getPath());
             }
             for (CtConstructor<?> constructorObject : getConstructors(classObject)) {
                 methodFanOutScores.put(constructorObject.getSignature(), calculateFanOutForConstructor(constructorObject));
