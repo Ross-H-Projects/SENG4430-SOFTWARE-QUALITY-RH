@@ -8,8 +8,13 @@ import spoon.reflect.visitor.filter.NamedElementFilter;
 import java.util.List;
 
 public class Utilities {
-    public static Launcher importCodeSample (String fileName) {
+    public static Launcher importCodeSample (String fileName, boolean includeComments) {
         Launcher launcher = new Launcher();
+
+        if (!includeComments) {
+            launcher.getEnvironment().setCommentEnabled(false);
+        }
+
         launcher.addInputResource(fileName);
         launcher.buildModel();
 

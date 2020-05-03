@@ -1,6 +1,7 @@
-package group3;
+package group3.metric_analysis.depth_inheritance_tree;
 
 
+import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.visitor.Query;
@@ -15,22 +16,26 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
     private HashMap<String, Integer> visited_classes;
     private HashMap<String, CtClass<?>> ctClasses;
 
+    private int maxDepth;
+
 
     public DepthInheritanceTreeAnalysis() {
         visited_classes = new HashMap<String, Integer>();
         ctClasses = new HashMap<String, CtClass<?>>();
+        maxDepth = 0;
     }
 
-    public MetricReturn performAnalysis (String fileName) {
+    public int getMaxDepth() {
+        return maxDepth;
+    }
 
-        Launcher launcher = Utilities.importCodeSample(fileName);
+    public void performAnalysis (Launcher launcher) {
         List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
 
         for (CtClass<?> c : classes) {
             ctClasses.put(c.getQualifiedName(), c);
         }
 
-        int maxDepth = 0;
         int currentDepth;
         for (CtClass<?> c : classes) {
             if (!visited_classes.containsKey(c.getQualifiedName())) {
@@ -39,12 +44,6 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
                 maxDepth= (currentDepth > maxDepth) ? currentDepth : maxDepth;
             }
         }
-
-
-        DepthInheritanceTreeReturn metricResults = new DepthInheritanceTreeReturn();
-        metricResults.setMaxDepth(maxDepth);
-
-        return metricResults;
     }
 
     private int depthInheritanceRecursive(CtClass<?> currentClass) {
