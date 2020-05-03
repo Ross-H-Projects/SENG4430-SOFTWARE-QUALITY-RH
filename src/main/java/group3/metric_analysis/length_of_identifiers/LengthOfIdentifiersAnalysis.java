@@ -58,7 +58,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
             int methodLength = method.getSimpleName().length();
-            if(methodLength < 5){ //TODO: "Hard-coded" for now, might change so that user can decide what length they want to appear, something Jacob is also wokring on?
+            if(methodLength < 5){ //TODO: "Hard-coded" for now, might change so that user can decide what length they want to appear, maybe similar to CommentsCount?
                 noteworthyLengthOfIdentifierScores.put(method.getSignature(), methodLength);
             }
             methodNames.setSum(methodNames.getSum() + methodLength);
@@ -81,7 +81,6 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     }
 
     private void calculateSumVariables(CtClass<?> currentClass) {
-        //TODO: Calculate  sum length of all variables in current class and store result in variableNames. CtVariable? Maybe some filter?
         List<CtVariable<?>> variables = currentClass.getElements(new TypeFilter<CtVariable<?>>(CtVariable.class));
         for(CtVariable<?> variable : variables){
             int variableLength = variable.getSimpleName().length();
