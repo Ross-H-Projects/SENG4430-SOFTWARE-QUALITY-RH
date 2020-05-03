@@ -3,6 +3,8 @@ import org.apache.commons.cli.*;
 //import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
 
+import java.util.ArrayList;
+
 
 public class App
 {
@@ -10,13 +12,14 @@ public class App
     private static Launcher launcher;
     private static Launcher launcherNoComments;
     private static Metrics metrics;
-//    private static Outputs outputs;
+    private static Outputs outputs;
 
     public static void main(String[] args )
     {
         processArgs(args);
         metrics.runMetrics(launcher, launcherNoComments);
-
+        ArrayList<String> metricResults = metrics.getResults();
+        outputs.create(metricResults);
     }
 
     public static void processArgs(String[] args) {
@@ -29,6 +32,7 @@ public class App
         Options options = new Options();
 
         options.addOption("m", true, "metric and definitions");
+        options.addOption("o", true, "output and definitions");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -39,6 +43,7 @@ public class App
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
+        outputs = new Outputs(cmd.getOptionValues("o"));
         launcher = Utilities.importCodeSample(args[0], true);
         launcherNoComments = Utilities.importCodeSample(args[0], false);
     }

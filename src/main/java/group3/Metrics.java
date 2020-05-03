@@ -55,6 +55,14 @@ public class Metrics {
         }
     }
 
+    public ArrayList<String> getResults() {
+        ArrayList<String> results = new ArrayList<String>();
+        for (MetricTracker tracker : metricTrackers) {
+            results.add(tracker.toJson());
+        }
+        return results;
+    }
+
     public List<MetricTracker> getMetricTrackers() {
         return metricTrackers;
     }
