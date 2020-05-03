@@ -45,7 +45,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             classNames.setSum(c.getSimpleName().length());
             classNames.setAmountOfNumbers(1);
             calculateAverageLengthOfIdentifiersWithinClass(c);
-            classLengthOfIdentifiersScores.put(c.getQualifiedName(), calculateCompleteClassAverage());
+            classLengthOfIdentifiersScores.put(c.getSimpleName(), calculateCompleteClassAverage());
         }
     }
 
@@ -63,17 +63,17 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             }
             methodNames.setSum(methodNames.getSum() + methodLength);
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
-            calculateSumParameters(method);
+            calculateSumParameters(method, currentClass);
         }
     }
 
-    private void calculateSumParameters (CtMethod<?> method) {
+    private void calculateSumParameters (CtMethod<?> method, CtClass<?> currentClass) {
         List<CtParameter<?>> parameters = method.getParameters();
         for (CtParameter<?> parameter : parameters){
             int parameterLength = parameter.getSimpleName().length();
             if(parameterLength < 5){
                 noteworthyLengthOfIdentifierScores.put("Parameter " + parameter.getSimpleName() +
-                        " for: " + method.getSignature(), parameterLength); //TODO: Make nicer, like display what class the method is in!
+                        " for method: " + method.getSignature() + "in class: " + currentClass.getSimpleName(), parameterLength);
             }
             parameterNames.setSum(parameterNames.getSum() + parameterLength);
             parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
@@ -85,7 +85,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         for(CtVariable<?> variable : variables){
             int variableLength = variable.getSimpleName().length();
             if(variableLength < 5){
-                noteworthyLengthOfIdentifierScores.put(variable.getSimpleName(), variableLength); //TODO: try currentClass.getSimpleName() + "variablename " bla bla
+                noteworthyLengthOfIdentifierScores.put("Variable: " + variable.getSimpleName() + " in class: " + currentClass.getSimpleName(), variableLength);
             }
             variableNames.setSum(variableNames.getSum() + variableLength);
             variableNames.setAmountOfNumbers(variableNames.getAmountOfNumbers() + 1);
