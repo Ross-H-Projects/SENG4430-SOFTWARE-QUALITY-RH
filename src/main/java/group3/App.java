@@ -3,6 +3,8 @@ import org.apache.commons.cli.*;
 //import group3.metric_analysis.conditonal_nesting.DepthOfConditionalNestingAnalysis;
 import spoon.Launcher;
 
+import java.util.List;
+
 
 public class App
 {
@@ -17,6 +19,10 @@ public class App
         processArgs(args);
         metrics.runMetrics(launcher, launcherNoComments);
 
+        List<MetricTracker> metricTrackers = metrics.getMetricTrackers();
+        for (MetricTracker mt : metricTrackers) {
+            System.out.println(mt.getClass() + " : " + mt.toJson());
+        }
     }
 
     public static void processArgs(String[] args) {
