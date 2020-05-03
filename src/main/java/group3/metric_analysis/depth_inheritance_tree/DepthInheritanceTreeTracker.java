@@ -7,6 +7,7 @@ public class DepthInheritanceTreeTracker extends MetricTracker {
     private DepthInheritanceTreeAnalysis depthInheritanceTreeAnalysis;
 
     public DepthInheritanceTreeTracker(String[] args) {
+        super.doIncludeComments = false;
         depthInheritanceTreeAnalysis = new DepthInheritanceTreeAnalysis();
     }
 

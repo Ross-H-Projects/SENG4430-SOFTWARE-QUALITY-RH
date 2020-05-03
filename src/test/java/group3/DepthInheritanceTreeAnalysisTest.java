@@ -19,7 +19,7 @@ public class DepthInheritanceTreeAnalysisTest
     @Test
     public void test1()
     {
-        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\DepthInheritance\\MultipleClasses.java");
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\DepthInheritance\\MultipleClasses.java", false);
         DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
         tester.performAnalysis(launcher);
         assertEquals("Depth of Inheritance for MultipleClasses.java must be 3", 3, tester.getMaxDepth());
@@ -31,7 +31,7 @@ public class DepthInheritanceTreeAnalysisTest
     @Test
     public void test2()
     {
-        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\DepthInheritance_2");
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\DepthInheritance_2", false);
         DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
         tester.performAnalysis(launcher);
         assertEquals("Depth of Inheritance for DepthInheritance_2 directory must be 2", 3, tester.getMaxDepth());

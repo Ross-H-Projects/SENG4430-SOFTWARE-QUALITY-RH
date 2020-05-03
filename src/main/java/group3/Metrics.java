@@ -43,9 +43,15 @@ public class Metrics {
         }
     }
 
-    public void runMetrics(Launcher launcher) {
+    public void runMetrics(Launcher launcher, Launcher launcherNoComments) {
         for (MetricTracker tracker : metricTrackers) {
-            tracker.run(launcher);
+
+            if (!tracker.includeComments()) {
+                tracker.run(launcherNoComments);
+            } else {
+                tracker.run(launcher);
+            }
+
         }
     }
 
