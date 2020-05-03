@@ -73,7 +73,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             int parameterLength = parameter.getSimpleName().length();
             if(parameterLength < 5){
                 noteworthyLengthOfIdentifierScores.put("Parameter " + parameter.getSimpleName() +
-                        "for: " + method.getSignature(), parameterLength);
+                        " for: " + method.getSignature(), parameterLength); //TODO: Make nicer, like display what class the method is in!
             }
             parameterNames.setSum(parameterNames.getSum() + parameterLength);
             parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
@@ -85,7 +85,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         for(CtVariable<?> variable : variables){
             int variableLength = variable.getSimpleName().length();
             if(variableLength < 5){
-                noteworthyLengthOfIdentifierScores.put(variable.getShortRepresentation(), variableLength); //TODO: is getShortRepresentation() correct? otherwise try currentClass.getSimpleName() + "variablename " bla bla
+                noteworthyLengthOfIdentifierScores.put(variable.getSimpleName(), variableLength); //TODO: try currentClass.getSimpleName() + "variablename " bla bla
             }
             variableNames.setSum(variableNames.getSum() + variableLength);
             variableNames.setAmountOfNumbers(variableNames.getAmountOfNumbers() + 1);
