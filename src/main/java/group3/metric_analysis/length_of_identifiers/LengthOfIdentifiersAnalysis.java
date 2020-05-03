@@ -2,9 +2,11 @@ package group3.metric_analysis.length_of_identifiers;
 
 import group3.MetricAnalysis;
 import spoon.Launcher;
+import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtParameter;
+import spoon.reflect.declaration.CtVariable;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
@@ -56,7 +58,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
             int methodLength = method.getSimpleName().length();
-            if(methodLength < 5){
+            if(methodLength < 5){ //TODO: "Hard-coded" for now, might change so that user can decide what length they want to appear, something Jacob is also wokring on?
                 noteworthyLengthOfIdentifierScores.put(method.getSignature(), methodLength);
             }
             methodNames.setSum(methodNames.getSum() + methodLength);
@@ -73,13 +75,22 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
                 noteworthyLengthOfIdentifierScores.put("Parameter " + parameter.getSimpleName() +
                         "for: " + method.getSignature(), parameterLength);
             }
-            parameterNames.setSum(parameterNames.getSum() + parameter.getSimpleName().length());
+            parameterNames.setSum(parameterNames.getSum() + parameterLength);
             parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
         }
     }
 
     private void calculateSumVariables(CtClass<?> currentClass) {
-        //TODO: Calculate  sum length of all variables in current class and store result in variableNames
+        //TODO: Calculate  sum length of all variables in current class and store result in variableNames. CtVariable? Maybe some filter?
+        List<CtVariable<?>> variables = currentClass.getElements(new TypeFilter<CtVariable<?>>(CtVariable.class));
+        for(CtVariable<?> variable : variables){
+            int variableLength = variable.getSimpleName().length();
+            if(variableLength < 5){
+                noteworthyLengthOfIdentifierScores.put(variable.getShortRepresentation(), variableLength); //TODO: is getShortRepresentation() correct?
+            }
+            variableNames.setSum(variableNames.getSum() + variableLength);
+            variableNames.setAmountOfNumbers(variableNames.getAmountOfNumbers() + 1);
+        }
     }
 
     private double calculateCompleteClassAverage() {
