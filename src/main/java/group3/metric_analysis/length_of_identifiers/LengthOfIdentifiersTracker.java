@@ -10,14 +10,14 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
     public LengthOfIdentifiersTracker(String[] args) {
         lengthOfIdentifiersAnalysis = new LengthOfIdentifiersAnalysis();
     }
+
     @Override
     public void run(Launcher launcher) {
         lengthOfIdentifiersAnalysis.performAnalysis(launcher);
-
     }
+
     @Override
     public String toJson() {
-        //TODO: Do it like FanOutTracker
-        return null;
+        return lengthOfIdentifiersAnalysis.getClassLengthOfIdentifiersScores().toString();
     }
 }
