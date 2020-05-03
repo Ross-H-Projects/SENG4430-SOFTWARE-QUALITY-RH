@@ -1,5 +1,6 @@
-package group3;
+package group3.metric_analysis.length_of_identifiers;
 
+import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtMethod;
@@ -7,33 +8,42 @@ import spoon.reflect.declaration.CtParameter;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class LengthOfIdentifiers extends MetricAnalysis {
+public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
+    private SumResult classNames, methodNames, parameterNames, variableNames;
+    private HashMap<String, Double> classLengthOfIdentifiersScores;
+    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores;
 
-    //TODO: Maybe add this code: private HashMap<CtClass<?>, String > tooShortIdentifier; //Average length of identifier doesn't say much, this will store all identifiers that have a length less than 4
-    SumResult classNames, methodNames, parameterNames, variableNames;
-
-    @Override
-    public MetricReturn performAnalysis(String fileName) {
-        Launcher launcher = Utilities.importCodeSample(fileName);
-        List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
-        calculateLengthOfIdentifierAverage(classes); //This is where the magic starts
-        LengthOfIdentifiersReturn metricResult = new LengthOfIdentifiersReturn();
-        metricResult.setAverageLengthOfIdentifiers(calculateCompleteAverage());
-        return metricResult;
+    public LengthOfIdentifiersAnalysis() {
+        classLengthOfIdentifiersScores = new HashMap<String, Double>();
+        noteworthyLengthOfIdentifierScores = new HashMap<String, Integer>();
     }
 
+    public HashMap<String, Double> getClassLengthOfIdentifiersScores() {
+        return classLengthOfIdentifiersScores;
+    }
+    public HashMap<String, Integer> getNoteworthyLengthOfIdentifierScores() {
+        return noteworthyLengthOfIdentifierScores;
+    }
+
+    @Override
+    public void performAnalysis(Launcher launcher) {
+        List<CtClass<?>> classes = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class));
+        calculateLengthOfIdentifierAverage(classes);
+    }
     private void calculateLengthOfIdentifierAverage(List<CtClass<?>> classes) {
-        classNames = new SumResult();
-        methodNames = new SumResult();
-        parameterNames = new SumResult();
-        variableNames = new SumResult();
         for (CtClass<?> c : classes) {
-            classNames.setSum(classNames.getSum()+ c.getSimpleName().length()); //TODO: Is c.getSimpleName() the correct method here? getLabel()? getQualifiedName()? toString()? prettyprint()?
-            classNames.setAmountOfNumbers(classNames.getAmountOfNumbers() + 1);
+            classNames = new SumResult();
+            methodNames = new SumResult();
+            parameterNames = new SumResult();
+            variableNames = new SumResult();
+            classNames.setSum(c.getSimpleName().length());
+            classNames.setAmountOfNumbers(1);
             calculateAverageLengthOfIdentifiersWithinClass(c);
+            classLengthOfIdentifiersScores.put(c.getQualifiedName(), calculateCompleteClassAverage());
         }
     }
 
@@ -45,15 +55,24 @@ public class LengthOfIdentifiers extends MetricAnalysis {
     private void calculateSumMethodsAndParameters(CtClass<?> currentClass) {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
-            methodNames.setSum(methodNames.getSum() + method.getSimpleName().length()); //TODO: Is getSimpleName() correct? toString()?
+            int methodLength = method.getSimpleName().length();
+            if(methodLength < 5){
+                noteworthyLengthOfIdentifierScores.put(method.getSignature(), methodLength);
+            }
+            methodNames.setSum(methodNames.getSum() + methodLength);
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
-            calculateSumParameters(method.getParameters());
+            calculateSumParameters(method);
         }
     }
 
-    private void calculateSumParameters (List<CtParameter<?>> parameters) {
+    private void calculateSumParameters (CtMethod<?> method) {
+        List<CtParameter<?>> parameters = method.getParameters();
         for (CtParameter<?> parameter : parameters){
-            parameterNames.setSum(parameterNames.getSum() + parameter.getSimpleName().length());//TODO: Is getSimpleName() correct?
+            int parameterLength = parameter.getSimpleName().length();
+            if(parameterLength < 5){
+                noteworthyLengthOfIdentifierScores.put("Parameter for: " + method.getSignature(), parameterLength);
+            }
+            parameterNames.setSum(parameterNames.getSum() + parameter.getSimpleName().length());
             parameterNames.setAmountOfNumbers(parameterNames.getAmountOfNumbers() + 1);
         }
     }
@@ -62,7 +81,7 @@ public class LengthOfIdentifiers extends MetricAnalysis {
         //TODO: Calculate  sum length of all variables in current class and store result in variableNames
     }
 
-    private double calculateCompleteAverage() {
+    private double calculateCompleteClassAverage() {
         double completeSum = (classNames.getSum() + methodNames.getSum() + parameterNames.getSum() + variableNames.getSum());
         double completeAmount = (classNames.getAmountOfNumbers() + methodNames.getAmountOfNumbers()
                 + parameterNames.getAmountOfNumbers() + variableNames.getAmountOfNumbers());
@@ -94,5 +113,4 @@ public class LengthOfIdentifiers extends MetricAnalysis {
             this.amountOfNumbers = amountOfNumbers;
         }
     }
-
 }
