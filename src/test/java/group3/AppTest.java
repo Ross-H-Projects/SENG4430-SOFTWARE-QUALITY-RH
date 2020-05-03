@@ -51,8 +51,7 @@ public class AppTest
         System.setOut(old);
         String s = new String(baos.toByteArray(), Charset.defaultCharset());
 
-        String shouldReturn = "class group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker : 2";
 
-        assertEquals("App should return:\n" + shouldReturn + "\n", shouldReturn, s.strip());
+        assertEquals("App should return: 2", "2", s.trim());
     }
 }
