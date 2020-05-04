@@ -9,6 +9,7 @@ import spoon.reflect.declaration.CtVariable;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.Set;
 public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     private SumResult classNames, methodNames, variableNames; //Inner class that assists in calculating length averages
     private HashMap<String, Double> classLengthOfIdentifiersScores; //Stores average length of identifiers for each class
-    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores; //Stores class and identifier of noteworthy identifiers TODO: Change to <String, List<Integer>> so that output displays all noteworthy identifiers from same class in the same place
+    private HashMap<String, List<String>> noteworthyLengthOfIdentifierScores; //Stores class and identifier of noteworthy identifiers
 
     /**
      * Default constructor
@@ -28,7 +29,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
      */
     public LengthOfIdentifiersAnalysis() {
         classLengthOfIdentifiersScores = new HashMap<String, Double>();
-        noteworthyLengthOfIdentifierScores = new HashMap<String, Integer>();
+        noteworthyLengthOfIdentifierScores = new HashMap<String, List<String>>();
     }
 
     /**
@@ -43,7 +44,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
      * Returns the noteworthy identifiers, i.e. identifiers that need to be looked at again
      * @return The class and length of noteworty identifiers
      */
-    public HashMap<String, Integer> getNoteworthyLengthOfIdentifierScores() {
+    public HashMap<String, List<String>> getNoteworthyLengthOfIdentifierScores() {
         return noteworthyLengthOfIdentifierScores;
     }
 
@@ -69,7 +70,10 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             variableNames = new SumResult();
             int classNameLength = c.getSimpleName().length();
             if(classNameLength < 5){ //TODO: "Hard-coded" for now, might change so that user can decide what length they want to appear, maybe similar to CommentsCount?
-                noteworthyLengthOfIdentifierScores.put("Class name: " + c.getSimpleName(), classNameLength); //If class name is less than 5 characters long, it will be added to noteworthy identifiers
+                if(!noteworthyLengthOfIdentifierScores.containsKey(c.getSimpleName())){
+                    noteworthyLengthOfIdentifierScores.put(c.getSimpleName(), new ArrayList<String>());
+                }
+                noteworthyLengthOfIdentifierScores.get(c.getSimpleName()).add(c.getSimpleName()); //If class name is less than 5 characters long, it will be added to noteworthy identifiers
             }
             classNames.setSum(c.getSimpleName().length());
             classNames.setAmountOfNumbers(1); //Will never be more than one class at a time here, so always one
@@ -97,7 +101,10 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         for(CtMethod<?> method : methods){
             int methodLength = method.getSimpleName().length();
             if(methodLength < 5){
-                noteworthyLengthOfIdentifierScores.put(method.getSignature(), methodLength); //Adds to noteworthy if less than 5 characters long
+                if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
+                    noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
+                }
+                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(method.getSimpleName()); //Adds to noteworthy if less than 5 characters long
             }
             methodNames.setSum(methodNames.getSum() + methodLength); //Keeps track of the total sum of all method name lengths
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1); //Keeps track of the amount of methods to calculate average
@@ -113,8 +120,10 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         for(CtVariable<?> variable : variables){
             int variableLength = variable.getSimpleName().length();
             if(variableLength < 5){
-                noteworthyLengthOfIdentifierScores.put("Variable: " + variable.getSimpleName() + " in class: " +
-                        currentClass.getSimpleName(), variableLength); //Adds to noteworthy if less than 5 characters long
+                if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
+                    noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
+                }
+                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(variable.getSimpleName()); //Adds to noteworthy if less than 5 characters long
             }
             variableNames.setSum(variableNames.getSum() + variableLength); //Keeps track of the total sum of all variable name lengths
             variableNames.setAmountOfNumbers(variableNames.getAmountOfNumbers() + 1);
