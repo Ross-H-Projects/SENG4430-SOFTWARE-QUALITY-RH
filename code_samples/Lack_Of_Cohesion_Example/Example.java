@@ -11,12 +11,12 @@ public class Example {
     }
 
     public void arb1 () {
-        //a = 1;
-        //u = new List<Integer>();
+        u.add(1);
+        a = 3;
     }
 
-    public void arb2 () {
-       //a = 2;
+    public void arb1(int z) {
+        //
     }
 }
 
@@ -30,14 +30,16 @@ public class OtherExample {
     }
 
     public void arb1 () {
-        ex.a = 1;
-        ex.a = 2;
+        //ex.a = 1;
+        //ex.a = 2;
     }
 
     public void arb2 () {
-        a = 2;
-        ex.a = 3;
-        ex.a = 4;
+        //a = 2;
+        //ex.a = 3;
+        //ex.a = 4;
+
+        //ex.arb2();
     }
 
 

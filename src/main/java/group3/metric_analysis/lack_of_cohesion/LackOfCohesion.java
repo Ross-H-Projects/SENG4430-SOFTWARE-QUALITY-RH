@@ -79,14 +79,16 @@ public class LackOfCohesion extends MetricAnalysis {
         }
 
         System.out.println(currentClass.getSimpleName() + " :");
+        //System.out.println(classMethodPairs.keySet());
         for (String mA : classMethodPairs.keySet()) {
+            //System.out.println(classMethodPairs.get(mA).keySet());
             for (String mB : classMethodPairs.get(mA).keySet()) {
                 System.out.println("\t(" +mA + ", " + mB + ") = "  + classMethodPairs.get(mA).get(mB));
             }
         }
         System.out.println();
 
-        return noOfMethodPairsWithCohesion;
+        return (classFieldNames.size() - noOfMethodPairsWithCohesion);
     }
 
     private boolean computeMethodPairCohesion (CtMethod<?> methodA, CtMethod<?> methodB, HashSet<String> classFieldNames, String className) {
@@ -131,11 +133,14 @@ public class LackOfCohesion extends MetricAnalysis {
                    continue;
                }
 
+
                if (returnImmediate
                        && foundClassFieldReferences.contains(e.toString())
                        && !fieldsFoundThisCheck.contains(e.toString())) {
                    return true;
                }
+
+
 
                foundClassFieldReferences.add(e.toString());
                fieldsFoundThisCheck.add(e.toString());
@@ -152,14 +157,14 @@ public class LackOfCohesion extends MetricAnalysis {
         boolean ret = false;
 
         try {
-            classMethodPairs.get(methodA).get(methodB);
+            boolean present = classMethodPairs.get(methodA).get(methodB);
             ret = true;
         } catch (Exception e) {
 
         }
 
         try {
-            classMethodPairs.get(methodB).get(methodA);
+            boolean present = classMethodPairs.get(methodB).get(methodA);
             ret = true;
         } catch (Exception e) {
 
