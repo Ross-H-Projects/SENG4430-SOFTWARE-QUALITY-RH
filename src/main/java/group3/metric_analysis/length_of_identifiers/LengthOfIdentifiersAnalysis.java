@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     private SumResult classNames, methodNames, parameterNames, variableNames;
-    private HashMap<String, Double> classLengthOfIdentifiersScores;
-    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores;
+    private HashMap<String, Double> classLengthOfIdentifiersScores; //TODO: Change to <String, List of Doubles>
+    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores; //TODO: Change to <String, List of Integers>
 
     public LengthOfIdentifiersAnalysis() {
         classLengthOfIdentifiersScores = new HashMap<String, Double>();
