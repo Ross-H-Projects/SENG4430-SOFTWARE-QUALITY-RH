@@ -11,8 +11,6 @@ public class TestRunner {
             System.out.println(failure.toString());
         }
 
-
-
         String testResultMessage;
         if (result.wasSuccessful()) {
             testResultMessage = "\nAll " + result.getRunCount() + " test(s) ran with no errors.";

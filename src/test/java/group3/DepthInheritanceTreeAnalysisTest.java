@@ -26,7 +26,7 @@ public class DepthInheritanceTreeAnalysisTest
     }
 
     /**
-     * Test that we can the correct result for the class files in
+     * Test that we can the correct result for the class files in DepthInheritance_2 directory
      */
     @Test
     public void test2()
@@ -34,6 +34,6 @@ public class DepthInheritanceTreeAnalysisTest
         Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\DepthInheritance_2", false);
         DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
         tester.performAnalysis(launcher);
-        assertEquals("Depth of Inheritance for DepthInheritance_2 directory must be 2", 3, tester.getMaxDepth());
+        assertEquals("Depth of Inheritance for DepthInheritance_2 directory must be 2", 2, tester.getMaxDepth());
     }
 }

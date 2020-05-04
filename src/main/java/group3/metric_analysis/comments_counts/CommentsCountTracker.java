@@ -12,14 +12,14 @@ import java.util.Map;
 public class CommentsCountTracker extends MetricTracker {
 
     private CommentsCountAnalysis commentsCountAnalysis;
-    private boolean outputAll = false;
-    private boolean totalCount = false;
-    private boolean docStringCount = false;
-    private boolean inlineCount = false;
+
+    private boolean onAll = false;
+    private boolean onClass = false;
+    private boolean onMethod = false;
 
     public CommentsCountTracker(String[] args) {
         Options options = new Options();
-        options.addOption("output", true, "type of metric to run and output");
+        options.addOption("mode", true, "");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -30,25 +30,23 @@ public class CommentsCountTracker extends MetricTracker {
             System.exit(1);
         }
 
-
-        String[] outputTypes = cmd.getOptionValues("output");
-        for (String outputType : outputTypes) {
-            switch (outputType) {
-                case "*":
-                    outputAll = true;
-                    break;
-                case "totalCount":
-                    totalCount = true;
-                    break;
-                case "docStringCount":
-                    docStringCount = true;
-                    break;
-                case "inlineCount":
-                    inlineCount = true;
-                    break;
-            }
+        String metricMode = cmd.getOptionValue("mode");
+        switch (metricMode) {
+            case "*":
+                onAll = true;
+                break;
+            case "onClass":
+                onClass = true;
+                break;
+            case "onMethod":
+                onMethod = true;
+                break;
+            default:
+                System.out.println("-mode flag: invalid flag");
+                System.exit(1);
+                break;
         }
-        commentsCountAnalysis = new CommentsCountAnalysis();
+        commentsCountAnalysis = new CommentsCountAnalysis(onAll, onClass, onMethod);
     }
 
     @Override
@@ -58,21 +56,7 @@ public class CommentsCountTracker extends MetricTracker {
 
     @Override
     public String toJson() {
-        String json = "";
-        if (outputAll) {
-            json+= "Total Comments Count: " + commentsCountAnalysis.getClassCommentsTotalCountScores().toString();
-            json+= "\nDoc String Comments Count: " + commentsCountAnalysis.getClassCommentsDocStringCountScores().toString();
-            json+= "\nInline Comments Count: " + commentsCountAnalysis.getClassCommentsInlineCountScores().toString();
-        }
-        if (totalCount) {
-            json+= "Total Comments Count: " + commentsCountAnalysis.getClassCommentsTotalCountScores().toString();
-        }
-        if (docStringCount) {
-            json+= "Doc String Comments Count: " + commentsCountAnalysis.getClassCommentsDocStringCountScores().toString();
-        }
-        if (inlineCount) {
-            json+= "Inline Comments Count: " + commentsCountAnalysis.getClassCommentsInlineCountScores().toString();
-        }
+        String json = commentsCountAnalysis.toJson();
         return json;
      }
 }
