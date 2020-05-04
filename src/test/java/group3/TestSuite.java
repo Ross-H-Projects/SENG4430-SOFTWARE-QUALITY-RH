@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
         AppTest.class,
         DepthInheritanceTreeAnalysisTest.class,
         FanOutTest.class,
-        CouplingTest.class
+        CouplingTest.class,
+        LengthOfIdentifiersTest.class
 })
 
 public class TestSuite {
