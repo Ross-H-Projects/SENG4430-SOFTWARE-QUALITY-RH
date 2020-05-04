@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         AppTest.class,
-        DepthInheritanceTreeAnalysisTest.class
+        DepthInheritanceTreeAnalysisTest.class,
+        CouplingTest.class
 })
 
 public class TestSuite {
