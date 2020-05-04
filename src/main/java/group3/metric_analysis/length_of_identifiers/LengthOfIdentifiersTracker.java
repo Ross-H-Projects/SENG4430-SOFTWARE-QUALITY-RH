@@ -1,9 +1,12 @@
 package group3.metric_analysis.length_of_identifiers;
 
 import group3.MetricTracker;
-import group3.metric_analysis.fan_out.FanOutAnalysis;
 import spoon.Launcher;
 
+/**
+ * TODO: documentation
+ * @author DanielSands
+ */
 public class LengthOfIdentifiersTracker extends MetricTracker {
    private LengthOfIdentifiersAnalysis lengthOfIdentifiersAnalysis;
 
