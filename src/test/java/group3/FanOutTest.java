@@ -18,7 +18,7 @@ public class FanOutTest
     @Test
     public void test_simple_case()
     {
-        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\fan_out\\FanOut.java", true);
+        Launcher launcher = Utilities.importCodeSample("code_samples/test_code_samples/fan_out/FanOut.java", true);
         FanOutAnalysis tester = new FanOutAnalysis();
         tester.performAnalysis(launcher);
         System.out.println(tester);

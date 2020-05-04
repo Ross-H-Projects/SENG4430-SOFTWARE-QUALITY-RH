@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     private SumResult classNames, methodNames, parameterNames, variableNames;
-    private HashMap<String, Double> classLengthOfIdentifiersScores; //TODO: Change to <String, List of Doubles>
-    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores; //TODO: Change to <String, List of Integers>
+    private HashMap<String, Double> classLengthOfIdentifiersScores;
+    private HashMap<String, Integer> noteworthyLengthOfIdentifierScores; //TODO: Change to <String, List<Integer>> so that output displays all noteworthy identifiers from same class in the same place
 
     public LengthOfIdentifiersAnalysis() {
         classLengthOfIdentifiersScores = new HashMap<String, Double>();
@@ -63,11 +63,11 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             }
             methodNames.setSum(methodNames.getSum() + methodLength);
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1);
-            calculateSumParameters(method, currentClass);
+            //calculateSumParameters(method, currentClass);
         }
     }
 
-    private void calculateSumParameters (CtMethod<?> method, CtClass<?> currentClass) {
+    private void calculateSumParameters (CtMethod<?> method, CtClass<?> currentClass) { //TODO: calculateSumVariables does this as well so can be deleted
         List<CtParameter<?>> parameters = method.getParameters();
         for (CtParameter<?> parameter : parameters){
             int parameterLength = parameter.getSimpleName().length();
