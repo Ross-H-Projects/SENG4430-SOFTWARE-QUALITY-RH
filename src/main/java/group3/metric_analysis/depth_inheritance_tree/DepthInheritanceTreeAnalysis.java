@@ -48,13 +48,16 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
 
     private int depthInheritanceRecursive(CtClass<?> currentClass) {
 
-        if (!visited_classes.containsKey(currentClass.getQualifiedName())) {
+        if (!visited_classes.containsKey(currentClass.getQualifiedName())) { // current class has not had depth calculated yet,
+                                                                             // add it, and go on to calculate depth
             visited_classes.put(currentClass.getQualifiedName(), 0);
-        } else {
+        } else { // current class already had depth calculated, just return it
             return visited_classes.get(currentClass.getQualifiedName());
         }
 
+        // calculate depth
 
+        // curent class has a super class, so the depth is 1 + depth of the super class
         if (currentClass.getSuperclass() != null) {
             CtClass<?> superClass = ctClasses.get(currentClass.getSuperclass().getQualifiedName());
 
@@ -63,7 +66,7 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
             return thisClassDepth;
         }
 
-        // current class has no super class
+        // current class has no super class, thus depth is 0
         return 0;
     }
 
