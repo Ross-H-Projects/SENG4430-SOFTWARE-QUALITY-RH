@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         AppTest.class,
         DepthInheritanceTreeAnalysisTest.class,
-        FanOutTest.class
+        FanOutTest.class,
+        CouplingTest.class
 })
 
 public class TestSuite {
