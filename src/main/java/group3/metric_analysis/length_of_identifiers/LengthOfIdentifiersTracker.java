@@ -20,7 +20,7 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
     }
 
     @Override
-    public String toJson() {
+    public String toJson() { //TODO: Maybe have this in toJSON method in LoIAnalysis and then just call the function here, like in CommentsCount
         return "Class average scores: " + lengthOfIdentifiersAnalysis.getClassLengthOfIdentifiersScores().toString()
                 + " Noteworthy identifiers" + lengthOfIdentifiersAnalysis.getNoteworthyLengthOfIdentifierScores(); //TODO: Decide how to go about showing notwortyLengthOfIdentifiers
     }

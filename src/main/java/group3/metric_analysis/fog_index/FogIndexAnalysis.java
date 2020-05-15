@@ -5,6 +5,14 @@ import spoon.Launcher;
 
 public class FogIndexAnalysis extends MetricAnalysis {
 
+    /**
+     * Default constructor
+     * initialises private variables
+     */
+    public FogIndexAnalysis() {
+        //TODO: Decide how it should be stored
+    }
+
     @Override
     public void performAnalysis(Launcher launcher) {
 
