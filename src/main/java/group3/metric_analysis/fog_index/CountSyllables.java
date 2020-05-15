@@ -1,5 +1,7 @@
 package group3.metric_analysis.fog_index;
 
+import java.util.ArrayList;
+
 /**
  * Estimate the number of syllables in a word.
  *
@@ -13,48 +15,57 @@ public class CountSyllables {
             "[^aeiouy][^aeiouy]l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$" };
     static String[] subtractSyllableArray = { "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", ".ely$" };
 
-    public static int count(String string) {
-        string = string.toLowerCase();
-        string = string.replaceAll("'", " ");
-
-        if (string.equals("i"))
-            return 1;
-        if (string.equals("a"))
-            return 1;
-
-        if (string.endsWith("e")) {
-            string = string.substring(0, string.length() - 1);
+    public static int count(String sentence) {
+        ArrayList<String> wordsInSentence = new ArrayList<String>();
+        String currentWord = "";
+        for(String word: sentence.split(" ")){
+            wordsInSentence.add(word);
         }
+        int sumSyllableCount = 0;
+        for (String string : wordsInSentence) {
+            string = string.toLowerCase();
+            string = string.replaceAll("'", " ");
 
-        String[] phonemes = string.split("[^aeiouy]+");
+            if (string.equals("i"))
+                return 1;
+            if (string.equals("a"))
+                return 1;
 
-        int syllableCount = 0;
-        for (int i = 0; i < subtractSyllableArray.length; i++) {
-            String syllable = subtractSyllableArray[i];
-            if (string.matches(syllable)) {
-                syllableCount--;
+            if (string.endsWith("e")) {
+                string = string.substring(0, string.length() - 1);
             }
-        }
-        for (int i = 0; i < addSyllableArray.length; i++) {
-            String syllable = addSyllableArray[i];
-            if (string.matches(syllable)) {
+
+            String[] phonemes = string.split("[^aeiouy]+");
+
+            int syllableCount = 0;
+            for (int i = 0; i < subtractSyllableArray.length; i++) {
+                String syllable = subtractSyllableArray[i];
+                if (string.matches(syllable)) {
+                    syllableCount--;
+                }
+            }
+            for (int i = 0; i < addSyllableArray.length; i++) {
+                String syllable = addSyllableArray[i];
+                if (string.matches(syllable)) {
+                    syllableCount++;
+                }
+            }
+            if (string.length() == 1) {
                 syllableCount++;
             }
-        }
-        if (string.length() == 1) {
-            syllableCount++;
+
+            for (int i = 0; i < phonemes.length; i++) {
+                if (phonemes[i].length() > 0)
+                    syllableCount++;
+            }
+
+            if (syllableCount == 0) {
+                syllableCount = 1;
+            }
+            sumSyllableCount = sumSyllableCount + syllableCount;
         }
 
-        for (int i = 0; i < phonemes.length; i++) {
-            if (phonemes[i].length() > 0)
-                syllableCount++;
-        }
-
-        if (syllableCount == 0) {
-            syllableCount = 1;
-        }
-
-        return syllableCount;
+        return sumSyllableCount;
     }
 
 }
