@@ -21,7 +21,7 @@ public class CountSyllables {
         for(String word: sentence.split(" ")){
             wordsInSentence.add(word);
         }
-        int sumSyllableCount = 0;
+        int complexWordCount = 0;
         for (String string : wordsInSentence) {
             string = string.toLowerCase();
             string = string.replaceAll("'", " ");
@@ -62,10 +62,14 @@ public class CountSyllables {
             if (syllableCount == 0) {
                 syllableCount = 1;
             }
-            sumSyllableCount = sumSyllableCount + syllableCount;
+
+            if(syllableCount >= 3){
+                complexWordCount++;
+            }
+
         }
 
-        return sumSyllableCount;
+        return complexWordCount;
     }
 
 }
