@@ -2,6 +2,7 @@ package group3;
 
 import group3.metric_analysis.comments_counts.CommentsCountTracker;
 import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
+import group3.metric_analysis.fog_index.FogIndexTracker;
 import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import group3.metric_analysis.coupling.CouplingTracker;
@@ -42,6 +43,9 @@ public class Metrics {
                     break;
                 case "length_of_identifiers":
                     tracker = new LengthOfIdentifiersTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
+                case "fog_index":
+                    tracker = new FogIndexTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
                 default:
                     throw new IllegalArgumentException("Metric " + arr[0] + " is invalid");
