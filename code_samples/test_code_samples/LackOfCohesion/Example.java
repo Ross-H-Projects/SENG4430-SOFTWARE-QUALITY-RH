@@ -23,24 +23,36 @@ public class Example {
 public class OtherExample {
     public int a;
     public int b;
-    public Example ex = new Example();
-    public LinkedList<Integer> list = new LinkedList<Integer>();
+    //public Example ex = new Example();
+    //public LinkedList<Integer> list = new LinkedList<Integer>();
 
     OtherExample() {
     }
 
     public void arb1 () {
-        //ex.a = 1;
+        a = 1
         //ex.a = 2;
     }
 
     public void arb2 () {
-        //a = 2;
+        a = 2;
+        b = 2;
         //ex.a = 3;
         //ex.a = 4;
 
         //ex.arb2();
+        int k = 3;
     }
 
+    public void arb3 () {
+        int k = 3;
+        b = 3;
+    }
 
+}
+
+public class nuddaClass {
+    nuddaClass () {
+
+    }
 }

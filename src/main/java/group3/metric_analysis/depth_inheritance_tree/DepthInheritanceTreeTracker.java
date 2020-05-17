@@ -18,6 +18,7 @@ public class DepthInheritanceTreeTracker extends MetricTracker {
 
     @Override
     public String toJson() {
-        return String.valueOf(depthInheritanceTreeAnalysis.getMaxDepth());
+        String depth = String.valueOf(depthInheritanceTreeAnalysis.getMaxDepth());
+        return String.format("{%s: %s}", "'Depth of Inheritance'", depth);
     }
 }
