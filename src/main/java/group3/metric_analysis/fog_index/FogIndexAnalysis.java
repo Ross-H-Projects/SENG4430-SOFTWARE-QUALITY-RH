@@ -4,36 +4,81 @@ import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.code.CtComment;
 import spoon.reflect.declaration.CtClass;
+import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class FogIndexAnalysis extends MetricAnalysis {
 
-    private HashMap<String, String> classFogAnalysis;
+    private HashMap<String, HashMap<String, Double>> classFogAnalysis;
     /**
      * Default constructor
      * initialises private variables
      */
     public FogIndexAnalysis() {
-        classFogAnalysis = new HashMap<String, String>(); //TODO: Decide how it should be stored, this is more temporary
+        classFogAnalysis = new HashMap<String, HashMap<String, Double>>();
     }
 
-    public String getReturn(){
+    public String getReturn(){ //TODO: Make nicer, temporary fix for now
         return classFogAnalysis.toString();
     }
 
     @Override
     public void performAnalysis(Launcher launcher) {
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
-            classFogAnalysis.put(classObject.getSimpleName(), calculateClassFogIndex(classObject));
+            classFogAnalysis.put(classObject.getSimpleName(), calculateMethodFogIndex(classObject));
         }
     }
 
-    private String calculateClassFogIndex(CtClass<?> classObject) {
-        //TODO: Actually calculate fog_index, instead of sentences maybe base it off new lines in comments. So one line = one sentence?
-        return classObject.getElements(new TypeFilter<CtComment>(CtComment.class)).toString(); //This gives all comments
+    private HashMap<String, Double> calculateMethodFogIndex(CtClass<?> classObject) {
+        HashMap<String, Double> methodComments = new HashMap<String, Double>();
+        for(CtMethod<?> methodObject : getMethods(classObject)){
+            List<CtComment> comments = methodObject.getElements(new TypeFilter<CtComment>(CtComment.class));
+
+            methodComments.put(methodObject.getSimpleName(), calculateFogIndex(comments));
+        }
+        //String newLine = System.getProperty("line.separator");
+        //boolean test = classObject.getElements(new TypeFilter<CtComment>(CtComment.class)).toString().contains(newLine); //TODO: Use this in some way to calculate amount of sentences
+        return methodComments;
+    }
+
+    private Double calculateFogIndex(List<CtComment> methodComments){
+        double words = 0.0, sentences = 0.0, complexWords = 0.0;
+        CountSyllables complexWordsHelper = new CountSyllables();
+        for(CtComment comment : methodComments){
+            complexWords += complexWordsHelper.count(comment.getContent());
+            sentences++; //Simpleton testable.
+            words += wordcount(comment.getContent());
+        }
+        return 0.4*(words/sentences + 100*(complexWords/words));
+    }
+
+    private static ArrayList<CtMethod<?>> getMethods(CtClass<?> classObject){
+        Collection<CtMethod<?>> methodsCollection = classObject.getMethods();
+        return new ArrayList<CtMethod<?>>(methodsCollection);
+    }
+
+    /**
+     * This method was taken from: https://www.javatpoint.com/java-program-to-count-the-number-of-words-in-a-string
+     * @param string
+     * @return
+     */
+    static int wordcount(String string)
+    {
+        int count=0;
+
+        char ch[]= new char[string.length()];
+        for(int i=0;i<string.length();i++)
+        {
+            ch[i]= string.charAt(i);
+            if( ((i>0)&&(ch[i]!=' ')&&(ch[i-1]==' ')) || ((ch[0]!=' ')&&(i==0)) )
+                count++;
+        }
+        return count;
     }
 }
