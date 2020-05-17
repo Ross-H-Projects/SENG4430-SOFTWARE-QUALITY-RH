@@ -55,7 +55,12 @@ public class FogIndexAnalysis extends MetricAnalysis {
             sentences++; //Simpleton testable.
             words += wordcount(comment.getContent());
         }
-        return 0.4*(words/sentences + 100*(complexWords/words));
+        if(words == 0.0){
+            return 0.0;
+        }
+        else{
+            return 0.4*(words/sentences + 100*(complexWords/words));
+        }
     }
 
     private static ArrayList<CtMethod<?>> getMethods(CtClass<?> classObject){
