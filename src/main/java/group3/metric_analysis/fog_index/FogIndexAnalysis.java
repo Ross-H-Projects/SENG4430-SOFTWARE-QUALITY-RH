@@ -42,8 +42,6 @@ public class FogIndexAnalysis extends MetricAnalysis {
 
             methodComments.put(methodObject.getSimpleName(), calculateFogIndex(comments));
         }
-        //String newLine = System.getProperty("line.separator");
-        //boolean test = classObject.getElements(new TypeFilter<CtComment>(CtComment.class)).toString().contains(newLine); //TODO: Use this in some way to calculate amount of sentences
         return methodComments;
     }
 
