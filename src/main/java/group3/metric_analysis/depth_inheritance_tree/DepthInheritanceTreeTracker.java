@@ -49,7 +49,7 @@ public class DepthInheritanceTreeTracker extends MetricTracker {
             json = json.substring(0, json.length() - 1);
         }
 
-        json += "\n\t]\n}";
+        json += "\n\t]}\n}";
         return json;
     }
 }

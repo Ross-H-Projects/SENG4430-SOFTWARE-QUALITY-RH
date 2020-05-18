@@ -104,6 +104,11 @@ public class LackOfCohesion extends MetricAnalysis {
             for (CtMethod<?> methodB : currentClass.getMethods()) {
                 methodBSignature = methodB.getSignature();
 
+                // don't check abstract method or compare abstract methods with cocnrete methods
+                if (methodA.isAbstract() || methodB.isAbstract()) {
+                    continue;
+                }
+
                 // don't check method against itself
                 if (methodASignature.equals(methodBSignature)) {
                     continue;
@@ -160,6 +165,15 @@ public class LackOfCohesion extends MetricAnalysis {
 
     private boolean checkMethodReferences (boolean returnImmediate, CtBlock block, HashSet<String> classFieldNames, HashSet<String> foundClassFieldReferences, String className) {
         HashSet<String> fieldsFoundThisCheck = new HashSet<String>();
+
+        try {
+            int a = 0;
+            for (CtStatement line : block.getStatements()) {
+                a++;
+            }
+        } catch (Exception e) {
+            int j = 2;
+        }
 
         // check references to class fields in method body
         // look line by line

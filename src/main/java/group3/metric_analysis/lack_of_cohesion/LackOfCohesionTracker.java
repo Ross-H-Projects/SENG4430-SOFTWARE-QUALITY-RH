@@ -40,8 +40,11 @@ public class LackOfCohesionTracker extends MetricTracker {
             json += subJson;
         }
 
-        // remove last comma from json
-        json = json.substring(0, json.length() - 1);
+        if (classes.keySet().size() >= 1) {
+            // remove last comma from json
+            json = json.substring(0, json.length() - 1);
+        }
+
         json += "\n]}";
         return json;
     }
