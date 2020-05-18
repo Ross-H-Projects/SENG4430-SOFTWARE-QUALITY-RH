@@ -27,7 +27,14 @@ public class FogIndexAnalysis extends MetricAnalysis {
     public String getFogIndex(){ //TODO: Make nicer, temporary fix for now
         return classFogAnalysis.toString();
     }
+    public HashMap<String, HashMap<String, Double>> getFogForTest(){ //TODO: Fix this up
+        return classFogAnalysis;
+    }
 
+    /**
+     * Overrides MetricAnalysis abstract method. It initialises analysis process
+     * @param launcher
+     */
     @Override
     public void performAnalysis(Launcher launcher) {
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
@@ -35,6 +42,11 @@ public class FogIndexAnalysis extends MetricAnalysis {
         }
     }
 
+    /**
+     * Takes a class object and gets all its methods along with comments for each method
+     * @param classObject
+     * @return method and its fog index score
+     */
     private HashMap<String, Double> calculateMethodFogIndex(CtClass<?> classObject) {
         HashMap<String, Double> methodComments = new HashMap<String, Double>();
         for(CtMethod<?> methodObject : getMethods(classObject)){
@@ -45,29 +57,40 @@ public class FogIndexAnalysis extends MetricAnalysis {
         return methodComments;
     }
 
+    /**
+     * Takes comments of a method and calculates its fog index score
+     * @param methodComments
+     * @return fog index score for that method
+     */
     private Double calculateFogIndex(List<CtComment> methodComments){
         double words = 0.0, sentences = 0.0, complexWords = 0.0;
         CountSyllables complexWordsHelper = new CountSyllables();
-        for(CtComment comment : methodComments){
-            complexWords += complexWordsHelper.count(comment.getContent());
-            sentences++; //Simpleton testable.
-            words += wordcount(comment.getContent());
+        if(!methodComments.isEmpty()) {
+            for (CtComment comment : methodComments) {
+                complexWords += complexWordsHelper.countComplexWords(comment.getContent());
+                sentences++; //Assumption: each comment is one sentence.
+                words += wordcount(comment.getContent());
+            }
         }
-        if(words == 0.0){
-            return 0.0;
-        }
-        else{
-            return 0.4*(words/sentences + 100*(complexWords/words));
-        }
+            if (words == 0) {
+                return 0.0;
+            } else {
+                return 0.4 * (words / sentences + 100 * (complexWords / words));
+            }
     }
 
+    /**
+     * Get's all the methods of a class object
+     * @param classObject
+     * @return List of CtMethods
+     */
     private static ArrayList<CtMethod<?>> getMethods(CtClass<?> classObject){
         Collection<CtMethod<?>> methodsCollection = classObject.getMethods();
         return new ArrayList<CtMethod<?>>(methodsCollection);
     }
 
     /**
-     * This method was taken from: https://www.javatpoint.com/java-program-to-count-the-number-of-words-in-a-string
+     * This method was taken from: https://www.javatpoint.com/java-program-to-count-the-number-of-words-in-a-string //TODO: Reference properly
      * @param string
      * @return
      */

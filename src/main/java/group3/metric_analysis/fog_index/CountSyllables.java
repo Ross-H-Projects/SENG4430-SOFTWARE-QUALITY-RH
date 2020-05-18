@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * Based on
  * http://search.cpan.org/src/GREGFAST/Lingua-EN-Syllable-0.251/Syllable.pm
- * Taken from https://gist.github.com/jbertouch/5f19ed775b5064b7a197cb2c9017ce52 //TODO: Reference properly
+ * Taken from https://gist.github.com/jbertouch/5f19ed775b5064b7a197cb2c9017ce52 //TODO: Reference properly, check with Shamus and group
  */
 public class CountSyllables {
 
@@ -15,7 +15,7 @@ public class CountSyllables {
             "[^aeiouy][^aeiouy]l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$" };
     static String[] subtractSyllableArray = { "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", ".ely$" };
 
-    public static int count(String sentence) {
+    public static int countComplexWords(String sentence) {
         ArrayList<String> wordsInSentence = new ArrayList<String>();
         String currentWord = "";
         for(String word: sentence.split(" ")){
