@@ -25,6 +25,7 @@ public class CountSyllables {
         for (String string : wordsInSentence) {
             string = string.toLowerCase();
             string = string.replaceAll("'", " ");
+            string = string.replaceAll("(\\(-\\)|(\\.)|/)", " ");
 
             if (string.equals("i"))
                 return 1;
