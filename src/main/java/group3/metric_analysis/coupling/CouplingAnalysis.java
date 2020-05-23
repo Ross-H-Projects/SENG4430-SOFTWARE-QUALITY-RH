@@ -34,6 +34,7 @@ public class CouplingAnalysis extends MetricAnalysis {
         for (CtClass c : classes) {
             ctClasses.put(c.getQualifiedName(), c);
             couplingWeights.put(c, 0);
+            System.out.println("class: "+c.getQualifiedName());
         }
 
 
@@ -57,6 +58,7 @@ public class CouplingAnalysis extends MetricAnalysis {
             }
 
         }
+
 
     }
 
@@ -116,23 +118,48 @@ public class CouplingAnalysis extends MetricAnalysis {
 
         //Capturing implicit constructor calls inside of methods
 
+        /*
         Set<CtMethod> methodList = c.getMethods();
         for(CtMethod method : methodList) {
 
+
+            //List of local variables in the same method as their constructors
             List<CtLocalVariable<?>> constructorVars = method.getElements(new TypeFilter<CtLocalVariable<?>>(CtLocalVariable.class));
             if (!constructorVars.isEmpty()) {
 
+
+
+
+
                 for (int i = 0; i < constructorVars.size(); i++) {
-                    CtMethod parentMethod = constructorVars.get(i).getParent(CtMethod.class);
-                    List<CtConstructorCall<?>> corrConstr = parentMethod.getElements(new TypeFilter<CtConstructorCall<?>>(CtConstructorCall.class));
+                    System.out.println("var number: " + i + " var: "+constructorVars.get(i).toString());
 
-                    if (!corrConstr.isEmpty()) {
-                        variableClassMap.put(constructorVars.get(i).getSimpleName(), corrConstr.get(i).getType().getSimpleName());
 
-                        int weight = cW.get(constructorVars.get(i).getType().getDeclaration());
-                        cW.replace((CtClass) constructorVars.get(i).getType().getDeclaration(), weight + 1);
-                        couplingCounter++;
+                    if(constructorVars.get(i).getType().getDeclaration() != null) {
+                        CtMethod parentMethod = constructorVars.get(i).getParent(CtMethod.class);
+                        List<CtConstructorCall<?>> corrConstr = parentMethod.getElements(new TypeFilter<CtConstructorCall<?>>(CtConstructorCall.class));
+                        System.out.println("size: "+corrConstr.size());
+                       // System.out.println("corrConstr: " + corrConstr.get(i).getType().getDeclaration().toString());
+
+                        for (int j = 0; j < corrConstr.size(); j++) {
+                            System.out.println("constructor: "+corrConstr.get(j).toString());
+                        }
+
+                        if(corrConstr.get(i).getType().getDeclaration().toString().equals(null)) {
+
+                            if (!corrConstr.isEmpty()) {
+                                variableClassMap.put(constructorVars.get(i).getSimpleName(), corrConstr.get(i).getType().getSimpleName());
+                                System.out.println("method: " + method.getSimpleName() + "class: " + c.getQualifiedName());
+
+                                System.out.println("line: " + constructorVars.get(i).getType().getDeclaration());
+
+                                int weight = cW.get(constructorVars.get(i).getType().getDeclaration());
+                                cW.replace((CtClass) constructorVars.get(i).getType().getDeclaration(), weight + 1);
+                                couplingCounter++;
+                            }
+                        }
                     }
+
                 }
             }
         }
@@ -143,20 +170,29 @@ public class CouplingAnalysis extends MetricAnalysis {
             List<CtInvocation<?>> methodCalls = mMethod.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class));
             if(!methodCalls.isEmpty()) {
                 for(CtInvocation methodCall : methodCalls){
-                    String key = methodCall.getExecutable().getDeclaringType().getSimpleName();
 
-                   // System.out.println("key: "+key);
+                    if(methodCall.getExecutable().getDeclaringType().getSimpleName() != null) {
 
-                    if(!key.equals("PrintStream")) {
-                        String corrClass = variableClassMap.get(key);
+                        String key = methodCall.getExecutable().getDeclaringType().getSimpleName();
 
-                    //    System.out.println("corclass: " + variableClassMap.get(key));
+                        // System.out.println("key: "+key);
 
-                        for (CtClass cClass : classList) {
-                            if (corrClass.equals(cClass.getQualifiedName())) {
-                                int weight = cW.get(cClass);
-                                cW.replace((CtClass) cClass, weight + 1);
-                                couplingCounter++;
+                        if (!key.equals("PrintStream")) {
+
+                            try {
+                                String corrClass = variableClassMap.get(key);
+
+                                System.out.println("corclass: " + variableClassMap.get(key));
+
+                                for (CtClass cClass : classList) {
+                                    if (corrClass.equals(cClass.getQualifiedName())) {
+                                        int weight = cW.get(cClass);
+                                        cW.replace((CtClass) cClass, weight + 1);
+                                        couplingCounter++;
+                                    }
+                                }
+                            } catch(NullPointerException e){
+                                System.out.print("KEY: "+ key+ " NullPointerException Caught");
                             }
                         }
                     }
@@ -171,6 +207,45 @@ public class CouplingAnalysis extends MetricAnalysis {
             cW.replace((CtClass) c.getSuperclass().getDeclaration(), weight + 1);
             couplingCounter++;
         }
+`       */
+
+        Set<CtMethod> methodList = c.getMethods();
+        for(CtMethod method : methodList) {
+            System.out.println("method: "+method.getSimpleName());
+            CtBlock<?> methodBody =  method.getBody();
+            List<CtStatement> methodStatements = methodBody.getStatements();
+
+            int i = 0;
+
+                for(CtElement element :  methodStatements.get(0).getElements(new TypeFilter<CtInvocation>(CtInvocation.class))){
+                    System.out.println("class "+c.getQualifiedName()+" reference element "+i+" :"+element.toString());
+                    i++;
+                }
+            i = 0;
+
+            List<CtLocalVariable<?>> mLocalVars = method.getElements(new TypeFilter<CtLocalVariable<?>>(CtLocalVariable.class));
+            List<CtConstructorCall<?>> mConstructors = method.getElements(new TypeFilter<CtConstructorCall<?>>(CtConstructorCall.class));
+
+
+            List<CtInvocation<?>> mInvocations = method.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class));
+
+            /*
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" var  "+mLocalVars.get(0).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" var  "+mLocalVars.get(1).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" var  "+mLocalVars.get(2).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" var  "+mLocalVars.get(3).getType());
+
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" inv  "+mInvocations.get(0).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" inv  "+mInvocations.get(1).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" inv  "+mInvocations.get(2).getType());
+            System.out.println("class "+c.getQualifiedName()+" method "+method.getSimpleName()+" inv  "+mInvocations.get(3).getType());
+            */
+
+           // for (int j = 0; j < mInvocations.size(); j++) {
+           //     System.out.println("class "+c.getQualifiedName()+" invocation: "+mInvocations.get(j).toString());
+           // }
+        }
+
 
 
 
