@@ -6,19 +6,19 @@ public class ConditionalTest {
 //        ConditionalTest_Level1 ct = new ConditionalTest_Level1();
 //    }
 
-//    public void test1() {
-//        if(true) {
-//            int i = 1;
-//            if(true) {
-//                int i=2;
-//            }
-//            else if(true) {
-//                int i=3;
-//            } else {
-//                int i = 4;
-//            }
-//        }
-//    }
+    public void test3() {
+        if(true) {
+            int i = 1;
+            if(true) {
+                int i=2;
+            }
+            else if(true) {
+                int i=3;
+            } else {
+                int i = 4;
+            }
+        }
+    }
     public void test1() {
         if(true) {
             int i=1;
@@ -60,40 +60,25 @@ public class ConditionalTest {
             }
         }
     }
-//    public void test1() {
-//
-//        if(true) {
-//            int i = 1;
-//        } else {
-//            int i = 2;
-//            if(i=1) {
-//                int i=3
-//            } else {
-//                int i = 4;
-//                if(true) {
-//                    int i = 5;
-//                }
-//            }
-//        }
-//    }
     public void test2() {
         if(10==20) {
-            int i = 10;
-        } else if(30==40) {
-            int i = 342;
-        } else {
             int i = 1;
+        } else if(30==40) {
+            int i = 2;
+        } else {
+            int i = 3;
             if(true) {
+                int i = 4;
                 if(true) {
-                    int i = 2;
+                    int i = 5;
                 } else {
-                    int i = 2;
+                    int i = 6;
                     if(true) {
-                        int i = 3;
+                        int i = 7;
                     } else {
-                        int u = 3;
+                        int u = 8;
                         if (true) {
-                            int a = 4;
+                            int a = 9;
                         }
                     }
                 }
