@@ -15,6 +15,7 @@ import spoon.reflect.visitor.filter.InvocationFilter;
 import spoon.reflect.visitor.filter.TypeFilter;
 import spoon.support.reflect.code.CtBlockImpl;
 
+
 import java.util.*;
 
 
@@ -33,11 +34,72 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
             HashMap<String, Integer> methodConditionalNestingScores = new HashMap<String, Integer>();
             for (CtExecutable<?> methodObject : getMethods(classObject)) {
-                int maxDepth = getIfStatementDepthForMethod(methodObject);
+                int maxDepth = doDepth(methodObject);
                 methodConditionalNestingScores.put(methodObject.getSignature(), maxDepth);
-                break;
             }
             classConditionalNestingScores.put(classObject.getQualifiedName(), methodConditionalNestingScores);
+        }
+    }
+    public static CtBlock getElseBlock(CtIf ifStatement) {
+        CtBlock elseBlock = null;
+        while(true) {
+            if(ifStatement.getElseStatement() == null) {
+                break;
+            }
+            Iterator<CtElement> i = ifStatement.getElseStatement().descendantIterator();
+            i.next();
+            CtElement iterator_element = i.next();
+            try {
+                ifStatement = (CtIf) iterator_element;
+            } catch (Exception e) {
+                elseBlock = (CtBlock)iterator_element.getParent();
+                break;
+            }
+        }
+        return elseBlock;
+    }
+    public static int doDepth(CtExecutable<?> methodObject) {
+        if (methodObject.getDirectChildren().size() <= 1) {
+            return 0;
+        } else {
+            return doDepthOnCodeBlock(-1, methodObject.getDirectChildren().get(1));
+        }
+    }
+
+    public static int doDepthOnCodeBlock(int depth, CtElement codeBlock) {
+        depth+=1;
+        ArrayList<Integer> depthList = new ArrayList<Integer>();
+        CtIf ifStatement = getFirstIfStatementFromCodeBlock(codeBlock);
+        while(ifStatement != null) {
+            int currentDepth = doDepthOnCodeBlock(depth, ifStatement.getThenStatement());
+            depthList.add(currentDepth);
+            if(ifStatement.getElseStatement() != null) {
+//                System.out.println(ifStatement.getElseStatement().toString());
+                CtBlock elseBlock = getElseBlock(ifStatement);
+                if(ifStatement.getElseStatement() == elseBlock) {
+                    //if next statement is else.
+                    currentDepth = doDepthOnCodeBlock(depth, ifStatement.getElseStatement());
+                    ifStatement = null;
+                } else {
+                    currentDepth = doDepthOnCodeBlock(depth, ifStatement.getElseStatement());
+                    ifStatement = getFirstIfStatementFromCodeBlock(ifStatement.getElseStatement());
+                }
+            } else {
+                break;
+            }
+        }
+        if (depthList.size() == 0) {
+            return depth;
+        } else {
+            return Collections.max(depthList);
+        }
+    }
+    public static CtIf getFirstIfStatementFromCodeBlock(CtElement codeBlock) {
+        ArrayList<CtIf> ifStatements = (ArrayList<CtIf>) Query.getElements(codeBlock, new TypeFilter<CtIf>(CtIf.class));
+        if (ifStatements.size() > 0) {
+            return ifStatements.get(0);
+        } else {
+            return null;
         }
     }
 
