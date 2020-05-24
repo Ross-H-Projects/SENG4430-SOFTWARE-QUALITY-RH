@@ -11,7 +11,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SENG4430-SOFTWARE-QUALITY" target="13" />
+      <module name="quality-tool" target="8" />
+      <module name="SENG4430-SOFTWARE-QUALITY" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

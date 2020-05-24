@@ -3,6 +3,8 @@ package group3;
 import group3.metric_analysis.comments_counts.CommentsCountTracker;
 import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
 import group3.metric_analysis.fog_index.FogIndexTracker;
+import group3.metric_analysis.fan_in.FanInTracker;
+import group3.metric_analysis.halstead_complexity.HalsteadComplexityTracker;
 import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import group3.metric_analysis.coupling.CouplingTracker;
@@ -32,6 +34,9 @@ public class Metrics {
 //                case "depth_conditional_nesting":
 ////                    tracker = new DepthConditionalNestingTracker(arr[1]);
 //                    break;
+                case "fan_in":
+                    tracker = new FanInTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
                 case "fan_out":
                     tracker = new FanOutTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
@@ -43,6 +48,9 @@ public class Metrics {
                     break;
                 case "length_of_identifiers":
                     tracker = new LengthOfIdentifiersTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
+                case "halstead_complexity":
+                    tracker = new HalsteadComplexityTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
                 case "fog_index":
                     tracker = new FogIndexTracker(Arrays.copyOfRange(arr, 1, arr.length));

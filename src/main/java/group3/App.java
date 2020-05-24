@@ -6,8 +6,7 @@ import spoon.Launcher;
 import java.util.ArrayList;
 
 
-public class App
-{
+public class App {
 
         private static Launcher launcher;
         private static Launcher launcherNoComments;
