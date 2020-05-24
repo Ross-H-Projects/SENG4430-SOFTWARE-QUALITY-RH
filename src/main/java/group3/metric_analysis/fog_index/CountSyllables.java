@@ -24,13 +24,12 @@ public class CountSyllables {
         int complexWordCount = 0;
         for (String string : wordsInSentence) {
             string = string.toLowerCase();
-            string = string.replaceAll("'", " ");
-            string = string.replaceAll("(\\(-\\)|(\\.)|/)", " ");
+            string = string.replaceAll("'", "");
 
             if (string.equals("i"))
-                return 1;
+                return 0;
             if (string.equals("a"))
-                return 1;
+                return 0;
 
             if (string.endsWith("e")) {
                 string = string.substring(0, string.length() - 1);
@@ -67,6 +66,7 @@ public class CountSyllables {
             if(syllableCount >= 3){
                 complexWordCount++;
             }
+
 
         }
 

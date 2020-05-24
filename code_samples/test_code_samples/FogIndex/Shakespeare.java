@@ -1,8 +1,24 @@
 public class Shakespeare{
 
     private void methodA(){
-        int a = 12; //Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        //Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-        //It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+        int a = 12; //A very simple comment.
+    }
+    private void methodB(){
+        int a = 13; //This test will be properly filled with extraordinary words.
+        int b = 14; //Interior crocodile alligator these words are incredible.
+    }
+
+    /**
+     * This comment regularly appears in computers.
+     */
+    private void methodC(){
+        int a = 12;
+    }
+
+    /**
+     * Super cali fragalistic.
+     */
+    private void methodD(){
+        int a = 420; //expi ali whatever the rest is.
     }
 }

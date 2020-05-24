@@ -77,6 +77,7 @@ public class FogIndexAnalysis extends MetricAnalysis {
             } else {
                 return 0.4 * (words / sentences + 100 * (complexWords / words));
             }
+
     }
 
     /**
