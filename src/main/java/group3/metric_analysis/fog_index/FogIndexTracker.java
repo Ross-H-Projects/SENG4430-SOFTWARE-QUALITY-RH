@@ -19,6 +19,6 @@ public class FogIndexTracker extends MetricTracker {
 
     @Override //TODO: Fix up
     public String toJson() {
-        return fogIndexAnalysis.getFogIndex();
+        return fogIndexAnalysis.getFogIndex().toString();
     }
 }
