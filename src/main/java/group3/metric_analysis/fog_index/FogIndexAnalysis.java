@@ -28,7 +28,7 @@ public class FogIndexAnalysis extends MetricAnalysis {
         classFogAnalysis = new HashMap<String, HashMap<String, Double>>();
     }
 
-    public HashMap<String, HashMap<String, Double>> getFogIndex(){ //TODO: Fix this up
+    public HashMap<String, HashMap<String, Double>> getFogIndex(){
         return classFogAnalysis;
     }
 
