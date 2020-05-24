@@ -6,9 +6,18 @@ public class FanIn1 {
 }
 
 public class FanIn2 {
-    public void test2() {
+    public void FanIn2() {
         FanIn1 f = new FanIn1();
         f.test1();
+    }
+
+    public void fanIn2_1() {
+        fanIn2_2();
+    }
+
+
+    public void fanIn2_2() {
+
     }
 }
 
