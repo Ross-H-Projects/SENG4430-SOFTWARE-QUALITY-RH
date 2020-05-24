@@ -51,7 +51,15 @@ public class AppTest
         System.setOut(old);
         String s = new String(baos.toByteArray(), Charset.defaultCharset());
 
+        String expectedJson = "{'Depth Of Inheritance': \n" +
+                "{\t'score': '2',\n" +
+                "\t'chains': [\n" +
+                "\t\t[ 'A' ],\n" +
+                "\t\t[ 'B', 'A' ],\n" +
+                "\t\t[ 'C', 'B', 'A' ]\n" +
+                "\t]}\n" +
+                "}";
 
-        assertEquals("App should return: 2", "2", s.trim());
+        assertEquals("System Test: App should return: \n", expectedJson, s.trim());
     }
 }
