@@ -1,5 +1,5 @@
 public class A{
-	
+
 	A(){
 		B b = new B();
 	}
@@ -14,13 +14,19 @@ public class B{
 	B(){
 
 	}
+
+
 }
 
-public class C{
+public class C extends A{
 	public static int cInteger;
 
 	C(){
+		System.out.println("I'm gay");
+	}
 
+	public void yeahright(){
+		System.out.println("I'm gay");
 	}
 
 	public int cMethod(){
@@ -39,13 +45,17 @@ public class D{
 		return alright;
 	}
 }
-
+/*
+public interface E{
+	public void yeahright();
+}
+*/
 public class couplingTest{
 	public static void main(String[] args ){
 		A a = new A();
 		B b = new B();
 		C c = new C();
-		D d = new D();	
+		D d = new D();
 	}
 
 	public void theMethod(){
