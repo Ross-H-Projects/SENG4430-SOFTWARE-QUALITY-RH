@@ -13,6 +13,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author DanielSands
+ * Metric analysis for fog index metric
+ */
 public class FogIndexAnalysis extends MetricAnalysis {
 
     private HashMap<String, HashMap<String, Double>> classFogAnalysis;

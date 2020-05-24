@@ -3,6 +3,9 @@ package group3.metric_analysis.fog_index;
 import group3.MetricTracker;
 import spoon.Launcher;
 
+/**
+ * @author DanielSands
+ */
 public class FogIndexTracker extends MetricTracker {
     private FogIndexAnalysis fogIndexAnalysis;
 
