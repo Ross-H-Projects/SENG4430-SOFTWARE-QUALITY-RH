@@ -16,17 +16,17 @@ package group3;
 
         public static void main(String[] args )
         {
-        processArgs(args);
-        metrics.runMetrics(launcher, launcherNoComments);
-        ArrayList<String> metricResults = metrics.getResults();
-        outputs.create(metricResults);
+                processArgs(args);
+                metrics.runMetrics(launcher, launcherNoComments);
+                ArrayList<String> metricResults = metrics.getResults();
+                outputs.create(metricResults);
         }
 
         public static void processArgs(String[] args) {
         if (args.length < 2) {
-        System.out.println("Error: Invalid Arguments");
-        System.out.println("Correct Arguments: <SourceFileOrDirectory>  [-m \"metric [metric flags]\"]");
-        System.exit(1);
+                System.out.println("Error: Invalid Arguments");
+                System.out.println("Correct Arguments: <SourceFileOrDirectory>  [-m \"metric [metric flags]\"]");
+                System.exit(1);
         }
 
         Options options = new Options();
@@ -37,10 +37,10 @@ package group3;
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
         try {
-        cmd = parser.parse(options, args);
+                cmd = parser.parse(options, args);
         } catch (ParseException e) {
-        e.printStackTrace();
-        System.exit(1);
+                e.printStackTrace();
+                System.exit(1);
         }
 
         metrics = new Metrics(cmd.getOptionValues("m"));
