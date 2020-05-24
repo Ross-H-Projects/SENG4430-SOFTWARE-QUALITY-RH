@@ -1,6 +1,7 @@
 package group3;
 
 import group3.metric_analysis.comments_counts.CommentsCountTracker;
+import group3.metric_analysis.conditional_nesting.ConditionalNestingTracker;
 import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
 import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
@@ -28,9 +29,9 @@ public class Metrics {
                 case "cohesion_score":
                     tracker = new LackOfCohesionTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
-//                case "depth_conditional_nesting":
-////                    tracker = new DepthConditionalNestingTracker(arr[1]);
-//                    break;
+                case "depth_conditional_nesting":
+                    tracker = new ConditionalNestingTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
                 case "fan_out":
                     tracker = new FanOutTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
