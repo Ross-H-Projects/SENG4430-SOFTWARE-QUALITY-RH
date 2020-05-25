@@ -7,14 +7,12 @@ import spoon.reflect.declaration.CtClass;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
     private HashMap<String, Integer> visited_classes;
     private HashMap<String, CtClass<?>> ctClasses;
+    private HashMap<String, LinkedList<String>> classInheritanceChains;
 
     private int maxDepth;
 
@@ -22,11 +20,17 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
     public DepthInheritanceTreeAnalysis() {
         visited_classes = new HashMap<String, Integer>();
         ctClasses = new HashMap<String, CtClass<?>>();
+        classInheritanceChains = new HashMap<String, LinkedList<String>>();
         maxDepth = 0;
     }
 
     public int getMaxDepth() {
         return maxDepth;
+    }
+
+
+    public HashMap<String, java.util.LinkedList<String>> getClassInheritanceChains() {
+        return classInheritanceChains;
     }
 
     public void performAnalysis (Launcher launcher) {
@@ -48,6 +52,11 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
 
     private int depthInheritanceRecursive(CtClass<?> currentClass) {
 
+        if (!classInheritanceChains.containsKey(currentClass.getQualifiedName())) {
+            classInheritanceChains.put(currentClass.getQualifiedName(), new LinkedList<String>());
+            classInheritanceChains.get(currentClass.getQualifiedName()).add(currentClass.getQualifiedName());
+        }
+
         if (!visited_classes.containsKey(currentClass.getQualifiedName())) { // current class has not had depth calculated yet,
                                                                              // add it, and go on to calculate depth
             visited_classes.put(currentClass.getQualifiedName(), 0);
@@ -55,15 +64,27 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
             return visited_classes.get(currentClass.getQualifiedName());
         }
 
+
+
         // calculate depth
 
         // curent class has a super class, so the depth is 1 + depth of the super class
         if (currentClass.getSuperclass() != null) {
             CtClass<?> superClass = ctClasses.get(currentClass.getSuperclass().getQualifiedName());
 
-            int thisClassDepth = 1 + depthInheritanceRecursive(superClass);
-            visited_classes.put(currentClass.getQualifiedName(), thisClassDepth);
-            return thisClassDepth;
+            // there are cases when the classes are extending java classes, in this case
+            // we want to stop attempting to count inheritance depth. we are only interested in the scope
+            // of inheritance within our own classes, not java objects.
+            if (superClass != null) {
+                int thisClassDepth = 1 + depthInheritanceRecursive(superClass);
+                visited_classes.put(currentClass.getQualifiedName(), thisClassDepth);
+
+                for (String superClassName : classInheritanceChains.get(superClass.getQualifiedName())) {
+                    classInheritanceChains.get(currentClass.getQualifiedName()).add(superClassName);
+                }
+
+                return thisClassDepth;
+            }
         }
 
         // current class has no super class, thus depth is 0

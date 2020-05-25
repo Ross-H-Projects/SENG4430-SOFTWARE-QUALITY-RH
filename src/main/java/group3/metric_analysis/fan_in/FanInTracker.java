@@ -1,4 +1,4 @@
-package group3.metric_analysis.fan_out;
+package group3.metric_analysis.fan_in;
 
 import group3.MetricTracker;
 import org.apache.commons.cli.*;
@@ -6,17 +6,18 @@ import spoon.Launcher;
 
 import java.util.HashMap;
 
-public class FanOutTracker extends MetricTracker {
+public class FanInTracker extends MetricTracker {
 
-    private FanOutAnalysis fanOutAnalysis;
+    private FanInAnalysis fanInAnalysis;
 
-    private Integer lowerThreshold = 5;
+    private Integer upperThreshold = 1;
     private Boolean moduleMode = false;
 
-    public FanOutTracker(String[] args) {
+    public FanInTracker(String[] args)
+    {
         Options options = new Options();
-        options.addOption("min", true, "Lower threshold of fan out value to display");
-        options.addOption("module", false, "Calculate fan out for module rather than methods");
+        options.addOption("max", true, "Upper threshold of fan in value to display");
+        options.addOption("module", false, "Calculate fan in for module rather than methods");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -27,10 +28,10 @@ public class FanOutTracker extends MetricTracker {
             System.exit(1);
         }
 
-        String lowerThresholdArg = cmd.getOptionValue("min");
-        if (lowerThresholdArg != null) {
+        String upperThresholdArg = cmd.getOptionValue("max");
+        if (upperThresholdArg != null) {
             try {
-                lowerThreshold = Integer.parseInt(lowerThresholdArg);
+                upperThreshold = Integer.parseInt(upperThresholdArg);
             } catch (NumberFormatException e) {
                 System.out.println("Fan out lower threshold must be an integer value");
                 System.exit(1);
@@ -38,13 +39,14 @@ public class FanOutTracker extends MetricTracker {
         }
         if (cmd.hasOption("module")) {
             moduleMode = true;
+            System.out.println("MODULE");
         }
-        fanOutAnalysis = new FanOutAnalysis();
+        fanInAnalysis = new FanInAnalysis();
     }
 
     @Override
     public void run(Launcher launcher) {
-        fanOutAnalysis.performAnalysis(launcher);
+        fanInAnalysis.performAnalysis(launcher);
     }
 
     @Override
@@ -54,12 +56,11 @@ public class FanOutTracker extends MetricTracker {
         } else {
             return methodModeToJSON();
         }
-
     }
 
     private String methodModeToJSON() {
         HashMap<String, HashMap<String, Integer>> scores = new HashMap<>();
-        HashMap<String, HashMap<String, Integer>> rawScores = fanOutAnalysis.getMethodModeScores();
+        HashMap<String, HashMap<String, Integer>> rawScores = fanInAnalysis.getMethodModeFanInScores();
         System.out.println(rawScores);
         for (HashMap.Entry<String, HashMap<String, Integer>> classMap : rawScores.entrySet()) {
             String className = classMap.getKey();
@@ -67,9 +68,9 @@ public class FanOutTracker extends MetricTracker {
             for (HashMap.Entry<String, Integer> methodMap : classMap.getValue().entrySet()) {
                 String methodName = methodMap.getKey();
                 Integer methodScore = methodMap.getValue();
-                if (methodScore >= lowerThreshold) {
+                System.out.println(methodScore);
+                if (methodScore <= upperThreshold) {
                     methodScores.put(methodName, methodScore);
-                    System.out.println(methodScore);
                 }
             }
             if (!methodScores.isEmpty()) {
@@ -81,14 +82,14 @@ public class FanOutTracker extends MetricTracker {
 
     private String moduleModeToJSON() {
         HashMap<String, Integer> scores = new HashMap<>();
-        HashMap<String, Integer> rawScores = fanOutAnalysis.getModuleModeScores();
+        HashMap<String, Integer> rawScores = fanInAnalysis.getModuleModeFanInScores();
         System.out.println(rawScores);
         for (HashMap.Entry<String, Integer> classMap : rawScores.entrySet()) {
             String className = classMap.getKey();
             Integer moduleScore = classMap.getValue();
-            if (moduleScore >= lowerThreshold) {
+            System.out.println(moduleScore);
+            if (moduleScore <= upperThreshold) {
                 scores.put(className, moduleScore);
-                System.out.println(moduleScore);
             }
         }
         return scores.toString();

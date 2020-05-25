@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
         CouplingTest.class,
         LengthOfIdentifiersTest.class,
         ConditionalTest.class,
-        CommentTest.class
+        CommentTest.class,
+        LackOfCohesionTest.class
 })
 
 public class TestSuite {
