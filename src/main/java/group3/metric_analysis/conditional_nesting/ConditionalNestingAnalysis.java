@@ -40,6 +40,20 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             classConditionalNestingScores.put(classObject.getQualifiedName(), methodConditionalNestingScores);
         }
     }
+    public static boolean isElseInIfStatement(CtIf ifStatement) {
+        Iterator<CtElement> i = ifStatement.getElseStatement().descendantIterator();
+        i.next();
+        CtElement firstElementInElseBlock = i.next();
+        try {
+            //is else if in current if statement
+            ifStatement = (CtIf) firstElementInElseBlock;
+            return false;
+        } catch (Exception e) {
+            //is else in current if statement
+            return true;
+        }
+    }
+
     public static CtBlock getElseBlock(CtIf ifStatement) {
         CtBlock elseBlock = null;
         while(true) {
@@ -74,9 +88,8 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             int currentDepth = doDepthOnCodeBlock(depth, ifStatement.getThenStatement());
             depthList.add(currentDepth);
             if(ifStatement.getElseStatement() != null) {
-//                System.out.println(ifStatement.getElseStatement().toString());
-                CtBlock elseBlock = getElseBlock(ifStatement);
-                if(ifStatement.getElseStatement() == elseBlock) {
+                boolean isElse = isElseInIfStatement(ifStatement);
+                if(isElse) {
                     //if next statement is else.
                     currentDepth = doDepthOnCodeBlock(depth, ifStatement.getElseStatement());
                     ifStatement = null;
