@@ -18,6 +18,6 @@ public class ConditionalNestingTracker extends MetricTracker {
 
     @Override
     public String toJson() {
-        return conditionalNestingAnalysis.getClassConditionalNestingScores().toString();
+        return conditionalNestingAnalysis.getClassConditionalNestingScoresJson();
     }
 }

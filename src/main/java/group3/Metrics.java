@@ -33,6 +33,7 @@ public class Metrics {
                     break;
                 case "depth_conditional_nesting":
                     tracker = new ConditionalNestingTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
                 case "fan_in":
                     tracker = new FanInTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
@@ -62,7 +63,6 @@ public class Metrics {
 
     public void runMetrics(Launcher launcher, Launcher launcherNoComments) {
         for (MetricTracker tracker : metricTrackers) {
-
             if (!tracker.includeComments()) {
                 tracker.run(launcherNoComments);
             } else {

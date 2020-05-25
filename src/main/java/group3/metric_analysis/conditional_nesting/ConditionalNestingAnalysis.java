@@ -14,14 +14,38 @@ import java.util.*;
 
 
 public class ConditionalNestingAnalysis extends MetricAnalysis {
+    private int conditionalNestingLimit;
     private HashMap<String, HashMap<String, Integer>> classConditionalNestingScores;
 
     public ConditionalNestingAnalysis() {
+        conditionalNestingLimit = 3;
         classConditionalNestingScores = new HashMap<String, HashMap<String, Integer>>();
     }
-
+    public String getClassConditionalNestingScoresJson() {
+        HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = getClassConditionalNestingScores();
+        finalClassConditionalNestingScores.toString();
+        return finalClassConditionalNestingScores.toString();
+    }
     public HashMap<String, HashMap<String, Integer>> getClassConditionalNestingScores() {
-        return classConditionalNestingScores;
+        HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = new HashMap<String, HashMap<String, Integer>>();
+
+        for (Map.Entry<String, HashMap<String, Integer>> classObject : classConditionalNestingScores.entrySet()) {
+            String classString = classObject.getKey();
+            HashMap<String, Integer> MethodMaxDepth = classObject.getValue();
+
+            HashMap<String, Integer> finalMethodConditionalNestingScores = new HashMap<String, Integer>();
+            for (Map.Entry<String, Integer> methodObject : MethodMaxDepth.entrySet()) {
+                String methodString = methodObject.getKey();
+                int maxDepth = methodObject.getValue();
+                if(maxDepth >= conditionalNestingLimit) {
+                    finalMethodConditionalNestingScores.put(methodString, maxDepth);
+                }
+            }
+            if(finalMethodConditionalNestingScores.size() > 0) {
+                finalClassConditionalNestingScores.put(classString, finalMethodConditionalNestingScores);
+            }
+        }
+        return finalClassConditionalNestingScores;
     }
 
     public void performAnalysis (Launcher launcher) {
