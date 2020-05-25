@@ -1,19 +1,13 @@
 package group3.metric_analysis.conditional_nesting;
 
 import group3.MetricAnalysis;
-import org.apache.commons.lang3.ObjectUtils;
 import spoon.Launcher;
 import spoon.reflect.code.CtBlock;
 import spoon.reflect.code.CtIf;
-import spoon.reflect.code.CtInvocation;
-import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.*;
 import spoon.reflect.path.CtRole;
-import spoon.reflect.visitor.Filter;
 import spoon.reflect.visitor.Query;
-import spoon.reflect.visitor.filter.InvocationFilter;
 import spoon.reflect.visitor.filter.TypeFilter;
-import spoon.support.reflect.code.CtBlockImpl;
 
 
 import java.util.*;
