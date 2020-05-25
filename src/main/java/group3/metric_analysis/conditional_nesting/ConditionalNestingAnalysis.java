@@ -90,6 +90,9 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             return null;
         }
     }
+    public static ArrayList<CtExecutable<?>> getMethodsFromClassObject(CtClass<?> classObject) {
+        return getMethods(classObject);
+    }
     private static ArrayList<CtExecutable<?>> getMethods(CtClass<?> classObject) {
         Collection<CtMethod<?>> methodsCollection = classObject.getMethods();
         ArrayList<CtExecutable<?>> methodsArrayList = new ArrayList<>(methodsCollection);
