@@ -53,25 +53,6 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             return true;
         }
     }
-
-    public static CtBlock getElseBlock(CtIf ifStatement) {
-        CtBlock elseBlock = null;
-        while(true) {
-            if(ifStatement.getElseStatement() == null) {
-                break;
-            }
-            Iterator<CtElement> i = ifStatement.getElseStatement().descendantIterator();
-            i.next();
-            CtElement iterator_element = i.next();
-            try {
-                ifStatement = (CtIf) iterator_element;
-            } catch (Exception e) {
-                elseBlock = (CtBlock)iterator_element.getParent();
-                break;
-            }
-        }
-        return elseBlock;
-    }
     public static int doDepth(CtExecutable<?> methodObject) {
         if (methodObject.getDirectChildren().size() <= 1) {
             return 0;
