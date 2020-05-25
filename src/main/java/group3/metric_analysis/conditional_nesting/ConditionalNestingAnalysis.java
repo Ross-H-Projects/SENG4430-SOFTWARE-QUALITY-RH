@@ -70,8 +70,6 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
                     depthList.add(currentDepth);
                     ifStatement = null;
                 } else {
-//                    currentDepth = doDepthOnCodeBlock(depth, ifStatement.getElseStatement());
-//                    depthList.add(currentDepth);
                     ifStatement = getFirstIfStatementFromCodeBlock(ifStatement.getElseStatement());
                 }
             } else {
