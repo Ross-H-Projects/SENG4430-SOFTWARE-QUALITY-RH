@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
         LengthOfIdentifiersTest.class,
         ConditionalTest.class,
         CommentTest.class,
-        LackOfCohesionTest.class
+        LackOfCohesionTest.class,
+        FogIndexTest.class
 })
 
 public class TestSuite {
