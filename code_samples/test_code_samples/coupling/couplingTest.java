@@ -15,14 +15,22 @@ public class B{
 
 	}
 
+	public void static goomba(){
+		int greatness = 5;
+	}
+	public void yeahHoe(){
+		int real = 5
+	}
+
 
 }
 
 public class C extends A{
-	public static int cInteger;
+	public static B cInteger = new B();
 
 	C(){
 		System.out.println("I'm gay");
+
 	}
 
 	public void yeahright(){
@@ -43,6 +51,7 @@ public class D{
 	public boolean dopeStuff(){
 		boolean alright = true;
 		return alright;
+		bObject.yeahHoe();
 	}
 }
 /*
@@ -51,11 +60,16 @@ public interface E{
 }
 */
 public class couplingTest{
+
 	public static void main(String[] args ){
 		A a = new A();
 		B b = new B();
 		C c = new C();
 		D d = new D();
+		C c2;
+		c2 = new C();
+
+		B.goomba();
 	}
 
 	public void theMethod(){
@@ -66,7 +80,8 @@ public class couplingTest{
 	}
 
 	public void theOtherMethod(){
-		int yeah = c.cMethod;
+		int yeah = c.cMethod();
+		c2.yeahright();
 	}
 
 }

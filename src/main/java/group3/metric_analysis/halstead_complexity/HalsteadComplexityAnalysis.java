@@ -84,50 +84,46 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
 
         for (CtStatement line : classMethod.getBody().getStatements()){
 
-            List<CtCodeElement> codeElements = line.getElements(new TypeFilter<CtCodeElement>(CtCodeElement.class));
-            for(CtCodeElement cElement : codeElements){
-                System.out.println("code Element: "+cElement.toString());
-
-                for(CtUnaryOperator unOperator : cElement.getElements(new TypeFilter<CtUnaryOperator>(CtUnaryOperator.class))){
-                    if(!distinctOperators.contains(unOperator.getKind().toString())){
-                        distinctOperators.add(unOperator.getKind().toString());
-                    }
-
-                    if(!distinctOperands.contains(unOperator.getOperand().toString())){
-                        distinctOperands.add(unOperator.getOperand().toString());
-                    }
-
-                    N1++;
-                    N2++;
+            for(CtOperatorAssignment assgnOperator : line.getElements(new TypeFilter<CtOperatorAssignment>(CtOperatorAssignment.class))){
+                if(!distinctOperators.contains(assgnOperator.getKind().toString())){
+                    distinctOperators.add(assgnOperator.getKind().toString());
                 }
 
-                for(CtBinaryOperator biOperator : cElement.getElements(new TypeFilter<CtBinaryOperator>(CtBinaryOperator.class))){
-                    if(!distinctOperators.contains(biOperator.getKind().toString())){
-                        distinctOperators.add(biOperator.getKind().toString());
-                    }
+                N1++;
 
-                    if(!distinctOperands.contains(biOperator.getLeftHandOperand().toString())){
-                        distinctOperands.add(biOperator.getLeftHandOperand().toString());
-                    }
-
-                    if(!distinctOperands.contains(biOperator.getRightHandOperand().toString())){
-                        distinctOperands.add(biOperator.getRightHandOperand().toString());
-                    }
-
-                    N1++;
-                    N2+=2;      //left and right operands
-                }
-
-                for(CtOperatorAssignment asgnOperator : cElement.getElements(new TypeFilter<CtOperatorAssignment>(CtOperatorAssignment.class))){
-                    if(!distinctOperators.contains(asgnOperator.getKind().toString())){
-
-                        distinctOperators.add(asgnOperator.getKind().toString());
-                    }
-
-
-                    N1++;
-                }
+                System.out.println("assignment operator: "+ assgnOperator.toString());
             }
+
+            for(CtUnaryOperator unOperator : line.getElements(new TypeFilter<CtUnaryOperator>(CtUnaryOperator.class))){
+                if(!distinctOperators.contains(unOperator.getKind().toString())){
+                    distinctOperators.add(unOperator.getKind().toString());
+                }
+
+                if(!distinctOperands.contains(unOperator.getOperand().toString())){
+                    distinctOperands.add(unOperator.getOperand().toString());
+                }
+
+                N1++;
+                N2++;
+            }
+
+            for(CtBinaryOperator biOperator : line.getElements(new TypeFilter<CtBinaryOperator>(CtBinaryOperator.class))){
+                if(!distinctOperators.contains(biOperator.getKind().toString())){
+                    distinctOperators.add(biOperator.getKind().toString());
+                }
+
+                if(!distinctOperands.contains(biOperator.getLeftHandOperand().toString())){
+                    distinctOperands.add(biOperator.getLeftHandOperand().toString());
+                }
+
+                if(!distinctOperands.contains(biOperator.getRightHandOperand().toString())){
+                    distinctOperands.add(biOperator.getRightHandOperand().toString());
+                }
+
+                N1++;
+                N2+=2;      //left and right operands
+            }
+
 
 
 
