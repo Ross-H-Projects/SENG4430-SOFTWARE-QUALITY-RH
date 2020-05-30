@@ -179,7 +179,21 @@ public class ConditionalTest
 
         assertEquals(expectedIfStatement, ifStatement);
     }
-
+//    /**
+//     * Test depthOfIfStatements behaves as expected
+//     */
+//    @Test
+//    public void test_doDepth_1()
+//    {
+//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+//        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+//        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_1").get(0);
+//
+//        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+////        CtIf ifStatement = analysis.getFirstIfStatementFromCodeBlock(method.getDirectChildren().get(1));
+////
+////        assertEquals(expectedIfStatement, ifStatement);
+//    }
 
     //    @Test
 //    public void test_empty_class()
