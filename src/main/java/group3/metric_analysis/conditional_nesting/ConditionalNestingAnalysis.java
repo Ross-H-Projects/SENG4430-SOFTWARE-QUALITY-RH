@@ -80,34 +80,41 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             return true;
         }
     }
-    //
+    //Calculates depth on method object
     public int doDepth(CtExecutable<?> methodObject) {
         int maxDepth=0;
+        //Check if method body is empty
         if (methodObject.getDirectChildren().size() <= 1) {
             return maxDepth;
         } else {
+            //iterate through each if statement in method body
             for (CtIf ifStatements : Query.getElements(methodObject, new TypeFilter<CtIf>(CtIf.class))) {
+                //check if if statements parent is method body. If so it is the top of the tree of if statements
                 if(ifStatements.getParent().getRoleInParent() == CtRole.BODY) {
+                    //calculate current depth of if statement blocks
                     int currentDepth = doDepthOnCodeBlock(-1, (CtElement) ifStatements);
                     if(currentDepth > maxDepth) {
                         maxDepth = currentDepth;
                     }
                 }
             }
-//            System.out.println(methodObject.getDirectChildren().get(1));
-//            return doDepthOnCodeBlock(-1, methodObject.getDirectChildren().get(1));
         }
         return maxDepth;
     }
-
+    //Calculates depth on CtElement code block
     public int doDepthOnCodeBlock(int depth, CtElement codeBlock) {
         depth+=1;
         ArrayList<Integer> depthList = new ArrayList<Integer>();
         CtIf ifStatement = getFirstIfStatementFromCodeBlock(codeBlock);
+        //while current if statement is not null
         while(ifStatement != null) {
+            //calculate depth of then statement
             int currentDepth = doDepthOnCodeBlock(depth, ifStatement.getThenStatement());
+            //add depth to depth array list
             depthList.add(currentDepth);
+            //If if statement has a following else if or else statement
             if(ifStatement.getElseStatement() != null) {
+                //check if statement is else if or else
                 boolean isElse = isElseInIfStatement(ifStatement);
                 if(isElse) {
                     //if next statement is else.
@@ -121,9 +128,11 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
                 break;
             }
         }
+        //if depth list is empty return current depth
         if (depthList.size() == 0) {
             return depth;
         } else {
+            //get max depth from depthList
             return Collections.max(depthList);
         }
     }
