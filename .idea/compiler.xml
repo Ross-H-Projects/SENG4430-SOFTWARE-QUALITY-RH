@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SENG4430-SOFTWARE-QUALITY" />
         <module name="quality-tool" />
+        <module name="SENG4430-SOFTWARE-QUALITY" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="quality-tool" target="8" />
-      <module name="SENG4430-SOFTWARE-QUALITY" target="13" />
+      <module name="SENG4430-SOFTWARE-QUALITY" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
