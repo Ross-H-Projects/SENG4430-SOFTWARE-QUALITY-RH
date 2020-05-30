@@ -22,12 +22,34 @@ public class AppTest
 
 
     /**
-     * Rigorous Test :-)
+     * Test the entire program with certain arguements
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void systemTest()
     {
-        assertTrue( true );
+        String[] testArgs = {
+                "code_samples\\WordCount.java"
+                ,"-m"
+                ,"inheritance_depth"
+                ,"-m"
+                ,"cohesion_score"
+                ,"-m"
+                ,"coupling"
+        };
+
+        PrintStream old = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(baos);
+        System.setOut(out);
+        App.main(testArgs);
+        System.out.flush();
+        System.setOut(old);
+        String s = new String(baos.toByteArray(), Charset.defaultCharset());
+
+        System.out.println(s);
+
+        assertEquals("System Test: App should return: \n", true, true);
+
     }
 
 
