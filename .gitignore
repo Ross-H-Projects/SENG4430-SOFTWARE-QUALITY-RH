@@ -181,3 +181,5 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/intellij,intellij+iml
+
+code_samples/SENG3340_Previous_Semester_Example/*

@@ -1,6 +1,5 @@
 package group3.metric_analysis.lack_of_cohesion;
 
-import group3.LackOfCohesion;
 import group3.MetricTracker;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;

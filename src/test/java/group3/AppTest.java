@@ -30,36 +30,5 @@ public class AppTest
         assertTrue( true );
     }
 
-    /**
-     * Test that we can the correct result for MultipleClasses.java
-     */
-    @Test
-    public void testEntireProgramDepthInheritance1() throws IOException {
 
-        String[] testArgs = {
-                "code_samples\\test_code_samples\\DepthInheritance_2"
-                ,"-m"
-                ,"inheritance_depth"
-        };
-
-        PrintStream old = System.out;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream out = new PrintStream(baos);
-        System.setOut(out);
-        App.main(testArgs);
-        System.out.flush();
-        System.setOut(old);
-        String s = new String(baos.toByteArray(), Charset.defaultCharset());
-
-        String expectedJson = "{'Depth Of Inheritance': \n" +
-                "{\t'score': '2',\n" +
-                "\t'chains': [\n" +
-                "\t\t[ 'A' ],\n" +
-                "\t\t[ 'B', 'A' ],\n" +
-                "\t\t[ 'C', 'B', 'A' ]\n" +
-                "\t]}\n" +
-                "}";
-
-        assertEquals("System Test: App should return: \n", expectedJson, s.trim());
-    }
 }

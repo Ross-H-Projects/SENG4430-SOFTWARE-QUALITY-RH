@@ -3,8 +3,9 @@
 // or find it on archive.is here: https://archive.is/Hc0TG
 
 
-package group3;
+package group3.metric_analysis.lack_of_cohesion;
 
+import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.code.*;
 import spoon.reflect.declaration.*;
