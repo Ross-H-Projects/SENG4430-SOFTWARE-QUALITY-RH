@@ -31,6 +31,9 @@ public class CommentsCountTracker extends MetricTracker {
         }
 
         String metricMode = cmd.getOptionValue("mode");
+        if (metricMode == null) {
+            metricMode = "*";
+        }
         switch (metricMode) {
             case "*":
                 onAll = true;

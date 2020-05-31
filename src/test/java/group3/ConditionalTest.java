@@ -179,33 +179,407 @@ public class ConditionalTest
 
         assertEquals(expectedIfStatement, ifStatement);
     }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_1()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_1").get(0);
 
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_2()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_2").get(0);
 
-    //    @Test
-//    public void test_empty_class()
-//    {
-//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\ConditionalNestingTestEmptyClass.java", true);
-//        ConditionalNestingTracker tester = new ConditionalNestingTracker(new String[] {});
-//        tester.run(launcher);
-//        String res = tester.toJson();
-//        assertEquals("{ConditionalTest={ConditionalTest()=0}}", res);
-//    }
-//    @Test
-//    public void test_single_method_class()
-//    {
-//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\ConditionalNestingTestSingleMethodClass.java", true);
-//        ConditionalNestingTracker tester = new ConditionalNestingTracker(new String[] {});
-//        tester.run(launcher);
-//        String res = tester.toJson();
-//        assertEquals("{ConditionalTest={test1()=3, main(java.lang.String[])=0, ConditionalTest()=0}}", res);
-//    }
-//    @Test
-//    public void test_multiple_method_class()
-//    {
-//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\ConditionalNestingTestMultipleMethodClass.java", true);
-//        ConditionalNestingTracker tester = new ConditionalNestingTracker(new String[] {});
-//        tester.run(launcher);
-//        String res = tester.toJson();
-//        assertEquals("{ConditionalTest={test1()=3, test2()=4, main(java.lang.String[])=0, ConditionalTest()=0}}", res);
-//    }
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_3()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_3").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_4()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_4").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_5()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_5").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_6()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_6").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 1);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_7()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_7").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_8()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_8").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_9()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_9").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_10()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_10").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_11()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_11").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_12()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_12").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_13()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_13").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_14()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_14").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_15()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_15").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_16()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_16").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_doDepth_17()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_17").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 2);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_1()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_1").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_2()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_2").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_3()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_3").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_4()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_4").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_5()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_5").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_6()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_6").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_7()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_7").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_3_8()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_3_8").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 3);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_4_1()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_4_1").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 4);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_4_2()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_4_2").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 4);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_4_3()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_4_3").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 4);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_4_4()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_4_4").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 4);
+    }
+    /**
+     * Test depthOfIfStatements behaves as expected
+     */
+    @Test
+    public void test_if_behaviour_depth_4_5()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+        CtMethod method = (CtMethod)classObject.getMethodsByName("testIfBehaviour_depth_4_5").get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        assertEquals(analysis.doDepth(method), 4);
+    }
+    /**
+     * Test analysis class output
+     */
+    @Test
+    public void test_analysis_class_output()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+        analysis.performAnalysis(launcher);
+        assertEquals(analysis.getClassConditionalNestingScoresJson(), "{TestIfBehaviour={testIfBehaviour_depth_3_8()=3, testIfBehaviour_depth_4_1()=4, testIfBehaviour_depth_4_2()=4, testIfBehaviour_depth_4_3()=4, testIfBehaviour_depth_4_4()=4, testIfBehaviour_depth_4_5()=4, testIfBehaviour_depth_3_2()=3, testIfBehaviour_depth_3_3()=3, testIfBehaviour_depth_3_1()=3, testIfBehaviour_depth_3_6()=3, testIfBehaviour_depth_3_7()=3, testIfBehaviour_depth_3_4()=3, testIfBehaviour_depth_3_5()=3}}");
+    }
 }
