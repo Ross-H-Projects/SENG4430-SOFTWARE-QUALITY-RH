@@ -38,7 +38,7 @@ public class CommentsCountAnalysis extends MetricAnalysis {
     public String toJson() {
         String json = "";
         if(onAll) {
-            return String.format("{Comments Analysis where ratio <= %s%:{%s, %s}}", commentRatioDefault, toJsonClassAnalysis(), toJsonMethodAnalysis());
+            return String.format("{Comments Analysis where ratio <= %s%s :{%s, %s}}", commentRatioDefault, "%", toJsonClassAnalysis(), toJsonMethodAnalysis());
         } else if (onClass) {
             return toJsonClassAnalysis();
         } else if (onMethod) {
@@ -47,14 +47,22 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         return json;
     }
     public String toJsonClassAnalysis() {
-        Gson gson = new Gson();
-        String json = gson.toJson(classCommentAnalysis);
-        return String.format("{%s: %s}", "Class Comments Analysis", json);
+        if(classCommentAnalysis.size() > 0) {
+            Gson gson = new Gson();
+            String json = gson.toJson(classCommentAnalysis);
+            return String.format("{%s: %s}", "Class Comments Analysis", json);
+        } else {
+            return "{}";
+        }
     }
     public String toJsonMethodAnalysis() {
-        Gson gson = new Gson();
-        String json = gson.toJson(methodCommentAnalysis);
-        return String.format("{%s: %s}", "Method Comments Analysis", json);
+        if(methodCommentAnalysis.size() > 0) {
+            Gson gson = new Gson();
+            String json = gson.toJson(methodCommentAnalysis);
+            return String.format("{%s: %s}", "Method Comments Analysis", json);
+        } else {
+            return "{}";
+        }
     }
     public void performAnalysis (Launcher launcher) {
         if (onClass || onAll) {
@@ -100,21 +108,20 @@ public class CommentsCountAnalysis extends MetricAnalysis {
             modeAnalysisCount.put("Inline Comment Ratio:", commentRatio);
             returnOutput.add(modeAnalysisCount);
 
-//            modeAnalysisCount = new HashMap<String, Double>();
-//            count = calculateTotalCommentCount(object);
-//            modeAnalysisCount.put("Total Comments Count:", (double) count);
-//            returnOutput.add(modeAnalysisCount);
-
             modeAnalysisCount = new HashMap<String, Double>();
             count = calculateInlineCountForMethod(object);
             modeAnalysisCount.put("Inline Comments Count:", (double) count);
             returnOutput.add(modeAnalysisCount);
 
-            modeAnalysisCount = new HashMap<String, Double>();
-            count = calculateDocStringCount(object);
-            modeAnalysisCount.put("Doc String Comments Count:", (double) count);
-            returnOutput.add(modeAnalysisCount);
+//            modeAnalysisCount = new HashMap<String, Double>();
+//            count = calculateTotalCommentCount(object);
+//            modeAnalysisCount.put("Total Comments Count:", (double) count);
+//            returnOutput.add(modeAnalysisCount);
 
+//            modeAnalysisCount = new HashMap<String, Double>();
+//            count = calculateDocStringCount(object);
+//            modeAnalysisCount.put("Doc String Comments Count:", (double) count);
+//            returnOutput.add(modeAnalysisCount);
         }
         return returnOutput;
     }
@@ -132,7 +139,6 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         int inlineCommentsCount = totalCommentsCount - docStringCommentsCount;
         return inlineCommentsCount;
     }
-
     private static ArrayList<CtMethod<?>> getMethods(CtClass<?> classObject){
         Collection<CtMethod<?>> methodsCollection = classObject.getMethods();
         return new ArrayList<CtMethod<?>>(methodsCollection);

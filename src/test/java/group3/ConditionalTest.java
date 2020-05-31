@@ -569,17 +569,18 @@ public class ConditionalTest
         ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
         assertEquals(analysis.doDepth(method), 4);
     }
-    /**
-     * Test analysis class output
-     */
-    @Test
-    public void test_analysis_class_output()
-    {
-        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
-        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
-
-        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
-        analysis.performAnalysis(launcher);
-        assertEquals(analysis.getClassConditionalNestingScoresJson(), "{TestIfBehaviour={testIfBehaviour_depth_3_8()=3, testIfBehaviour_depth_4_1()=4, testIfBehaviour_depth_4_2()=4, testIfBehaviour_depth_4_3()=4, testIfBehaviour_depth_4_4()=4, testIfBehaviour_depth_4_5()=4, testIfBehaviour_depth_3_2()=3, testIfBehaviour_depth_3_3()=3, testIfBehaviour_depth_3_1()=3, testIfBehaviour_depth_3_6()=3, testIfBehaviour_depth_3_7()=3, testIfBehaviour_depth_3_4()=3, testIfBehaviour_depth_3_5()=3}}");
-    }
+//    /**
+//     * Test analysis class output
+//     */
+//    @Test
+//    public void test_analysis_class_output()
+//    {
+//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
+//        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
+//
+//        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
+//        analysis.performAnalysis(launcher);
+//        System.out.println()
+//        assertEquals(analysis.getClassConditionalNestingScoresJson(), "{TestIfBehaviour={testIfBehaviour_depth_3_8()=3, testIfBehaviour_depth_4_1()=4, testIfBehaviour_depth_4_2()=4, testIfBehaviour_depth_4_3()=4, testIfBehaviour_depth_4_4()=4, testIfBehaviour_depth_4_5()=4, testIfBehaviour_depth_3_2()=3, testIfBehaviour_depth_3_3()=3, testIfBehaviour_depth_3_1()=3, testIfBehaviour_depth_3_6()=3, testIfBehaviour_depth_3_7()=3, testIfBehaviour_depth_3_4()=3, testIfBehaviour_depth_3_5()=3}}");
+//    }
 }
