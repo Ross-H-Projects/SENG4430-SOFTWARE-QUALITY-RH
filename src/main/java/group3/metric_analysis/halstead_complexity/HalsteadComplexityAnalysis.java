@@ -15,8 +15,16 @@ import spoon.support.reflect.code.*;
 
 public class HalsteadComplexityAnalysis extends MetricAnalysis{
     private int n1, n2, N1, N2;
+
+    private ArrayList<Integer>halsteadNumbers;
     private HashMap<String, String> complexityMeasures;
     private HashMap<String, CtClass> ctClasses;
+
+    private HashMap<String, Integer> distinctOperators;
+    private HashMap<String, Integer> distinctOperands;
+
+    private HashMap<String, Integer> distinctAssgnOperators;
+    private HashMap<String, Integer> distinctAssgnOperands;
 
 
     public HalsteadComplexityAnalysis() {
@@ -26,7 +34,17 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
         N2 = 0;                             //N2 = the total number of operands
 
         ctClasses = new HashMap<String, CtClass>();
+
+        halsteadNumbers = new ArrayList<Integer>();
+
         complexityMeasures = new HashMap<String, String>();
+
+        distinctOperators = new HashMap<String, Integer>();
+        distinctOperands = new HashMap<String, Integer>();
+
+        distinctAssgnOperators = new HashMap<String, Integer>();
+        distinctAssgnOperands = new HashMap<String, Integer>();
+
     }
 
     public void performAnalysis (Launcher launcher) {
@@ -34,137 +52,185 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
 
         for (CtClass c : classes) {
             ctClasses.put(c.getQualifiedName(), c);
-            System.out.println("class: "+c.getQualifiedName());
             halsteadComplexityClassAnalyser(c);
         }
 
-        System.out.println("n1: "+n1+" n2: "+n2+" N1: "+N1+" N2: "+N2+"\n");
-
-
     }
 
 
-
+    //
     public void halsteadComplexityClassAnalyser(CtClass c){
-        List<CtField<?>> classFields = c.getFields();
-        for (CtField cF : classFields) {
-            fieldAnalyser(cF);
+
+        for(CtOperatorAssignment assgnOperator : c.getElements(new TypeFilter<CtOperatorAssignment>(CtOperatorAssignment.class))){
+            if(!distinctAssgnOperators.containsKey(assgnOperator.getKind().toString())){
+                distinctAssgnOperators.put(assgnOperator.getKind().toString(), 1);
+            }
+            else{
+                int freq = distinctAssgnOperators.get(assgnOperator.getKind().toString());
+                distinctAssgnOperators.put(assgnOperator.getKind().toString(), freq + 1);
+            }
+
+            if(!distinctAssgnOperands.containsKey(assgnOperator.getAssigned().toString())){
+                distinctAssgnOperands.put(assgnOperator.getAssigned().toString(), 1);
+            }
+            else{
+                int freq = distinctAssgnOperands.get(assgnOperator.getAssigned().toString());
+                distinctAssgnOperands.put(assgnOperator.getAssigned().toString(), freq + 1);
+            }
+
         }
 
-        Set<CtConstructor<?>> classConstrutors = c.getConstructors();
-        for (CtConstructor cC : classConstrutors) {
-            constructorAnalyser(cC);
+        for(CtUnaryOperator unOperator : c.getElements(new TypeFilter<CtUnaryOperator>(CtUnaryOperator.class))){
+            if(!distinctOperators.containsKey(unOperator.getKind().toString())){
+                distinctOperators.put(unOperator.getKind().toString(), 1);
+            }
+            else{
+                int freq = distinctOperators.get(unOperator.getKind().toString());
+                distinctOperators.put(unOperator.getKind().toString(), freq + 1);
+            }
+
+            if(!distinctOperands.containsKey(unOperator.getOperand().toString())){
+                distinctOperands.put(unOperator.getOperand().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(unOperator.getOperand().toString());
+                distinctOperands.put(unOperator.getOperand().toString(), freq + 1);
+            }
+
         }
 
-        Set<CtMethod<?>> classMethods = c.getMethods();
-        for (CtMethod cM : classMethods) {
-            System.out.println("method: "+cM.getSimpleName());
-            methodAnalyser(cM);
+        // Captures binary, bit
+        for(CtBinaryOperator biOperator : c.getElements(new TypeFilter<CtBinaryOperator>(CtBinaryOperator.class))){
+            if(!distinctOperators.containsKey(biOperator.getKind().toString())){
+                distinctOperators.put(biOperator.getKind().toString(), 1);
+            }
+            else{
+                int freq = distinctOperators.get(biOperator.getKind().toString());
+                distinctOperators.put(biOperator.getKind().toString(), freq + 1);
+            }
+
+            if(!distinctOperands.containsKey(biOperator.getLeftHandOperand().toString())){
+                distinctOperands.put(biOperator.getLeftHandOperand().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(biOperator.getLeftHandOperand().toString());
+                distinctOperands.put(biOperator.getLeftHandOperand().toString(), freq + 1);
+            }
+
+            if(!distinctOperands.containsKey(biOperator.getRightHandOperand().toString())){
+                distinctOperands.put(biOperator.getRightHandOperand().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(biOperator.getRightHandOperand().toString());
+                distinctOperands.put(biOperator.getRightHandOperand().toString(), freq + 1);
+            }
+
         }
 
+        //Captures "?" tenuary operator
+        for(CtConditional qMark : c.getElements(new TypeFilter<CtConditional>(CtConditional.class))){
+            if(!distinctOperators.containsKey("COND")){
+                distinctOperators.put("COND", 1);
+            }
+            else{
+                int freq = distinctOperators.get("COND");
+                distinctOperators.put("COND", freq + 1);
+            }
 
+            if(!distinctOperands.containsKey(qMark.getCondition().toString())){
+                distinctOperands.put(qMark.getCondition().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(qMark.getCondition().toString());
+                distinctOperands.put(qMark.getCondition().toString(), freq + 1);
+            }
 
+            if(!distinctOperands.containsKey(qMark.getElseExpression().toString())){
+                distinctOperands.put(qMark.getElseExpression().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(qMark.getElseExpression().toString());
+                distinctOperands.put(qMark.getElseExpression().toString(), freq + 1);
+            }
 
-    }
+            if(!distinctOperands.containsKey(qMark.getThenExpression().toString())){
+                distinctOperands.put(qMark.getThenExpression().toString(), 1);
+            }
+            else{
+                int freq = distinctOperands.get(qMark.getThenExpression().toString());
+                distinctOperands.put(qMark.getThenExpression().toString(), freq + 1);
+            }
+        }
 
-    public void fieldAnalyser(CtField classField){
+        //Captures "->" operator, when body is null, expression is the operand, visa versa
+        for(CtLambda arrow : c.getElements(new TypeFilter<CtLambda>(CtLambda.class))){
+            if(!distinctOperators.containsKey("LAMBDA")){
+                distinctOperators.put("LAMBDA", 1);
+            }
+            else{
+                int freq = distinctOperators.get("LAMBDA");
+                distinctOperators.put("LAMBDA", freq + 1);
+            }
 
-    }
-
-    public void constructorAnalyser(CtConstructor classConstructor){
-
-    }
-
-    public void methodAnalyser(CtMethod classMethod){
-
-        //Stores distinct enums and will be traversed whenever an operator is come across to check if it has been accounuted for
-        ArrayList<String> distinctOperators = new ArrayList<String>();
-        ArrayList<String> distinctOperands = new ArrayList<String>();
-
-
-        for (CtStatement line : classMethod.getBody().getStatements()){
-
-            List<CtCodeElement> codeElements = line.getElements(new TypeFilter<CtCodeElement>(CtCodeElement.class));
-            for(CtCodeElement cElement : codeElements){
-                System.out.println("code Element: "+cElement.toString());
-
-                for(CtUnaryOperator unOperator : cElement.getElements(new TypeFilter<CtUnaryOperator>(CtUnaryOperator.class))){
-                    if(!distinctOperators.contains(unOperator.getKind().toString())){
-                        distinctOperators.add(unOperator.getKind().toString());
-                    }
-
-                    if(!distinctOperands.contains(unOperator.getOperand().toString())){
-                        distinctOperands.add(unOperator.getOperand().toString());
-                    }
-
-                    N1++;
-                    N2++;
+            if(arrow.getExpression() != null){
+                if(!distinctOperands.containsKey(arrow.getExpression().toString())){
+                    distinctOperands.put(arrow.getExpression().toString(), 1);
                 }
-
-                for(CtBinaryOperator biOperator : cElement.getElements(new TypeFilter<CtBinaryOperator>(CtBinaryOperator.class))){
-                    if(!distinctOperators.contains(biOperator.getKind().toString())){
-                        distinctOperators.add(biOperator.getKind().toString());
-                    }
-
-                    if(!distinctOperands.contains(biOperator.getLeftHandOperand().toString())){
-                        distinctOperands.add(biOperator.getLeftHandOperand().toString());
-                    }
-
-                    if(!distinctOperands.contains(biOperator.getRightHandOperand().toString())){
-                        distinctOperands.add(biOperator.getRightHandOperand().toString());
-                    }
-
-                    N1++;
-                    N2+=2;      //left and right operands
+                else{
+                    int freq = distinctOperands.get(arrow.getExpression().toString());
+                    distinctOperands.put(arrow.getExpression().toString(), freq + 1);
                 }
-
-                for(CtOperatorAssignment asgnOperator : cElement.getElements(new TypeFilter<CtOperatorAssignment>(CtOperatorAssignment.class))){
-                    if(!distinctOperators.contains(asgnOperator.getKind().toString())){
-
-                        distinctOperators.add(asgnOperator.getKind().toString());
-                    }
-
-
-                    N1++;
+            }
+            else if(arrow.getBody() != null){
+                if(!distinctOperands.containsKey(arrow.getBody().toString())){
+                    distinctOperands.put(arrow.getBody().toString(), 1);
+                }
+                else{
+                    int freq = distinctOperands.get(arrow.getBody().toString());
+                    distinctOperands.put(arrow.getBody().toString(), freq + 1);
                 }
             }
 
-
-
-
-            /*
-            List<CtLocalVariable> codeElements = line.getElements(new TypeFilter<CtLocalVariable>(CtLocalVariable.class));
-            for(CtLocalVariable cElement : codeElements){
-                System.out.println("variable : " + cElement);
-
-                CtTypeReference cElementTypes = cElement.getType();
-               // for (CtTypeReference cElementType : cElementTypes) {
-                        System.out.println("type: " + cElementTypes);
-               // }
-
-                //switch () {
-                  //  case "inheritance_depth":
-
-
-
-
-                    //List<CtLocalVariable> idents = cElement.getElements(new TypeFilter<CtLocalVariable>(CtLocalVariable.class));
-                    //for (CtLocalVariable ident : idents) {
-                    //    System.out.println("identifiers: " + ident);
-                   // }
-                //}
-
-            }
-            System.out.println("");
-            */
-
         }
-        System.out.println("distinct operators: "+Arrays.toString(distinctOperators.toArray()));
-        System.out.println("distinct operands: "+Arrays.toString(distinctOperands.toArray())+"\n");
+
+
 
         n1 += distinctOperators.size();
+        n1 += distinctAssgnOperators.size();
         n2 += distinctOperands.size();
+        n2 += distinctAssgnOperands.size();
+
+        for (Map.Entry dOperator : distinctOperators.entrySet()) {
+            N1 += (int)dOperator.getValue();
+        }
+
+        for (Map.Entry dAssgnOperator : distinctAssgnOperators.entrySet()) {
+            N1 += (int)dAssgnOperator.getValue();
+        }
+
+        for (Map.Entry dAssgnOperator : distinctOperands.entrySet()) {
+            N2 += (int)dAssgnOperator.getValue();
+        }
+
+        for (Map.Entry dAssgnOperator : distinctAssgnOperands.entrySet()) {
+            N2 += (int)dAssgnOperator.getValue();
+        }
+
+
+
+
     }
+
+    public ArrayList<Integer> getNumbers(){
+        halsteadNumbers.add(n1);
+        halsteadNumbers.add(n2);
+        halsteadNumbers.add(N1);
+        halsteadNumbers.add(N2);
+
+        return halsteadNumbers;
+    }
+
+
 
     public HashMap<String, String> getComplexityMeasures(){
         String programVocabulary;
@@ -176,25 +242,31 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
         String timeRequiredtoProgram;
         String deliveredBugs;
 
-        programVocabulary = Integer.toString(n1 + n2);
-        programLength = Integer.toString(N1 + N2);
-        estProgramLength = Double.toString(n1*(Math.log(n1)/Math.log(2)) + n2*(Math.log(n2)/Math.log(2)));
-        double volumeD = (N1 + N2)*(Math.log(n1 + n2)/Math.log(2));
-        volume = Double.toString(volumeD);
-        double difficultyD = (n1/2)*(N2/n2);
-        difficulty = Double.toString(difficultyD);
-        effort = Double.toString(volumeD*difficultyD);
-        timeRequiredtoProgram = Double.toString((volumeD*difficultyD)/18);
-        deliveredBugs = Double.toString(Math.pow((volumeD*difficultyD),2/3)/3000);
+        try {
 
-        complexityMeasures.put("Program vocabulary", programVocabulary);
-        complexityMeasures.put("Program length", programLength);
-        complexityMeasures.put("Estimated program length", estProgramLength);
-        complexityMeasures.put("Volume", volume);
-        complexityMeasures.put("Diffulty", difficulty);
-        complexityMeasures.put("Effort", effort);
-        complexityMeasures.put("Time required to program", timeRequiredtoProgram);
-        complexityMeasures.put("Delivered bugs", deliveredBugs);
+            programVocabulary = Integer.toString(n1 + n2);
+            programLength = Integer.toString(N1 + N2);
+            estProgramLength = Double.toString(n1 * (Math.log(n1) / Math.log(2)) + n2 * (Math.log(n2) / Math.log(2.0)));
+            double volumeD = (N1 + N2) * (Math.log(n1 + n2) / Math.log(2));
+            volume = Double.toString(volumeD);
+            double difficultyD = (n1 / 2.0) * (N2 / n2);
+            difficulty = Double.toString(difficultyD);
+            effort = Double.toString(volumeD * difficultyD);
+            timeRequiredtoProgram = Double.toString((volumeD * difficultyD) / 18.0);
+            deliveredBugs = Double.toString(Math.pow((volumeD * difficultyD), 2.0 / 3.0) / 3000.0);
+
+            complexityMeasures.put("Program vocabulary", programVocabulary);
+            complexityMeasures.put("Program length", programLength);
+            complexityMeasures.put("Estimated program length", estProgramLength);
+            complexityMeasures.put("Volume", volume);
+            complexityMeasures.put("Diffulty", difficulty);
+            complexityMeasures.put("Effort", effort);
+            complexityMeasures.put("Time required to program", timeRequiredtoProgram);
+            complexityMeasures.put("Delivered bugs", deliveredBugs);
+
+        }catch(Exception e){
+
+        }
 
 
         return complexityMeasures;

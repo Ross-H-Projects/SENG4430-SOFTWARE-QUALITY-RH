@@ -24,14 +24,14 @@ public class DepthInheritanceTreeTracker extends MetricTracker {
         String depth = String.valueOf(depthInheritanceTreeAnalysis.getMaxDepth());
         HashMap<String, LinkedList<String>> classInheritanceChains = depthInheritanceTreeAnalysis.getClassInheritanceChains();
 
-        String json = String.format("{'Depth Of Inheritance': \n{\t'score': '%s',", depth);
-        json += "\n\t'chains': [";
+        String json = String.format("{'Depth Of Inheritance': \n\t{\n\t\t'score': '%s',", depth);
+        json += "\n\t\t'chains': [";
 
         String subJson;
         for (String k : classInheritanceChains.keySet()) {
 
 
-            subJson = "\n\t\t[";
+            subJson = "\n\t\t\t[";
             for (String c : classInheritanceChains.get(k)) {
                 subJson += " '" + c + "',";
             }
@@ -49,7 +49,7 @@ public class DepthInheritanceTreeTracker extends MetricTracker {
             json = json.substring(0, json.length() - 1);
         }
 
-        json += "\n\t]}\n}";
+        json += "\n\t\t]\n\t}\n}";
         return json;
     }
 }

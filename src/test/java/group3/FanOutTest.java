@@ -14,16 +14,32 @@ import static org.junit.Assert.assertEquals;
 public class FanOutTest
 {
     /**
-     * Test that we can the correct result for FanOut.java
+     * Test that we can the correct result for FanOut.java in method mode
      */
     @Test
-    public void test_simple_case()
+    public void test_method_mode()
     {
         Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\fan_out\\FanOut.java", true);
         FanOutTracker tester = new FanOutTracker(new String[] {});
         tester.run(launcher);
         String res = tester.toJson();
-        assertEquals("{FanOut1={test()=1, FanOut1()=0}}", res);
+        assert res.contains("\"fanOut1_1()\":2");
+        assert res.contains("\"fanOut2_2()\":1");
+        assert res.contains("\"fanOut2_1()\":1");
+    }
+
+    /**
+     * Test that we can the correct result for FanOut.java in method mode
+     */
+    @Test
+    public void test_module_mode()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\fan_out\\FanOut.java", true);
+        FanOutTracker tester = new FanOutTracker(new String[] {"-module"});
+        tester.run(launcher);
+        String res = tester.toJson();
+        assert res.contains("\"FanOut1\":2");
+        assert res.contains("\"FanOut2\":1");
     }
 
     /**
@@ -35,6 +51,7 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {});
         tester.run(launcher);
         String res = tester.toJson();
-        assertEquals("{FanOutCommented={FanOutCommented()=0, test()=1}}", res);
+        assert res.contains("\"FanOutCommented()\":0");
+        assert res.contains("\"test()\":1");
     }
 }
