@@ -1,6 +1,7 @@
 package group3.metric_analysis.length_of_identifiers;
 
 import group3.MetricTracker;
+import org.apache.commons.cli.*;
 import spoon.Launcher;
 
 /**
@@ -9,9 +10,31 @@ import spoon.Launcher;
  */
 public class LengthOfIdentifiersTracker extends MetricTracker {
    private LengthOfIdentifiersAnalysis lengthOfIdentifiersAnalysis;
+   private int noteworhtyCutOffPoint = 5;
 
     public LengthOfIdentifiersTracker(String[] args) {
-        lengthOfIdentifiersAnalysis = new LengthOfIdentifiersAnalysis();
+        Options options = new Options();
+        options.addOption("min", true, "Noteworthy identifiers cutoff value to display");
+
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        String cutOffArg = cmd.getOptionValue("min");
+        if (cutOffArg != null) {
+            try {
+                noteworhtyCutOffPoint = Integer.parseInt(cutOffArg);
+            } catch (NumberFormatException e) {
+                System.out.println("Length of identifier cutoff must be an integer value");
+                System.exit(1);
+            }
+        }
+        lengthOfIdentifiersAnalysis = new LengthOfIdentifiersAnalysis(noteworhtyCutOffPoint);
     }
 
     @Override

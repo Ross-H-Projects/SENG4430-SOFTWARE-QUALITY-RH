@@ -22,12 +22,24 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
     private SumResult classNames, methodNames, variableNames; //Inner class that assists in calculating length averages
     private HashMap<String, Double> classLengthOfIdentifiersScores; //Stores average length of identifiers for each class
     private HashMap<String, List<String>> noteworthyLengthOfIdentifierScores; //Stores class and identifier of noteworthy identifiers
+    private int noteworthyCutoffPoint;
 
     /**
      * Default constructor
      * initialises private variables
      */
     public LengthOfIdentifiersAnalysis() {
+        this.noteworthyCutoffPoint = 5;
+        classLengthOfIdentifiersScores = new HashMap<String, Double>();
+        noteworthyLengthOfIdentifierScores = new HashMap<String, List<String>>();
+    }
+
+    /**
+     * Contructer with noteWorthyCutoff parameter
+     * @param noteworthyCutoffPoint
+     */
+    public LengthOfIdentifiersAnalysis(int noteworthyCutoffPoint) {
+        this.noteworthyCutoffPoint = noteworthyCutoffPoint;
         classLengthOfIdentifiersScores = new HashMap<String, Double>();
         noteworthyLengthOfIdentifierScores = new HashMap<String, List<String>>();
     }
@@ -69,7 +81,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
             methodNames = new SumResult();
             variableNames = new SumResult();
             int classNameLength = c.getSimpleName().length();
-            if(classNameLength < 5){ //TODO: "Hard-coded" for now, might change so that user can decide what length they want to appear, maybe similar to CommentsCount?
+            if(classNameLength <= noteworthyCutoffPoint){
                 if(!noteworthyLengthOfIdentifierScores.containsKey(c.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(c.getSimpleName(), new ArrayList<String>());
                 }
