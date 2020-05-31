@@ -60,6 +60,8 @@ public class CouplingAnalysis extends MetricAnalysis {
                 classCouplingCounter = 0;
 
                 couplingClassAnalyser(c, classes);
+
+                //Increments total amount of coupling between all classes in program
                 couplingTotal += classCouplingCounter;
 
                 // Weighted Graph Double HashMap
@@ -81,9 +83,6 @@ public class CouplingAnalysis extends MetricAnalysis {
 
 
     public void couplingClassAnalyser(CtClass c, List<CtClass<?>> classList){
-//        for (CtClass cwClass : classList) {
-//            cW.replace((CtClass) cwClass, 0);
-//        }
 
         // implicit constructor call
         for (CtConstructorCall cc : c.getElements(new TypeFilter<CtConstructorCall>(CtConstructorCall.class))) {

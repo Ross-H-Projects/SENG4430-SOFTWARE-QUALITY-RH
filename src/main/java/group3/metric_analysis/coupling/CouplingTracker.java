@@ -25,7 +25,7 @@ public class CouplingTracker extends MetricTracker{
         String json = "{'Coupling': {";
 
         json += "\n\t'Coupling Total': " + couplingAnalysis.getCouplingTotal() + ",";
-        json += "\n\t'Weighted Grahp': {";
+        json += "\n\t'Weighted Graph': {";
 
         HashMap<CtClass, HashMap<CtClass, Integer>> weightedGraph = couplingAnalysis.getCouplingWeightGraph();
 

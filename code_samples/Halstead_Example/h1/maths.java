@@ -1,5 +1,5 @@
 public class maths{
-    boolean gay = true;
+    boolean trout = true;
 
     public static void main(String[] args ){
 
@@ -11,6 +11,10 @@ public class maths{
             }
             i *= j*2;
         }
+
+
+        String fish = (trout != false) ? "bream" : "flatty";
+
 
         i += 2;
     }
