@@ -4,18 +4,14 @@ package group3;
 import static org.junit.Assert.assertEquals;
 
 
-import group3.LackOfCohesion;
-import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeAnalysis;
-import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
+
 import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
+import group3.metric_analysis.lack_of_cohesion.LackOfCohesion;
 import org.junit.Test;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
-
-
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+
 
 /**
  * Unit tests for Depth of Inheritance Tree Algorithm.
@@ -43,12 +39,33 @@ public class LackOfCohesionTest {
         assertEquals("Class Ratio should be:\n", 0.0f, (float) resultRatios.get("Example"), 0.0000001);
     }
 
+    /**
+     * Test the individual outputs for the toy example 1 code sample
+     */
+    @Test
+    public void test2()
+    {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\LackOfCohesion3", false);
+
+        LackOfCohesion lackOfCohesion = new LackOfCohesion();
+
+        lackOfCohesion.performAnalysis(launcher);
+
+        HashMap<String, CtClass<?>> resultClasses = lackOfCohesion.getClasses();
+        HashMap<String, Integer> resultScores = lackOfCohesion.getClassCohesionScores();
+        HashMap<String, Float> resultRatios = lackOfCohesion.getClassCohesionRatios();
+
+        assertEquals("Class Name should be:\n", "A", resultClasses.get("A").getQualifiedName());
+        assertEquals("Class Score should be:\n", 0, (long) resultScores.get("A"));
+        assertEquals("Class Ratio should be:\n", 1.0f, (float) resultRatios.get("A"), 0.0000001);
+    }
+
 
     /**
      * Test the json output for the toy example 1 code sample
      */
     @Test
-    public void test2()
+    public void test3()
     {
         Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\LackOfCohesion", false);
 

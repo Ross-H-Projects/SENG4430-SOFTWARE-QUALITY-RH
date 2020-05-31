@@ -19,18 +19,22 @@ public class CouplingAnalysis extends MetricAnalysis {
     private HashMap<String, Integer> visited_classes;
     private HashMap<String, CtClass> ctClasses;
 
-    private int couplingTotal;
+
     private int classCouplingCounter;
     private HashMap<CtClass, Integer> cW;
-    private HashMap<String, CtClass> classVars;
+
+    private int couplingTotal;
+    private HashMap<CtClass, HashMap<CtClass, Integer>> weightedCouplingGraph;
 
     public CouplingAnalysis(){
         visited_classes = new HashMap<String, Integer>();
         ctClasses = new HashMap<String, CtClass>();
-        cW = new HashMap<CtClass, Integer>();
-        couplingTotal = 0;
+
         classCouplingCounter = 0;
-        classVars = new HashMap<String, CtClass>();
+        cW = new HashMap<CtClass, Integer>();
+
+        couplingTotal = 0;
+        weightedCouplingGraph = new HashMap<CtClass, HashMap<CtClass, Integer>>();
     }
 
     public void performAnalysis (Launcher launcher) {
@@ -41,45 +45,45 @@ public class CouplingAnalysis extends MetricAnalysis {
         for (CtClass c : classes) {
             ctClasses.put(c.getQualifiedName(), c);
             cW.put(c, 0);
-            //System.out.println("class: "+c.getQualifiedName());
         }
 
 
         for (CtClass c : classes) {
+            // reset auxillary class weight map
+            cW = new HashMap<CtClass, Integer>();
+            for (Map.Entry <String, CtClass> entry : ctClasses.entrySet()){
+                cW.put(entry.getValue(), 0);
+            }
+
             if (!visited_classes.containsKey(c.getQualifiedName())) {
 
                 classCouplingCounter = 0;
-                classVars.clear();
-                System.out.println("class: "+c.getQualifiedName());
 
                 couplingClassAnalyser(c, classes);
                 couplingTotal += classCouplingCounter;
 
-                for  (Map.Entry mapElement : cW.entrySet()){
-                     CtClass keyClass = (CtClass) mapElement.getKey();
-                     String key = keyClass.getQualifiedName();
+                // Weighted Graph Double HashMap
+                weightedCouplingGraph.put(c, cW);
 
-                    String value  = mapElement.getValue().toString();
+           }
 
-                   // System.out.println("coupling counter: "+classCouplingCounter);
-//                    System.out.println("Class: " + c.getQualifiedName() + " ---- " + value + " ---- Class: " + key);
-//                    System.out.println("");
-                }
-                // Weighted Graph Double HashMap work in progress
-                // HashMap<CtClass, HashMap<CtClass, Integer>> weightedCouplingGraph = new HashMap<CtClass, HashMap<CtClass, Integer>>();
-                // weightedCouplingGraph.put(c, cW);
-            }
 
         }
-
     }
 
-    public int getCouplingTotal() { return couplingTotal; }
+    public HashMap<CtClass, HashMap<CtClass, Integer>> getCouplingWeightGraph() {
+        return weightedCouplingGraph;
+    }
+
+    public Integer getCouplingTotal() {
+        return couplingTotal;
+    }
+
 
     public void couplingClassAnalyser(CtClass c, List<CtClass<?>> classList){
-        for (CtClass cwClass : classList) {
-            cW.replace((CtClass) cwClass, 0);
-        }
+//        for (CtClass cwClass : classList) {
+//            cW.replace((CtClass) cwClass, 0);
+//        }
 
         // implicit constructor call
         for (CtConstructorCall cc : c.getElements(new TypeFilter<CtConstructorCall>(CtConstructorCall.class))) {
@@ -96,20 +100,11 @@ public class CouplingAnalysis extends MetricAnalysis {
             parameterCoupling(typ, c);
         }
 
-        //inheritance coupling
-        if (c.getSuperclass() != null) {
-            //c.getSuperclass().getQualifiedName();
-            int weight = cW.get(c.getSuperclass().getDeclaration());
-            cW.replace((CtClass) c.getSuperclass().getDeclaration(), weight + 1);
-            classCouplingCounter++;
-        }
-
     }
 
     public void parameterCoupling(CtConstructorCall cc, CtClass c){
 
         if(cc.getType().getDeclaration() instanceof CtClass && !(cc.getType().getQualifiedName().equals(c.getQualifiedName()))){
-            //System.out.println("\t" + (CtClass) cc.getType().getDeclaration());
             int weight = cW.get(cc.getType().getDeclaration());
             cW.replace((CtClass) cc.getType().getDeclaration(), weight + 1);
             classCouplingCounter++;
@@ -119,8 +114,6 @@ public class CouplingAnalysis extends MetricAnalysis {
     public void parameterCoupling(CtInvocation in, CtClass c){
         try {
 
-            //System.out.println("\t"+ in.getTarget().getType() +"\t || "+in);
-
             if(in.getTarget().getType().getDeclaration() instanceof CtClass && !(in.getTarget().getType().getQualifiedName().equals(c.getQualifiedName()))){
 
                 int weight = cW.get(in.getTarget().getType().getDeclaration());
@@ -129,7 +122,7 @@ public class CouplingAnalysis extends MetricAnalysis {
             }
 
         } catch (Exception e) {
-           // System.out.println("\t"+in);
+
         }
 
     }
@@ -146,16 +139,6 @@ public class CouplingAnalysis extends MetricAnalysis {
         }
     }
 
-    public void inheritanceCoupling(CtClass c){
-
-        // Capturing direct inheritance coupling; child class is coupled to parent
-        if (c.getSuperclass() != null) {
-            c.getSuperclass().getQualifiedName();
-            int weight = cW.get(c.getSuperclass().getDeclaration());
-            cW.replace((CtClass) c.getSuperclass().getDeclaration(), weight + 1);
-
-        }
-    }
 
 
 
