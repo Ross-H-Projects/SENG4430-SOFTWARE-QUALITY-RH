@@ -1,6 +1,7 @@
 package group3;
 
 import group3.metric_analysis.comments_counts.CommentsCountTracker;
+import group3.metric_analysis.conditional_nesting.ConditionalNestingTracker;
 import group3.metric_analysis.depth_inheritance_tree.DepthInheritanceTreeTracker;
 import group3.metric_analysis.fog_index.FogIndexTracker;
 import group3.metric_analysis.fan_in.FanInTracker;
@@ -11,9 +12,7 @@ import group3.metric_analysis.coupling.CouplingTracker;
 import group3.metric_analysis.length_of_identifiers.LengthOfIdentifiersTracker;
 import spoon.Launcher;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Metrics {
     private ArrayList<MetricTracker> metricTrackers;
@@ -31,9 +30,9 @@ public class Metrics {
                 case "cohesion_score":
                     tracker = new LackOfCohesionTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
-//                case "depth_conditional_nesting":
-////                    tracker = new DepthConditionalNestingTracker(arr[1]);
-//                    break;
+                case "depth_conditional_nesting":
+                    tracker = new ConditionalNestingTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
                 case "fan_in":
                     tracker = new FanInTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
@@ -66,7 +65,6 @@ public class Metrics {
 
     public void runMetrics(Launcher launcher, Launcher launcherNoComments) {
         for (MetricTracker tracker : metricTrackers) {
-
             if (!tracker.includeComments()) {
                 tracker.run(launcherNoComments);
             } else {
@@ -78,6 +76,19 @@ public class Metrics {
 
     public ArrayList<String> getResults() {
         ArrayList<String> results = new ArrayList<String>();
+
+        // sort the metric trackers, this is done so that system testing
+        // has a guaranteed order of the metrics output
+        Collections.sort(metricTrackers, new Comparator<MetricTracker>() {
+            @Override
+            public int compare(MetricTracker m1, MetricTracker m2) {
+                String m1Class = m1.getClass().toString();
+                String m2Class = m2.getClass().toString();
+
+                return m1.getClass().toString().compareTo(m2.getClass().toString());
+            }
+        });
+
         for (MetricTracker tracker : metricTrackers) {
             results.add(tracker.toJson());
         }

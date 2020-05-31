@@ -1,4 +1,6 @@
 public class maths{
+    boolean gay = true;
+
     public static void main(String[] args ){
 
         int i = 2;
@@ -10,6 +12,7 @@ public class maths{
             i *= j*2;
         }
 
+        i += 2;
     }
 }
 

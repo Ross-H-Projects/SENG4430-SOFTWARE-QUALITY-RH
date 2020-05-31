@@ -27,7 +27,7 @@ public class Process implements Comparable<Process>{
 	private MemoryManagementUnit mmu;
 	private Page currentPageRequest;
 
-	private String policy;	
+	private String policy = "";
 
 
 	public Process(){
@@ -44,10 +44,11 @@ public class Process implements Comparable<Process>{
 		faultTimes = new ArrayList<Integer>();
 
 		blockedQuantum = 0;
-		
-		policy = "";
+
+		String policy = "";
 
 		mmu = new MemoryManagementUnit();
+		mmu = null;
 	}
 
 	public Process(int id, ArrayList<Page> pageList, String swapPolicy){
