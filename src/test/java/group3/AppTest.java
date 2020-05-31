@@ -39,6 +39,9 @@ public class AppTest
                 ,"fan_out"
                 ,"-m"
                 ,"fan_in"
+                ,"-m"
+                ,"halstead_complexity"
+
         };
 
         PrintStream old = System.out;

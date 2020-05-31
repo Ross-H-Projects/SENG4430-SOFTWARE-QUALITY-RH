@@ -11,9 +11,10 @@ import org.junit.runners.Suite;
         FanOutTest.class,
         FanInTest.class,
         CouplingTest.class,
+        HalsteadComplexityTest.class,
         LengthOfIdentifiersTest.class,
-        ConditionalTest.class,
-        CommentTest.class,
+        //ConditionalTest.class,
+        //CommentTest.class,
         LackOfCohesionTest.class,
         FogIndexTest.class
 })
