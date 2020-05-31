@@ -35,6 +35,9 @@ public class AppTest
                 ,"cohesion_score"
                 ,"-m"
                 ,"coupling"
+                ,"-m"
+                ,"halstead_complexity"
+
         };
 
         PrintStream old = System.out;

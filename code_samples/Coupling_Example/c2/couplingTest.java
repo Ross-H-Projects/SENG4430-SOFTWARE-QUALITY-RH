@@ -13,7 +13,7 @@ public class couplingTest{
 
 		B.goomba();
 		theMethod(a, d);
-		theOtherMethod();
+		theOtherMethod(c, c2);
 	}
 
 	public void theMethod(A a){
@@ -23,7 +23,7 @@ public class couplingTest{
 		}
 	}
 
-	public static void theOtherMethod(){
+	public static void theOtherMethod(C c, C c2){
 		int yeah = c.cMethod();
 		c2.yeahright();
 	}
