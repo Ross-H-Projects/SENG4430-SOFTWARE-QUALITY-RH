@@ -2,9 +2,11 @@ package group3.metric_analysis.fan_out;
 
 import group3.MetricAnalysis;
 import spoon.Launcher;
+import spoon.reflect.code.CtConstructorCall;
 import spoon.reflect.code.CtInvocation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtConstructor;
+import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
@@ -43,16 +45,17 @@ public class FanOutAnalysis extends MetricAnalysis {
             HashMap<String, Integer> methodFanOutScores = new HashMap<String, Integer>();
             // Initialise the module score to zero
             Integer moduleModeCount = 0;
+            ArrayList<String> uniqueCalls = new ArrayList<>();
 
             // For each constructor and method definition in class, calculate the module and method mode scores
             // Add the method mode result to the hashmap and add the module mode score to the counter
             for (CtMethod<?> methodObject : getMethods(classObject)) {
-                methodFanOutScores.put(methodObject.getSignature(), calculateFanOutForMethod(methodObject));
-                moduleModeCount += calculateModuleFanOutForMethod(classObject, methodObject);
+                methodFanOutScores.put(methodObject.getSignature(), calculateMethodModeFanOut(methodObject));
+                moduleModeCount += calculateModuleFanOut(classObject, methodObject, uniqueCalls);
             }
             for (CtConstructor<?> constructorObject : getConstructors(classObject)) {
-                methodFanOutScores.put(constructorObject.getSignature(), calculateFanOutForConstructor(constructorObject));
-                moduleModeCount += calculateModuleFanOutForConstructor(classObject, constructorObject);
+                methodFanOutScores.put(constructorObject.getSignature(), calculateMethodModeFanOut(constructorObject) - 1);
+                moduleModeCount += calculateModuleFanOut(classObject, constructorObject, uniqueCalls) - 1;
             }
 
             // Add the method mode results hashmap to the method mode scores map under the key of the class name
@@ -63,44 +66,55 @@ public class FanOutAnalysis extends MetricAnalysis {
         }
     }
 
-    private int calculateFanOutForMethod (CtMethod<?> method) {
+    private int calculateMethodModeFanOut (CtElement caller) {
         // Count all invocations
-        List<CtInvocation<?>> methodCalls = method.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class));
-        return methodCalls.size();
-    }
-
-    private int calculateFanOutForConstructor (CtConstructor<?> constructor) {
-        // Count all invocations
-        List<CtInvocation<?>> methodCalls = constructor.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class));
-        return methodCalls.size() - 1;
-    }
-
-    private int calculateModuleFanOutForMethod (CtClass<?> ctClass, CtMethod<?> method) {
-        // Count only invocations that do not call local methods to class name
         Integer count = 0;
-        for (CtInvocation<?> invocation : method.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class))) {
-            if (invocation.getExecutable().getDeclaringType() != null) {
-                String className = invocation.getExecutable().getDeclaringType().toString();
-                if (!className.equals(ctClass.getQualifiedName())) {
+        ArrayList<String> uniqueCalls = new ArrayList<>();
+        for (CtInvocation invocation : caller.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class))) {
+            if (invocation.getExecutable().getSignature() != null) {
+                String methodName = invocation.getExecutable().getSignature();
+                if (!uniqueCalls.contains(methodName)) {
                     count += 1;
+                    uniqueCalls.add(methodName);
                 }
-            } else {
-                count += 1;
+            }
+        }
+        for (CtConstructorCall<?> call : caller.getElements(new TypeFilter<CtConstructorCall<?>>(CtConstructorCall.class))) {
+            if (call.getExecutable().getDeclaringType() != null) {
+                String methodName = call.getExecutable().getSignature();
+                if (!uniqueCalls.contains(methodName)) {
+                    count += 1;
+                    uniqueCalls.add(methodName);
+                }
             }
         }
         return count;
     }
 
-    private int calculateModuleFanOutForConstructor (CtClass<?> ctClass, CtConstructor<?> constructor) {
-        // Count only invocations that do not call local methods to class name
+
+    private int calculateModuleFanOut (CtClass<?> ctClass, CtElement caller, ArrayList<String> uniqueCalls) {
+        // Count only invocations whos callee is not the caller and has not yet been called in caller (unique only)
         Integer count = 0;
-        for (CtInvocation<?> invocation : constructor.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class))) {
-            String className = invocation.getExecutable().getDeclaringType().toString();
-            if (!className.equals(ctClass.getQualifiedName())) {
-                count += 1;
+        for (CtInvocation<?> invocation : caller.getElements(new TypeFilter<CtInvocation<?>>(CtInvocation.class))) {
+            if (invocation.getExecutable().getDeclaringType() != null) {
+
+                String className = invocation.getExecutable().getDeclaringType().toString();
+                if (!className.equals(ctClass.getQualifiedName()) && !uniqueCalls.contains(className)) {
+                    count += 1;
+                    uniqueCalls.add(className);
+                }
             }
         }
-        return count - 1;
+        for (CtConstructorCall<?> call : caller.getElements(new TypeFilter<CtConstructorCall<?>>(CtConstructorCall.class))) {
+            if (call.getExecutable().getDeclaringType() != null) {
+                String className = call.getExecutable().getDeclaringType().toString();
+                if (!className.equals(ctClass.getQualifiedName()) && !uniqueCalls.contains(className)) {
+                    count += 1;
+                    uniqueCalls.add(className);
+                }
+            }
+        }
+        return count;
     }
 
     private static ArrayList<CtMethod<?>> getMethods(CtClass<?> classObject) {
