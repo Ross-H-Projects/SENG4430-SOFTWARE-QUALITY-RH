@@ -1,5 +1,6 @@
 package group3.metric_analysis.conditional_nesting;
 
+import com.google.gson.Gson;
 import group3.MetricAnalysis;
 import spoon.Launcher;
 import spoon.reflect.code.CtIf;
@@ -25,7 +26,9 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
     //Returns json output of calculated class's conditional nesting scores >= nesting limit
     public String getClassConditionalNestingScoresJson() {
         HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = getClassConditionalNestingScores();
-        return finalClassConditionalNestingScores.toString();
+        Gson gson = new Gson();
+        String json = gson.toJson(finalClassConditionalNestingScores);
+        return String.format("{Depth of Conditional Nesting Analysis where nesting >= %s: %s}", conditionalNestingLimit, json);
     }
     //Uses the calculated class's conditional nesting scores and compares them to the conditionalNestingLimit.
     //Returns a hashmap of the class's methods that are >= nesting limit

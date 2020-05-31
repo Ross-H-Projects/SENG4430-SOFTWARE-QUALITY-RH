@@ -1,5 +1,6 @@
 package group3.metric_analysis.comments_counts;
 
+import com.google.gson.Gson;
 import group3.MetricAnalysis;
 import spoon.Launcher;
 
@@ -28,7 +29,7 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         this.onClass = onClass;
         this.onMethod = onMethod;
 
-        commentRatioDefault = 30;
+        commentRatioDefault = 40;
 
         classCommentAnalysis = new HashMap<String, List<HashMap<String , Double>>>();
         methodCommentAnalysis = new HashMap<String, HashMap<String, List<HashMap<String , Double>>>>();
@@ -36,36 +37,23 @@ public class CommentsCountAnalysis extends MetricAnalysis {
 
     public String toJson() {
         String json = "";
-        if (onClass || onAll) {
-            json+= "\n"+toJsonClassAnalysis();
+        if(onAll) {
+            return String.format("{Comments Analysis where ratio <= %s%:{%s, %s}}", commentRatioDefault, toJsonClassAnalysis(), toJsonMethodAnalysis());
+        } else if (onClass) {
+            return toJsonClassAnalysis();
+        } else if (onMethod) {
+            return toJsonMethodAnalysis();
         }
-        if (onMethod || onAll) {
-            json+= "\n"+toJsonMethodAnalysis();
-        }
-        //output methods that dont have docstrings
-        //output comment standards
         return json;
     }
     public String toJsonClassAnalysis() {
-        String json = "";
-        for (Map.Entry mapPair : classCommentAnalysis.entrySet()) {
-            String classObject = (String) mapPair.getKey();
-            List<Map<String , Double>> classAnalysisCount = (List<Map<String, Double>>) mapPair.getValue();
-            json+= String.format("{%s: %s} ", classObject, classAnalysisCount.toString());
-        }
+        Gson gson = new Gson();
+        String json = gson.toJson(classCommentAnalysis);
         return String.format("{%s: %s}", "Class Comments Analysis", json);
     }
     public String toJsonMethodAnalysis() {
-        String json = "";
-        for (Map.Entry classMapPair : methodCommentAnalysis.entrySet()) {
-            String classObject = (String) classMapPair.getKey();
-            HashMap<String, List<HashMap<String , Double>>> classAnalysisCount = (HashMap<String, List<HashMap<String , Double>>>) classMapPair.getValue();
-            for (Map.Entry methodMapPair : classAnalysisCount.entrySet()) {
-                String methodObject = (String) methodMapPair.getKey();
-                List<HashMap<String , Double>> methodAnalysisCount = (List<HashMap<String , Double>>) methodMapPair.getValue();
-                json+= String.format("{%s.%s: %s} ", classObject, methodObject, methodAnalysisCount.toString());
-            }
-        }
+        Gson gson = new Gson();
+        String json = gson.toJson(methodCommentAnalysis);
         return String.format("{%s: %s}", "Method Comments Analysis", json);
     }
     public void performAnalysis (Launcher launcher) {
@@ -112,9 +100,14 @@ public class CommentsCountAnalysis extends MetricAnalysis {
             modeAnalysisCount.put("Inline Comment Ratio:", commentRatio);
             returnOutput.add(modeAnalysisCount);
 
+//            modeAnalysisCount = new HashMap<String, Double>();
+//            count = calculateTotalCommentCount(object);
+//            modeAnalysisCount.put("Total Comments Count:", (double) count);
+//            returnOutput.add(modeAnalysisCount);
+
             modeAnalysisCount = new HashMap<String, Double>();
-            count = calculateTotalCommentCount(object);
-            modeAnalysisCount.put("Total Comments Count:", (double) count);
+            count = calculateInlineCountForMethod(object);
+            modeAnalysisCount.put("Inline Comments Count:", (double) count);
             returnOutput.add(modeAnalysisCount);
 
             modeAnalysisCount = new HashMap<String, Double>();
@@ -122,10 +115,6 @@ public class CommentsCountAnalysis extends MetricAnalysis {
             modeAnalysisCount.put("Doc String Comments Count:", (double) count);
             returnOutput.add(modeAnalysisCount);
 
-            modeAnalysisCount = new HashMap<String, Double>();
-            count = calculateInlineCountForMethod(object);
-            modeAnalysisCount.put("Inline Comments Count:", (double) count);
-            returnOutput.add(modeAnalysisCount);
         }
         return returnOutput;
     }

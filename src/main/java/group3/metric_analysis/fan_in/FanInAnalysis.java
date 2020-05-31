@@ -38,6 +38,7 @@ public class FanInAnalysis extends MetricAnalysis {
     public void performAnalysis (Launcher launcher) {
         // Iterate over all classes and methods in provided launcher. Set default values in score hashmaps of 0. This enables the analysis to produce results only for code defined in the given launcher
         // rather than providing a result for the parent of every invocations. E.g. we don't want a fan in score for the number of System.out.println() calls
+        // rather than providing a result for the parent of every invocations. E.g. we don't want a fan in score for the number of System.out.println() calls
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
             HashMap<String, Integer> methodFanInScores = new HashMap<String, Integer>();
             for (CtMethod<?> methodObject : getMethods(classObject)) {
