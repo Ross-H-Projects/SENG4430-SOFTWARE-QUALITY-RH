@@ -89,7 +89,7 @@ public class FanInTest
      */
     @Test
     public void test_against_third_party_tool() {
-        Launcher launcher = Utilities.importCodeSample("C:\\Users\\Owner\\Documents\\SENG4430\\fastjson-master\\src\\main\\java\\com\\alibaba\\fastjson\\", true);
+        Launcher launcher = Utilities.importCodeSample("code_samples\\fastjson\\", true);
         FanInTracker tester = new FanInTracker(new String[] {"-max", "5", "-module"});
         tester.run(launcher);
         String res = tester.toJson();

@@ -101,7 +101,7 @@ public class FanOutTest
      */
     @Test
     public void test_against_third_party_tool() {
-        Launcher launcher = Utilities.importCodeSample("C:\\Users\\Owner\\Documents\\SENG4430\\fastjson-master\\src\\main\\java\\com\\alibaba\\fastjson", true);
+        Launcher launcher = Utilities.importCodeSample("code_samples\\fastjson", true);
         FanOutTracker tester = new FanOutTracker(new String[] {"-min", "10", "-module"});
         tester.run(launcher);
         String res = tester.toJson();
