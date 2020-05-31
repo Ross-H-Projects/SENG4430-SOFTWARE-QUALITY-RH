@@ -28,13 +28,17 @@ public class AppTest
     public void systemTest()
     {
         String[] testArgs = {
-                "code_samples\\WordCount.java"
+                "src\\main"
                 ,"-m"
                 ,"inheritance_depth"
                 ,"-m"
                 ,"cohesion_score"
                 ,"-m"
                 ,"coupling"
+                ,"-m"
+                ,"fan_out"
+                ,"-m"
+                ,"fan_in"
                 ,"-m"
                 ,"halstead_complexity"
 
