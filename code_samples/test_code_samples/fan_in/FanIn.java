@@ -1,38 +1,26 @@
 public class FanIn1 {
-    public FanIn1() {}
-
-    public void test1() {
+    public void FanIn1_1() {
+        FanIn2 f = new FanIn2();
+        f.FanIn2_1();
+        f.FanIn2_2();
     }
 }
 
 public class FanIn2 {
-    public void FanIn2() {
+    public void FanIn2_1() {
         FanIn1 f = new FanIn1();
-        f.test1();
+        f.FanIn1_1();
     }
 
-    public void fanIn2_1() {
-        fanIn2_2();
-    }
-
-
-    public void fanIn2_2() {
-
+    public void FanIn2_2() {
+        FanIn2_1();
     }
 }
 
-//public class FanIn3 {
-//    public FanIn3() {}
-//
-//    public void test3() {
-//        FanIn1 f = new FanIn1();
-//        f.test1();
-//    }
-//}
-//
-//public class FanOut4 {
-//    public void test4() {
-//        FanIn3 f = new FanIn3();
-//        f.test3();
-//    }
-//}
+public class FanIn3 {
+    public FanIn3() {
+        f1 = new FanIn1();
+        f3 = new FanIn1();
+        f2 = new FanIn2();
+    }
+}

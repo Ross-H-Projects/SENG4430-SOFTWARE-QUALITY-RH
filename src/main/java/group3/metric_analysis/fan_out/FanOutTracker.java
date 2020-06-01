@@ -66,9 +66,9 @@ public class FanOutTracker extends MetricTracker {
     public String toJson() {
         // Produce JSON output based on method/module mode choice
         if (moduleMode) {
-            return "{\"metric\": \"fan_out\", \"mode\": \"module\", \"result\":" + moduleModeToJSON();
+            return "{\"Fan Out\": {\n\t\"mode\": \"module\",\n\t\"result\":" + moduleModeToJSON() + "\n}}";
         } else {
-            return "{\"metric\": \"fan_out\", \"mode\": \"method\", \"result\":" + methodModeToJSON();
+            return "{\"Fan Out\": {\n\t\"mode\": \"method\",\n\t\"result\":" + methodModeToJSON() + "\n}}";
         }
 
     }

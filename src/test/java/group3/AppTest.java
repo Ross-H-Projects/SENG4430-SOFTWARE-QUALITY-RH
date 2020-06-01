@@ -13,6 +13,8 @@ import spoon.Launcher;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Unit test for simple App.
@@ -28,7 +30,7 @@ public class AppTest
     public void systemTest()
     {
         String[] testArgs = {
-                "code_samples\\WordCount.java"
+                "src\\main"
                 ,"-m"
                 ,"inheritance_depth"
                 ,"-m"
@@ -36,8 +38,11 @@ public class AppTest
                 ,"-m"
                 ,"coupling"
                 ,"-m"
+                ,"fan_out"
+                ,"-m"
+                ,"fan_in"
+                ,"-m"
                 ,"halstead_complexity"
-
         };
 
         PrintStream old = System.out;
@@ -47,11 +52,22 @@ public class AppTest
         App.main(testArgs);
         System.out.flush();
         System.setOut(old);
-        String s = new String(baos.toByteArray(), Charset.defaultCharset());
+        String programOutput = new String(baos.toByteArray(), Charset.defaultCharset());
+        programOutput = programOutput.replaceAll("\\s+","");
 
-        System.out.println(s);
+        // read in system test expected  output from file
+        String expectedProgramOutput = "";
+        try
+        {
+            expectedProgramOutput = new String ( Files.readAllBytes(Paths.get("src/test/java/group3/SystemTestOutput.txt")));
+            expectedProgramOutput = expectedProgramOutput.replaceAll("\\s+","");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-        assertEquals("System Test: App should return: \n", true, true);
+        assertEquals("System Test: App should return: \n", expectedProgramOutput, programOutput);
 
     }
 
