@@ -10,6 +10,8 @@ import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import group3.metric_analysis.coupling.CouplingTracker;
 import group3.metric_analysis.length_of_identifiers.LengthOfIdentifiersTracker;
+import group3.metric_analysis.cyclomatic_complexity.CyclomaticTracker;
+import group3.metric_analysis.method_count.MethodCountTracker;
 import spoon.Launcher;
 
 import java.util.*;
@@ -53,6 +55,12 @@ public class Metrics {
                     break;
                 case "fog_index":
                     tracker = new FogIndexTracker(Arrays.copyOfRange(arr, 1, arr.length));
+                    break;
+                case "cyclomatic_complexity":
+                    tracker = new CyclomaticTracker(Arrays.copyOfRange(arr,1,arr.length));
+                    break;
+                case "method_count":
+                    tracker = new MethodCountTracker(Arrays.copyOfRange(arr,1,arr.length));
                     break;
                 default:
                     throw new IllegalArgumentException("Metric " + arr[0] + " is invalid");
