@@ -157,7 +157,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
      * Static nested class to keep track of different averages so that they also can be added together.
      * This allows you to calculate new averages from two or more separate ones.
      */
-    static class SumResult{ //Should it be static?
+    static class SumResult{
         private int sum;
         private int amountOfNumbers;
 
