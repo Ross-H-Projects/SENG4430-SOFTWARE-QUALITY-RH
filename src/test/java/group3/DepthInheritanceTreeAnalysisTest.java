@@ -13,6 +13,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Unit tests for Depth of Inheritance Tree Algorithm.
@@ -44,6 +46,54 @@ public class DepthInheritanceTreeAnalysisTest
     }
 
     /**
+     *  Test that we get the same results that a 3rd party tool gets for their toy example.
+     *  The 3rd party tool can be found here: https://github.com/mauricioaniche/ck
+     */
+    @Test
+    public void testAgainstThirdPartyToyExample() {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\dit", false);
+        DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
+        tester.performAnalysis(launcher);
+
+        int ditScore = tester.getMaxDepth();
+        HashMap<String, LinkedList<String>> chains = tester.getClassInheritanceChains();
+
+        // the DIT score from the 3rd party tool counts the Object class inheritance, we don't so have
+        // (their score) - 1 as the actual score.
+        // so their score is 4, while ours is 3
+        assertEquals("DIT score should be 3", 3, ditScore);
+
+        assertEquals("A should have score 1", 1, chains.get("dit.A").size());
+        assertEquals("B should have score 2", 2, chains.get("dit.B").size());
+        assertEquals("C should have score 3", 3, chains.get("dit.C").size());
+        assertEquals("C2 should have score 3", 3, chains.get("dit.C").size());
+        assertEquals("D should have score 3", 4, chains.get("dit.D").size());
+        assertEquals("x should have score 2", 2, chains.get("dit.X").size());
+    }
+
+    /**
+     *  Test that we get the same results that a 3rd party tool gets for our 'code from the wild' example.
+     *  The 3rd party tool can be found here: https://github.com/tushartushar/DesigniteJava
+     */
+    @Test
+    public void testAgainstThirdPartyWildExample() {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\fastjson", false);
+        DepthInheritanceTreeAnalysis tester = new DepthInheritanceTreeAnalysis();
+        tester.performAnalysis(launcher);
+
+        int ditScore = tester.getMaxDepth();
+
+        HashMap<String, LinkedList<String>> chains = tester.getClassInheritanceChains();
+
+        // the DIT score from the 3rd party tool counts the Object class inheritance, we don't so have
+        // (their score) - 1 as the actual score.
+        // so their score is actually 3, where as ours is 2
+        assertEquals("DIT score should be 9", 2, ditScore);
+    }
+
+
+
+    /**
      * Test the 'code from the wild' code sample
      */
     @Test
@@ -61,7 +111,7 @@ public class DepthInheritanceTreeAnalysisTest
                 "\t\t'score': '1',\n" +
                 "\t\t'chains': [\n" +
                 "\t\t\t[ 'ConsoleInterface$5', 'ConsoleInterface$Command' ],\n" +
-                "\t\t\t[ 'modules.AverageLengthOfIdentifier$CollectionMode' ],\n" +
+                "\t\t\t[ 'modules.AverageLengthOfIdentifier$CollectionMode', 'java.lang.Enum' ],\n" +
                 "\t\t\t[ 'ConsoleInterface$4', 'ConsoleInterface$Command' ],\n" +
                 "\t\t\t[ 'ConsoleInterface$3', 'ConsoleInterface$Command' ],\n" +
                 "\t\t\t[ 'ConsoleInterface$2', 'ConsoleInterface$Command' ],\n" +
@@ -73,7 +123,7 @@ public class DepthInheritanceTreeAnalysisTest
                 "\t\t\t[ 'flowgraph.FlowGraph' ],\n" +
                 "\t\t\t[ 'flowgraph.FlowGraph$FlowGraphNode' ],\n" +
                 "\t\t\t[ 'utils.Adjustment' ],\n" +
-                "\t\t\t[ 'modules.NumberOfComments$MethodNameCollector' ],\n" +
+                "\t\t\t[ 'modules.NumberOfComments$MethodNameCollector', 'com.github.javaparser.ast.visitor.VoidVisitorAdapter' ],\n" +
                 "\t\t\t[ 'ConsoleInterface' ],\n" +
                 "\t\t\t[ 'ConsoleInterface$1', 'ConsoleInterface$Command' ],\n" +
                 "\t\t\t[ 'modules.CyclomaticComplexity', 'modules.FlowGraphNumberExtractor' ],\n" +
@@ -92,24 +142,24 @@ public class DepthInheritanceTreeAnalysisTest
                 "\t\t\t[ 'SENG4430' ],\n" +
                 "\t\t\t[ 'modules.helpers.LengthHelper' ],\n" +
                 "\t\t\t[ 'modules.NumberOfComments' ],\n" +
-                "\t\t\t[ 'modules.AverageLengthOfIdentifier$IdentifierVisitor' ],\n" +
-                "\t\t\t[ 'utils.ExtendedProperties' ],\n" +
+                "\t\t\t[ 'modules.AverageLengthOfIdentifier$IdentifierVisitor', 'com.github.javaparser.ast.visitor.VoidVisitorAdapter' ],\n" +
+                "\t\t\t[ 'utils.ExtendedProperties', 'java.util.Properties' ],\n" +
                 "\t\t\t[ 'flowgraph.AbstractFlowGraphBuilder' ],\n" +
                 "\t\t\t[ 'modules.LengthOfCode' ],\n" +
                 "\t\t\t[ 'flowgraph.CyclicFlowGraphBuilder', 'flowgraph.AbstractFlowGraphBuilder' ],\n" +
                 "\t\t\t[ 'modules.helpers.FileReport' ],\n" +
                 "\t\t\t[ 'modules.LocalVariables' ],\n" +
-                "\t\t\t[ 'modules.LocalVariables$MethodVariablesCollector' ],\n" +
+                "\t\t\t[ 'modules.LocalVariables$MethodVariablesCollector', 'com.github.javaparser.ast.visitor.VoidVisitorAdapter' ],\n" +
                 "\t\t\t[ 'modules.helpers.Analysis' ],\n" +
                 "\t\t\t[ 'utils.Logger' ],\n" +
                 "\t\t\t[ 'flowgraph.AcyclicFlowGraphBuilder', 'flowgraph.AbstractFlowGraphBuilder' ],\n" +
-                "\t\t\t[ 'modules.LocalVariables$MethodNameCollector' ],\n" +
+                "\t\t\t[ 'modules.LocalVariables$MethodNameCollector', 'com.github.javaparser.ast.visitor.VoidVisitorAdapter' ],\n" +
                 "\t\t\t[ 'modules.FlowGraphNumberExtractor' ],\n" +
                 "\t\t\t[ 'modules.helpers.Warning' ],\n" +
                 "\t\t\t[ 'modules.AverageLengthOfIdentifier' ],\n" +
                 "\t\t\t[ 'modules.StringMatchFanIn' ],\n" +
                 "\t\t\t[ 'modules.FlowGraphNumberExtractor$Constructor', 'modules.FlowGraphNumberExtractor$CodeBlock' ],\n" +
-                "\t\t\t[ 'modules.UnmeetableCode$ConditionVisitor' ]\n" +
+                "\t\t\t[ 'modules.UnmeetableCode$ConditionVisitor', 'com.github.javaparser.ast.visitor.VoidVisitorAdapter' ]\n" +
                 "\t\t]\n" +
                 "\t}\n" +
                 "}";
