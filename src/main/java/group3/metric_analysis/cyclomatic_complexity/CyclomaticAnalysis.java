@@ -55,7 +55,6 @@ public class CyclomaticAnalysis extends MetricAnalysis {
                 classCMCScores.put(classObject.getQualifiedName()+"."+methodObject.getSimpleName() + ": CMC", total);
             }
         }
-        classCMCScores.put("TOTAL", totalCMCValue);
     }
 
     private int countIfs (CtMethod<?> ifin){
