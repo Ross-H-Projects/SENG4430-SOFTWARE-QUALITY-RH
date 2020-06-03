@@ -37,7 +37,7 @@ Options:
 
 Example usage:
 
-`-m "fan_in -module -max 2`
+`-m "fan_in -module -max 2"`
 
 ### Fan Out
 
@@ -51,4 +51,4 @@ Options:
 
 Example usage:
 
-`-m "fan_out -module -min 10`
+`-m "fan_out -module -min 10"`
