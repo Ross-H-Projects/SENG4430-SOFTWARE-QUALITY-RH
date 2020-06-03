@@ -25,7 +25,7 @@ run ```java group3.TestRunner```
 
 ## Metrics
 
-#### Fan In
+### Fan In
 
 Options:
 
@@ -39,7 +39,7 @@ Example usage:
 
 `-m "fan_in -module -max 2`
 
-#### Fan Out
+### Fan Out
 
 Options:
 
