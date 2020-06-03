@@ -12,7 +12,7 @@ Command line arguments are required
 
 The basic structure is
 
-`<input-file> [-m "<metric> [<metric-flag> ...] ...]`
+`<input-file> [-m "<metric> [<metric-flag> ...]" ...]`
 
 An `-o` flag has also been created for output but there is currently only cmd available so that is default
 
