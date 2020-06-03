@@ -14,9 +14,9 @@ The basic structure is
 
 `<input-file> [-m "<metric> [<metric-flag> ...] ...]`
 
-A `-o` flag has also been created for output but there is currently only cmd available so that is default
+An `-o` flag has also been created for output but there is currently only cmd available so that is default
 
-The main entry point is ./src/main/java/group3/App.java
+The main entry point is `./src/main/java/group3/App.java`
 
 ## Test Usage
 
