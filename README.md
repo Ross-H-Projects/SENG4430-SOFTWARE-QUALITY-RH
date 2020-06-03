@@ -8,11 +8,11 @@ Run ```mvn clean compile assembly:single``` to download dependencies and build t
 
 Then run ```java -jar ./target/Group3.jar```
 
-Command line arguments are required
+Command line arguments are required. The input path can point to a single file or an entire project.
 
 The basic structure is
 
-`<input-file> [-m "<metric> [<metric-flag> ...]" ...]`
+`<input-path> [-m "<metric> [<metric-flag> ...]" ...]`
 
 An `-o` flag has also been created for output but there is currently only cmd available so that is default
 
