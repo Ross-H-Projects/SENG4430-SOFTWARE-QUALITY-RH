@@ -23,7 +23,7 @@ The main entry point is ./src/main/java/group3/App.java
 run ```java group3.TestRunner```
 
 
-### Metrics
+## Metrics
 
 #### Fan In
 
