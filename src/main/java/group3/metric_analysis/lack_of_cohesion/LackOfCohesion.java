@@ -2,6 +2,13 @@
 // https://help.semmle.com/wiki/pages/viewpage.action?pageId=29394037
 // or find it on archive.is here: https://archive.is/Hc0TG
 
+// Or find the core concept here:
+//  Shyam Chidamber et al.,
+//  A metrics suite for object oriented design,
+//  IEEE Transactions on Software Engineering, vol.20, no.6, 1994,
+//
+//  https://github.com/yegor256/jpeek/blob/master/papers/chidamber94_LCOM.pdf
+
 
 package group3.metric_analysis.lack_of_cohesion;
 
