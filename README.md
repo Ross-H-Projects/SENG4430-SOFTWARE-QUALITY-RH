@@ -61,7 +61,6 @@ Output Explanation:
 
 `Noteworrthy Identifiers`: Outputs the noteworthy identifiers decided by the cutoff point option, as explained below.
 
-
 Options:
 
 `-cutoff`: Set an integer value to only show specific identifiers in which the identifiers' length is less than or equal to the integer value.
@@ -70,3 +69,13 @@ Options:
 Example usage: 
 
 `-m "length_of_identifiers -cutoff 2"`
+
+### Fog Index
+
+Output Explanation:
+
+`Method Scores`: For each class; Outputs the fog index score for every method in that class. The fog index score is based on the comments attached to the method.
+            
+Example usage: 
+
+`-m "fog_index"`
