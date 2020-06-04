@@ -17,8 +17,11 @@ import spoon.Launcher;
 import java.util.*;
 
 public class Metrics {
+    // list of all metric trackers
     private ArrayList<MetricTracker> metricTrackers;
 
+    // create the corresponding metric tracker for each metric passed in
+    // send the metric arguments to the constructor
     public Metrics (String[] metricDefinitions) {
         metricTrackers = new ArrayList<>();
         for (String def : metricDefinitions) {
@@ -71,6 +74,7 @@ public class Metrics {
         }
     }
 
+    // run each metric on the desired launcher
     public void runMetrics(Launcher launcher, Launcher launcherNoComments) {
         for (MetricTracker tracker : metricTrackers) {
             if (!tracker.includeComments()) {
@@ -82,6 +86,7 @@ public class Metrics {
         }
     }
 
+    // Get the result string and order based on metric
     public ArrayList<String> getResults() {
         ArrayList<String> results = new ArrayList<String>();
 
@@ -103,6 +108,7 @@ public class Metrics {
         return results;
     }
 
+    // Getter for metric trackers
     public List<MetricTracker> getMetricTrackers() {
         return metricTrackers;
     }

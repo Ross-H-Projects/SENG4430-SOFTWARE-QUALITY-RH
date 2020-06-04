@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * Based on
  * http://search.cpan.org/src/GREGFAST/Lingua-EN-Syllable-0.251/Syllable.pm
- * Taken from https://gist.github.com/jbertouch/5f19ed775b5064b7a197cb2c9017ce52 //TODO: Reference properly, check with Shamus and group
+ * Taken from https://gist.github.com/jbertouch/5f19ed775b5064b7a197cb2c9017ce52
  */
 public class CountSyllables {
 
