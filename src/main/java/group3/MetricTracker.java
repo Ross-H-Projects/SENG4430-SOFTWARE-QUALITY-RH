@@ -3,6 +3,7 @@ package group3;
 
 import spoon.Launcher;
 
+// Abstract metric tracker class
 public abstract class MetricTracker {
     protected boolean doIncludeComments = true;
 

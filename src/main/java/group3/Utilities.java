@@ -8,6 +8,7 @@ import spoon.reflect.visitor.filter.NamedElementFilter;
 import java.util.List;
 
 public class Utilities {
+    // helper method to create launcher from code
     public static Launcher importCodeSample (String fileName, boolean includeComments) {
         Launcher launcher = new Launcher();
 
