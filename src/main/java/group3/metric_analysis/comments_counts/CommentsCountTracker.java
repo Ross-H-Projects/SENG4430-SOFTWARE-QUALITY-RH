@@ -20,6 +20,7 @@ public class CommentsCountTracker extends MetricTracker {
     public CommentsCountTracker(String[] args) {
         Options options = new Options();
         options.addOption("mode", true, "");
+        options.addOption("ratio", true, "");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -35,12 +36,15 @@ public class CommentsCountTracker extends MetricTracker {
             metricMode = "*";
         }
         switch (metricMode) {
+            //performs metric on both class and method
             case "*":
                 onAll = true;
                 break;
+            //outputs comment count on class
             case "onClass":
                 onClass = true;
                 break;
+            //outputs comment count on all methods in each class
             case "onMethod":
                 onMethod = true;
                 break;
@@ -49,7 +53,20 @@ public class CommentsCountTracker extends MetricTracker {
                 System.exit(1);
                 break;
         }
-        commentsCountAnalysis = new CommentsCountAnalysis(onAll, onClass, onMethod);
+        String maxCommentRatioString = cmd.getOptionValue("ratio");
+        int maxCommentRatio = 40;
+        if (maxCommentRatioString != null) {
+            try
+            {
+                maxCommentRatio = Integer.parseInt(maxCommentRatioString);
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("-ratio flag value is not a integer");
+                System.exit(1);
+            }
+        }
+        commentsCountAnalysis = new CommentsCountAnalysis(onAll, onClass, onMethod, maxCommentRatio);
     }
 
     @Override

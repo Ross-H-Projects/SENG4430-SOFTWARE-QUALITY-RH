@@ -24,12 +24,22 @@ public class CommentsCountAnalysis extends MetricAnalysis {
     private HashMap<String, List<HashMap<String , Double>>> classCommentAnalysis;
     private HashMap<String, HashMap<String, List<HashMap<String , Double>>>> methodCommentAnalysis;
 
-    public CommentsCountAnalysis(boolean onAll, boolean onClass, boolean onMethod) {
+    public CommentsCountAnalysis() {
+        this.onAll = false;
+        this.onClass = true;
+        this.onMethod = false;
+
+        this.commentRatioDefault = 40;
+
+        classCommentAnalysis = new HashMap<String, List<HashMap<String , Double>>>();
+        methodCommentAnalysis = new HashMap<String, HashMap<String, List<HashMap<String , Double>>>>();
+    }
+    public CommentsCountAnalysis(boolean onAll, boolean onClass, boolean onMethod, int maxCommentRatio) {
         this.onAll = onAll;
         this.onClass = onClass;
         this.onMethod = onMethod;
 
-        commentRatioDefault = 40;
+        this.commentRatioDefault = maxCommentRatio;
 
         classCommentAnalysis = new HashMap<String, List<HashMap<String , Double>>>();
         methodCommentAnalysis = new HashMap<String, HashMap<String, List<HashMap<String , Double>>>>();
