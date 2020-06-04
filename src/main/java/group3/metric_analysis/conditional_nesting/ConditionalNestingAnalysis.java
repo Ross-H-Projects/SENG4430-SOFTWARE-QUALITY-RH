@@ -23,10 +23,16 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
         //HashMap<Class Name, HashMap<Method Name, If Statement Depth>>
         classConditionalNestingScores = new HashMap<String, HashMap<String, Integer>>();
     }
+    public ConditionalNestingAnalysis(int minDepth) {
+        //Default conditional nesting depth limit. If >= then method has too much if statement depth
+        conditionalNestingLimit = minDepth;
+        //HashMap<Class Name, HashMap<Method Name, If Statement Depth>>
+        classConditionalNestingScores = new HashMap<String, HashMap<String, Integer>>();
+    }
     //Returns json output of calculated class's conditional nesting scores >= nesting limit
     public String getClassConditionalNestingScoresJson() {
         HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = getClassConditionalNestingScores();
-        Gson gson = new Gson();
+        Gson gson = GsonBuilder().setPrettyPrinting().create();;
         String json = gson.toJson(finalClassConditionalNestingScores);
         return String.format("{Depth of Conditional Nesting Analysis where nesting >= %s: %s}", conditionalNestingLimit, json);
     }
@@ -61,7 +67,7 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
             HashMap<String, Integer> methodConditionalNestingScores = new HashMap<String, Integer>();
             for (CtExecutable<?> methodObject : getMethods(classObject)) {
                 int maxDepth = doDepth(methodObject);
-                methodConditionalNestingScores.put(methodObject.getSignature(), maxDepth);
+                methodConditionalNestingScores.put(classObject.getSimpleName() + " " + methodObject.getSimpleName(), maxDepth);
             }
             classConditionalNestingScores.put(classObject.getQualifiedName(), methodConditionalNestingScores);
         }
