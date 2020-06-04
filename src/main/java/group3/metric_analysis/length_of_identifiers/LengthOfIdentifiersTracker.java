@@ -11,7 +11,7 @@ import spoon.Launcher;
 public class LengthOfIdentifiersTracker extends MetricTracker {
    private LengthOfIdentifiersAnalysis lengthOfIdentifiersAnalysis;
 
-   private int noteworthyCutOffPoint = 5;
+   private int noteworthyCutOffPoint = 4;
 
     public LengthOfIdentifiersTracker(String[] args) {
         Options options = new Options();
@@ -27,19 +27,14 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
         }
 
         String cutOffArg = cmd.getOptionValue("cutoff");
-        System.out.println("TEST if we get here 1: " + noteworthyCutOffPoint);
-
         if (cutOffArg != null) {
             try {
                 noteworthyCutOffPoint = Integer.parseInt(cutOffArg);
-                System.out.println("TEST if we get here 2: " + noteworthyCutOffPoint);
             } catch (NumberFormatException e) {
                 System.out.println("Length of identifier cutoff must be an integer value");
                 System.exit(1);
             }
         }
-        System.out.println("TEST if we get here: 3 " + noteworthyCutOffPoint);
-
         lengthOfIdentifiersAnalysis = new LengthOfIdentifiersAnalysis(noteworthyCutOffPoint);
     }
 

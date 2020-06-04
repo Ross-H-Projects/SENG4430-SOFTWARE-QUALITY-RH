@@ -29,7 +29,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
      * initialises private variables
      */
     public LengthOfIdentifiersAnalysis() {
-        this.noteworthyCutoffPoint = 5;
+        this.noteworthyCutoffPoint = 4;
         classLengthOfIdentifiersScores = new HashMap<String, Double>();
         noteworthyLengthOfIdentifierScores = new HashMap<String, List<String>>();
     }
@@ -85,7 +85,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
                 if(!noteworthyLengthOfIdentifierScores.containsKey(c.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(c.getSimpleName(), new ArrayList<String>());
                 }
-                noteworthyLengthOfIdentifierScores.get(c.getSimpleName()).add(c.getSimpleName()); //If class name is less than 5 characters long, it will be added to noteworthy identifiers
+                noteworthyLengthOfIdentifierScores.get(c.getSimpleName()).add(c.getSimpleName()); //If class name is less than or equal to cutoff, it will be added to noteworthy identifiers
             }
             classNames.setSum(c.getSimpleName().length());
             classNames.setAmountOfNumbers(1); //Will never be more than one class at a time here, so always one
@@ -116,7 +116,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
                 if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
                 }
-                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(method.getSimpleName()); //Adds to noteworthy if less than 5 characters long
+                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(method.getSimpleName()); //Adds to noteworthy if less than or equal to cutoff
             }
             methodNames.setSum(methodNames.getSum() + methodLength); //Keeps track of the total sum of all method name lengths
             methodNames.setAmountOfNumbers(methodNames.getAmountOfNumbers() + 1); //Keeps track of the amount of methods to calculate average
@@ -135,7 +135,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
                 if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
                 }
-                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(variable.getSimpleName()); //Adds to noteworthy if less than 5 characters long
+                noteworthyLengthOfIdentifierScores.get(currentClass.getSimpleName()).add(variable.getSimpleName()); //Adds to noteworthy if less than or equal to cutoff
             }
             variableNames.setSum(variableNames.getSum() + variableLength); //Keeps track of the total sum of all variable name lengths
             variableNames.setAmountOfNumbers(variableNames.getAmountOfNumbers() + 1);

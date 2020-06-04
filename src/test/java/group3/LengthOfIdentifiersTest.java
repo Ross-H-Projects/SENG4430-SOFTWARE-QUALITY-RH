@@ -1,6 +1,7 @@
 package group3;
 
 import group3.metric_analysis.length_of_identifiers.LengthOfIdentifiersAnalysis;
+import group3.metric_analysis.length_of_identifiers.LengthOfIdentifiersTracker;
 import spoon.Launcher;
 import org.junit.Test;
 
@@ -54,5 +55,17 @@ public class LengthOfIdentifiersTest {
         ArrayList<String> noteworthyEx = (ArrayList<String>) noteworthyLengthOfIdentifierScores.get("LengthOfIdentifiersEx");
         assertEquals("LengthOfIdentifiersEx contains the following noteworthy: calc, ab and acdc", true, (noteworthyEx.contains("calc") &&
                 noteworthyEx.contains("ab") && noteworthyEx.contains("acdc") && noteworthyEx.size() == 3)) ;
+    }
+
+    @Test
+    public void testCutoffForNoteworthy(){
+        Launcher launcher = Utilities.importCodeSample("code_samples/test_code_samples/LengthOfIdentifiers", false);
+        LengthOfIdentifiersTracker testTracker = new LengthOfIdentifiersTracker(new String[] {"-cutoff", "3"});
+        testTracker.run(launcher);
+        boolean testValueTrue = testTracker.toJson().contains("Noteworthy identifiers{LoIEx2=[add, b], LengthOfIdentifiersEx=[ab]}");
+        boolean testValueFalse = testTracker.toJson().contains("Random Things Here, should give false");
+        assertEquals("LoIEx2 contains, add and b, LengthOfIdentifiersEx contains ab", true, testValueTrue);
+        assertEquals("LoIEx2 contains, add and b, LengthOfIdentifiersEx contains ab", true, !testValueFalse);
+
     }
 }
