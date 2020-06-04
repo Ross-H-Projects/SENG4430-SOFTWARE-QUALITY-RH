@@ -14,7 +14,7 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
 
     public LengthOfIdentifiersTracker(String[] args) {
         Options options = new Options();
-        options.addOption("min", true, "Noteworthy identifiers cutoff value to display");
+        options.addOption("cutoff", true, "Noteworthy identifiers cutoff value to display");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -25,7 +25,7 @@ public class LengthOfIdentifiersTracker extends MetricTracker {
             System.exit(1);
         }
 
-        String cutOffArg = cmd.getOptionValue("min");
+        String cutOffArg = cmd.getOptionValue("cutoff");
         if (cutOffArg != null) {
             try {
                 noteworhtyCutOffPoint = Integer.parseInt(cutOffArg);
