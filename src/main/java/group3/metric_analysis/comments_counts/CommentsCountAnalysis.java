@@ -1,6 +1,7 @@
 package group3.metric_analysis.comments_counts;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import group3.MetricAnalysis;
 import spoon.Launcher;
 
@@ -46,33 +47,25 @@ public class CommentsCountAnalysis extends MetricAnalysis {
     }
 
     public String toJson() {
+        HashMap<String, HashMap<String, List<HashMap<String , Double>>>> classCommentAnalysisDescription = new HashMap<String, HashMap<String, List<HashMap<String , Double>>>>();
+        HashMap<String, HashMap<String, HashMap<String, List<HashMap<String , Double>>>>> methodCommentAnalysisDescription = new HashMap<String, HashMap<String, HashMap<String, List<HashMap<String , Double>>>>>();
+        classCommentAnalysisDescription.put("Class Comment Analysis", classCommentAnalysis);
+        methodCommentAnalysisDescription.put("Method Comment Analysis", methodCommentAnalysis);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonClassString = gson.toJson(classCommentAnalysisDescription);
+        String jsonMethodString = gson.toJson(methodCommentAnalysisDescription);
+
         String json = "";
+        String formattedJsonClassString = String.format("{\"Comments Count where class ratio greater than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonClassString);
+        String formattedJsonMethodString = String.format("{\"Comments Count where method ratio greater than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonClassString);
         if(onAll) {
-            return String.format("{Comments Analysis where ratio <= %s%s :{%s, %s}}", commentRatioDefault, "%", toJsonClassAnalysis(), toJsonMethodAnalysis());
+            return String.format("{\"Comments Count\": [%s\n, %s\n]}", formattedJsonClassString, formattedJsonMethodString);
         } else if (onClass) {
-            return toJsonClassAnalysis();
+            return formattedJsonClassString;
         } else if (onMethod) {
-            return toJsonMethodAnalysis();
+            return formattedJsonMethodString;
         }
         return json;
-    }
-    public String toJsonClassAnalysis() {
-        if(classCommentAnalysis.size() > 0) {
-            Gson gson = new Gson();
-            String json = gson.toJson(classCommentAnalysis);
-            return String.format("{%s: %s}", "Class Comments Analysis", json);
-        } else {
-            return "{}";
-        }
-    }
-    public String toJsonMethodAnalysis() {
-        if(methodCommentAnalysis.size() > 0) {
-            Gson gson = new Gson();
-            String json = gson.toJson(methodCommentAnalysis);
-            return String.format("{%s: %s}", "Method Comments Analysis", json);
-        } else {
-            return "{}";
-        }
     }
     public void performAnalysis (Launcher launcher) {
         if (onClass || onAll) {
