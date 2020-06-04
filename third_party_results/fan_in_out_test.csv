@@ -1,0 +1,4 @@
+Project Name,Package Name,Type Name,FANIN,FANOUT
+fan_out,(default package),Test1,0,1
+fan_out,(default package),Test2,1,1
+fan_out,(default package),Test3,1,0

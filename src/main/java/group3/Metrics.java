@@ -10,13 +10,18 @@ import group3.metric_analysis.lack_of_cohesion.LackOfCohesionTracker;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import group3.metric_analysis.coupling.CouplingTracker;
 import group3.metric_analysis.length_of_identifiers.LengthOfIdentifiersTracker;
+import group3.metric_analysis.cyclomatic_complexity.CyclomaticTracker;
+import group3.metric_analysis.method_count.MethodCountTracker;
 import spoon.Launcher;
 
 import java.util.*;
 
 public class Metrics {
+    // list of all metric trackers
     private ArrayList<MetricTracker> metricTrackers;
 
+    // create the corresponding metric tracker for each metric passed in
+    // send the metric arguments to the constructor
     public Metrics (String[] metricDefinitions) {
         metricTrackers = new ArrayList<>();
         for (String def : metricDefinitions) {
@@ -54,6 +59,12 @@ public class Metrics {
                 case "fog_index":
                     tracker = new FogIndexTracker(Arrays.copyOfRange(arr, 1, arr.length));
                     break;
+                case "cyclomatic_complexity":
+                    tracker = new CyclomaticTracker(Arrays.copyOfRange(arr,1,arr.length));
+                    break;
+                case "method_count":
+                    tracker = new MethodCountTracker(Arrays.copyOfRange(arr,1,arr.length));
+                    break;
                 default:
                     throw new IllegalArgumentException("Metric " + arr[0] + " is invalid");
 
@@ -63,6 +74,7 @@ public class Metrics {
         }
     }
 
+    // run each metric on the desired launcher
     public void runMetrics(Launcher launcher, Launcher launcherNoComments) {
         for (MetricTracker tracker : metricTrackers) {
             if (!tracker.includeComments()) {
@@ -74,6 +86,7 @@ public class Metrics {
         }
     }
 
+    // Get the result string and order based on metric
     public ArrayList<String> getResults() {
         ArrayList<String> results = new ArrayList<String>();
 
@@ -95,6 +108,7 @@ public class Metrics {
         return results;
     }
 
+    // Getter for metric trackers
     public List<MetricTracker> getMetricTrackers() {
         return metricTrackers;
     }
