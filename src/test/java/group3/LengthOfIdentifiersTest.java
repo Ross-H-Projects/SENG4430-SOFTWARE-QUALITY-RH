@@ -57,6 +57,9 @@ public class LengthOfIdentifiersTest {
                 noteworthyEx.contains("ab") && noteworthyEx.contains("acdc") && noteworthyEx.size() == 3)) ;
     }
 
+    /**
+     * Tests that the cutoff option flag
+     */
     @Test
     public void testCutoffForNoteworthy(){
         Launcher launcher = Utilities.importCodeSample("code_samples/test_code_samples/LengthOfIdentifiers", false);

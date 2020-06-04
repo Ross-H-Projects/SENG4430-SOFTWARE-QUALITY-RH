@@ -92,9 +92,9 @@ public class FogIndexAnalysis extends MetricAnalysis {
     }
 
     /**
-     * This method was taken from: https://www.javatpoint.com/java-program-to-count-the-number-of-words-in-a-string //TODO: Reference properly
+     * This method was taken from: https://www.javatpoint.com/java-program-to-count-the-number-of-words-in-a-string
      * @param string
-     * @return
+     * @return Amount of words in a string
      */
     static int wordcount(String string)
     {

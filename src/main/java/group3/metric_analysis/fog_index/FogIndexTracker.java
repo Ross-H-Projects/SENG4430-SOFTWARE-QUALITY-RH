@@ -4,6 +4,7 @@ import group3.MetricTracker;
 import spoon.Launcher;
 
 /**
+ * Launches and reads result of FogIndexAnalysis
  * @author DanielSands
  */
 public class FogIndexTracker extends MetricTracker {
@@ -12,12 +13,20 @@ public class FogIndexTracker extends MetricTracker {
     public FogIndexTracker(String[] args){
         fogIndexAnalysis = new FogIndexAnalysis();
     }
+
+    /**
+     * Runs the analysis
+     * @param launcher
+     */
     @Override
     public void run(Launcher launcher) {
         fogIndexAnalysis.performAnalysis(launcher);
     }
 
-    @Override //TODO
+    /**
+     * Produces Json output of metric analysis
+     */
+    @Override //TODO: Make actual Json with the help of Gson
     public String toJson() {
         return fogIndexAnalysis.getFogIndex().toString();
     }
