@@ -52,3 +52,21 @@ Options:
 Example usage:
 
 `-m "fan_out -module -min 10"`
+
+### Average Length of Identifiers
+
+Output Explanation:
+
+`Class Averages`: Outputs the average length of identifiers for each class in the project.
+
+`Noteworrthy Identifiers`: Outputs the noteworthy identifiers decided by the cutoff point option, as explained below.
+
+
+Options:
+
+`-cutoff`: Set an integer value to only show specific identifiers in which the identifiers' length is less than or equal to the integer value.
+            **Default**: 4
+            
+Example usage: 
+
+`-m "length_of_identifiers -cutoff 2"`
