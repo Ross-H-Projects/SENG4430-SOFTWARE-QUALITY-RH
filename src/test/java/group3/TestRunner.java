@@ -48,7 +48,7 @@ public class TestRunner {
             case "halstead":
                 testClass = HalsteadComplexityTest.class;
                 break;
-            case "length_identifiers":
+            case "length_of_identifiers":
                 testClass = LengthOfIdentifiersTest.class;
                 break;
             case "conditional":
