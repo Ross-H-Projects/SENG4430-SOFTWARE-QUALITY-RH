@@ -9,6 +9,7 @@ import java.util.List;
 public class Outputs {
     private ArrayList<Output> outputs;
 
+    // Initialise each specified output class with options passed in
     public Outputs (String[] outputDefinitions) {
         outputs = new ArrayList<>();
         for (String def : outputDefinitions) {
@@ -27,12 +28,14 @@ public class Outputs {
         }
     }
 
+    // Generate output from JSON string
     public void create(ArrayList<String> results) {
         for (Output output : outputs) {
             output.create(results);
         }
     }
 
+    // get output list
     public List<Output> getOutputs() {
         return outputs;
     }
