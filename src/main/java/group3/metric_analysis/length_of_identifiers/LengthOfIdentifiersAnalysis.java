@@ -112,7 +112,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         Set<CtMethod<?>> methods = currentClass.getMethods();
         for(CtMethod<?> method : methods){
             int methodLength = method.getSimpleName().length();
-            if(methodLength < 5){
+            if(methodLength <= noteworthyCutoffPoint){
                 if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
                 }
@@ -131,7 +131,7 @@ public class LengthOfIdentifiersAnalysis extends MetricAnalysis {
         List<CtVariable<?>> variables = currentClass.getElements(new TypeFilter<CtVariable<?>>(CtVariable.class));
         for(CtVariable<?> variable : variables){
             int variableLength = variable.getSimpleName().length();
-            if(variableLength < 5){
+            if(variableLength <= noteworthyCutoffPoint){
                 if(!noteworthyLengthOfIdentifierScores.containsKey(currentClass.getSimpleName())){
                     noteworthyLengthOfIdentifierScores.put(currentClass.getSimpleName(), new ArrayList<String>());
                 }
