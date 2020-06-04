@@ -1,6 +1,7 @@
 package group3.metric_analysis.fan_out;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import group3.MetricTracker;
 import org.apache.commons.cli.*;
 import spoon.Launcher;
@@ -92,7 +93,7 @@ public class FanOutTracker extends MetricTracker {
             }
         }
         // Create JSON string of hashmap
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(scores);
     }
 
@@ -108,7 +109,7 @@ public class FanOutTracker extends MetricTracker {
             }
         }
         // Create JSON string of hashmap
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(scores);
     }
 }

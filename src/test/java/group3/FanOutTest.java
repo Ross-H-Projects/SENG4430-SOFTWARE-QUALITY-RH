@@ -1,12 +1,15 @@
 package group3;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import group3.metric_analysis.fan_out.FanOutTracker;
 import org.junit.Test;
 import spoon.Launcher;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -24,9 +27,13 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-min", "0"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"fanOut1_1()\":3"));
-        assertTrue(res.contains("\"fanOut2_2()\":1"));
-        assertTrue(res.contains("\"fanOut2_1()\":2"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, HashMap<String, Integer>> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, HashMap<String, Integer>>>() {}.getType());
+
+        assertEquals("Method mode contains score of 3 for fanOut1_1()", 3, (long) resHash.get("FanOut1").get("fanOut1_1()"));
+        assertEquals("Method mode contains score of 1 for fanOut2_2()", 1, (long) resHash.get("FanOut2").get("fanOut2_2()"));
+        assertEquals("Method mode contains score of 2 for fanOut2_1()", 2, (long) resHash.get("FanOut2").get("fanOut2_1()"));
     }
 
     /**
@@ -39,9 +46,13 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-module", "-min", "0"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"FanOut1\":1"));
-        assertTrue(res.contains("\"FanOut2\":1"));
-        assertTrue(res.contains("\"FanOut3\":2"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
+
+        assertEquals("Module mode contains score of 1 for FanOut1", 1, (long) resHash.get("FanOut1"));
+        assertEquals("Module mode contains score of 1 for FanOut2", 1, (long) resHash.get("FanOut2"));
+        assertEquals("Module mode contains score of 2 for FanOut3", 2, (long) resHash.get("FanOut3"));
     }
 //
     /**
@@ -53,9 +64,13 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-module", "-min", "2"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertFalse(res.contains("\"FanOut1\":1"));
-        assertFalse(res.contains("\"FanOut2\":1"));
-        assertTrue(res.contains("\"FanOut3\":2"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
+
+        assertEquals("Module mode contains score of 2 for FanOut3", 2, (long) resHash.get("FanOut3"));
+        assertNull("Module mode no score for FanOut1", resHash.get("FanOut1"));
+        assertNull("Module mode no score for FanOut2", resHash.get("FanOut2"));
     }
 
     /**
@@ -67,8 +82,13 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-min", "0"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"FanOutCommented()\":0"));
-        assertTrue(res.contains("\"test()\":1"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, HashMap<String, Integer>> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, HashMap<String, Integer>>>() {}.getType());
+
+        assertEquals("Method mode contains score of 0 for FanOutCommented()", 0, (long) resHash.get("FanOutCommented").get("FanOutCommented()"));
+        assertEquals("Method mode contains score of 1 for test()", 1, (long) resHash.get("FanOutCommented").get("test()"));
+
     }
 
     /**
@@ -80,7 +100,11 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-min", "0"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"fanOut4_1()\":3"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, HashMap<String, Integer>> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, HashMap<String, Integer>>>() {}.getType());
+
+        assertEquals("Method mode contains score of 3 for fanOut4_1()", 3, (long) resHash.get("FanOut4").get("fanOut4_1()"));
     }
 
     /**
@@ -92,8 +116,11 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-module", "-min", "0"});
         tester.run(launcher);
         String res = tester.toJson();
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
 
-        assertTrue(res.contains("\"FanOut4\":1"));
+        assertEquals("Module mode contains score of 1 for FanOut4", 1, (long) resHash.get("FanOut4"));
     }
 
     /**
@@ -105,19 +132,22 @@ public class FanOutTest
         FanOutTracker tester = new FanOutTracker(new String[] {"-min", "10", "-module"});
         tester.run(launcher);
         String res = tester.toJson();
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
 
-        assertTrue(res.contains("\"com.alibaba.fastjson.JSONPath\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.DefaultJSONParser\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.ParserConfig\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.ASMDeserializerFactory\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.JavaBeanDeserializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.ASMSerializerFactory\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.CalendarCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.CollectionCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.FieldSerializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.JSONSerializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.ObjectArrayCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.SerializeConfig\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.util.TypeUtils\""));
+        assertNotNull(resHash.get("com.alibaba.fastjson.JSONPath"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.DefaultJSONParser"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.ParserConfig"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.ASMDeserializerFactory"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.JavaBeanDeserializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.ASMSerializerFactory"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.CalendarCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.CollectionCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.FieldSerializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.JSONSerializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.ObjectArrayCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.SerializeConfig"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.util.TypeUtils"));
     }
 }

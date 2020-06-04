@@ -1,12 +1,15 @@
 package group3;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import group3.metric_analysis.fan_in.FanInTracker;
 import org.junit.Test;
 import spoon.Launcher;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for Fan In
@@ -23,10 +26,15 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-max", "10"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"FanIn1_1()\":1"));
-        assertTrue(res.contains("\"FanIn2_2()\":1"));
-        assertTrue(res.contains("\"FanIn2_1()\":2"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, HashMap<String, Integer>> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, HashMap<String, Integer>>>() {}.getType());
+
+        assertEquals("Method mode contains score of 1 for FanIn1_1()", 1, (long) resHash.get("FanIn1").get("FanIn1_1()"));
+        assertEquals("Method mode contains score of 1 for FanIn2_2()", 1, (long) resHash.get("FanIn2").get("FanIn2_2()"));
+        assertEquals("Method mode contains score of 2 for FanIn2_1()", 2, (long) resHash.get("FanIn2").get("FanIn2_1()"));
     }
+
 
     /**
      * Test that we can the correct result for FanIn.java in method mode
@@ -38,9 +46,13 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-module", "-max", "10"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertTrue(res.contains("\"FanIn1\":2"));
-        assertTrue(res.contains("\"FanIn2\":2"));
-        assertTrue(res.contains("\"FanIn3\":0"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
+
+        assertEquals("Module mode contains score of 2 for FanIn1", 2, (long) resHash.get("FanIn1"));
+        assertEquals("Module mode contains score of 2 for FanIn2", 2, (long) resHash.get("FanIn2"));
+        assertEquals("Module mode contains score of 0 for FanIn3", 0, (long) resHash.get("FanIn3"));
     }
 //
     /**
@@ -52,9 +64,13 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-module", "-max", "1"});
         tester.run(launcher);
         String res = tester.toJson();
-        assertFalse(res.contains("\"FanIn1\":2"));
-        assertFalse(res.contains("\"FanIn2\":2"));
-        assertTrue(res.contains("\"FanIn3\":0"));
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
+
+        assertEquals("Module mode contains score of 0 for FanIn3", 0, (long) resHash.get("FanIn3"));
+        assertNull("Module mode no score for FanIn1", resHash.get("FanIn1"));
+        assertNull("Module mode no score for FanIn2", resHash.get("FanIn2"));
     }
 
     /**
@@ -66,8 +82,11 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-max", "10"});
         tester.run(launcher);
         String res = tester.toJson();
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, HashMap<String, Integer>> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, HashMap<String, Integer>>>() {}.getType());
 
-        assertTrue(res.contains("\"FanIn1()\":2"));
+        assertEquals("Method mode contains score of 2 for FanIn1()", 2, (long) resHash.get("FanIn1").get("FanIn1()"));
     }
 
     /**
@@ -79,11 +98,14 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-module", "-max", "10"});
         tester.run(launcher);
         String res = tester.toJson();
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
 
-        assertTrue(res.contains("\"FanIn1\":2"));
+        assertEquals("Module mode contains score of 2 for FanIn1", 2, (long) resHash.get("FanIn1"));
     }
 
-    
+
     /**
      * Test against 3rd party metric tool. Slight differences in results so test only checks for existence of modules within the threshold
      */
@@ -93,35 +115,38 @@ public class FanInTest
         FanInTracker tester = new FanInTracker(new String[] {"-max", "5", "-module"});
         tester.run(launcher);
         String res = tester.toJson();
+        String resString = res.substring(res.indexOf("result") + 8, res.length() - 2);
+        Gson gson = new Gson();
+        HashMap<String, Integer> resHash = gson.fromJson(resString, new TypeToken<HashMap<String, Integer>>() {}.getType());
 
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.ByteVector\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.ClassReader\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.ClassWriter\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.FieldWriter\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.Item\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.Label\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.MethodCollector\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.asm.MethodWriter\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.JSONPathException\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.JSONPObject\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.JSONReader\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.JSONWriter\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.DefaultExtJSONParser\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.JSONReaderScanner\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.AbstractDateDeserializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.ArrayListTypeFieldDeserializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.ContextObjectDeserializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.parser.deserializer.DefaultFieldDeserializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.AnnotationSerializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.AppendableSerializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.ArraySerializer\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.ASMSerializerFactory\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.AtomicCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.AwtCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.BeforeFilter\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.BigDecimalCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.BigIntegerCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.BooleanCodec\""));
-        assertTrue(res.contains("\"com.alibaba.fastjson.serializer.ByteBufferCodec\""));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.ByteVector"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.ClassReader"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.ClassWriter"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.FieldWriter"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.Item"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.Label"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.MethodCollector"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.asm.MethodWriter"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.JSONPathException"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.JSONPObject"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.JSONReader"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.JSONWriter"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.DefaultExtJSONParser"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.JSONReaderScanner"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.AbstractDateDeserializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.ArrayListTypeFieldDeserializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.ContextObjectDeserializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.parser.deserializer.DefaultFieldDeserializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.AnnotationSerializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.AppendableSerializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.ArraySerializer"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.ASMSerializerFactory"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.AtomicCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.AwtCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.BeforeFilter"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.BigDecimalCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.BigIntegerCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.BooleanCodec"));
+        assertNotNull(resHash.get("com.alibaba.fastjson.serializer.ByteBufferCodec"));
     }
 }
