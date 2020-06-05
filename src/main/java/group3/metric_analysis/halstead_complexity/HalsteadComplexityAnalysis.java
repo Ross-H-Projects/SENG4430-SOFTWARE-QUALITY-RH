@@ -55,6 +55,29 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
             halsteadComplexityClassAnalyser(c);
         }
 
+        n1 += distinctOperators.size();
+        n1 += distinctAssgnOperators.size();
+        n2 += distinctOperands.size();
+        n2 += distinctAssgnOperands.size();
+
+
+        for (Map.Entry dOperator : distinctOperators.entrySet()) {
+            N1 += (int)dOperator.getValue();
+        }
+
+        for (Map.Entry dAssgnOperator : distinctAssgnOperators.entrySet()) {
+            N1 += (int)dAssgnOperator.getValue();
+        }
+
+        for (Map.Entry dOperand : distinctOperands.entrySet()) {
+            N2 += (int)dOperand.getValue();
+        }
+
+        for (Map.Entry dAssgnOperand : distinctAssgnOperands.entrySet()) {
+            N2 += (int)dAssgnOperand.getValue();
+        }
+
+
     }
 
 
@@ -190,35 +213,7 @@ public class HalsteadComplexityAnalysis extends MetricAnalysis{
                     distinctOperands.put(arrow.getBody().toString(), freq + 1);
                 }
             }
-
         }
-
-
-
-        n1 += distinctOperators.size();
-        n1 += distinctAssgnOperators.size();
-        n2 += distinctOperands.size();
-        n2 += distinctAssgnOperands.size();
-
-        for (Map.Entry dOperator : distinctOperators.entrySet()) {
-            N1 += (int)dOperator.getValue();
-        }
-
-        for (Map.Entry dAssgnOperator : distinctAssgnOperators.entrySet()) {
-            N1 += (int)dAssgnOperator.getValue();
-        }
-
-        for (Map.Entry dAssgnOperator : distinctOperands.entrySet()) {
-            N2 += (int)dAssgnOperator.getValue();
-        }
-
-        for (Map.Entry dAssgnOperator : distinctAssgnOperands.entrySet()) {
-            N2 += (int)dAssgnOperator.getValue();
-        }
-
-
-
-
     }
 
     public ArrayList<Integer> getNumbers(){
