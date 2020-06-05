@@ -145,6 +145,7 @@ Output Explanation:
 `Method Scores`: For each class; Outputs the fog index score for every method in that class. The fog index score is based on the comments attached to the method.
 
 Example usage:
+
 `-m "fog_index"`
 
 ### Comments Count
