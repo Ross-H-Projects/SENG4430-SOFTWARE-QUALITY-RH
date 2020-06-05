@@ -1,6 +1,8 @@
 package group3.metric_analysis.conditional_nesting;
 
 import group3.MetricTracker;
+import group3.metric_analysis.comments_counts.CommentsCountAnalysis;
+import org.apache.commons.cli.*;
 import spoon.Launcher;
 
 public class ConditionalNestingTracker extends MetricTracker {
@@ -8,7 +10,32 @@ public class ConditionalNestingTracker extends MetricTracker {
     private ConditionalNestingAnalysis conditionalNestingAnalysis;
 
     public ConditionalNestingTracker(String[] args) {
-        conditionalNestingAnalysis = new ConditionalNestingAnalysis();
+        Options options = new Options();
+        options.addOption("ratio", true, "");
+
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        String minDepthString = cmd.getOptionValue("depth");
+        int minDepth = 3;
+        if (minDepthString != null) {
+            try
+            {
+                minDepth = Integer.parseInt(minDepthString);
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("-ratio flag value is not a integer");
+                System.exit(1);
+            }
+        }
+        conditionalNestingAnalysis = new ConditionalNestingAnalysis(minDepth);
     }
 
     @Override
