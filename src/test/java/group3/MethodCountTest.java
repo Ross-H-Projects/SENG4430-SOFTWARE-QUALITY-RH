@@ -2,6 +2,7 @@ package group3;
 
 
 import group3.metric_analysis.cyclomatic_complexity.CyclomaticTracker;
+import group3.metric_analysis.method_count.MethodCountTracker;
 import org.junit.Test;
 import spoon.Launcher;
 import static org.junit.Assert.assertEquals;
