@@ -72,9 +72,7 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
         if (currentClass.getSuperclass() != null) {
             CtClass<?> superClass = ctClasses.get(currentClass.getSuperclass().getQualifiedName());
 
-            // there are cases when the classes are extending java classes, in this case
-            // we want to stop attempting to count inheritance depth. we are only interested in the scope
-            // of inheritance within our own classes, not java objects.
+            // class is not within scope of program, may be a java native class or a  class outside the directory we are processing
             if (superClass != null) {
                 int thisClassDepth = 1 + depthInheritanceRecursive(superClass);
                 visited_classes.put(currentClass.getQualifiedName(), thisClassDepth);
@@ -84,6 +82,10 @@ public class DepthInheritanceTreeAnalysis extends MetricAnalysis {
                 }
 
                 return thisClassDepth;
+            } else {
+                visited_classes.put(currentClass.getQualifiedName(), 1);
+                classInheritanceChains.get(currentClass.getQualifiedName()).add(currentClass.getSuperclass().getQualifiedName());
+                return 1;
             }
         }
 
