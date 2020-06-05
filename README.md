@@ -20,7 +20,14 @@ The main entry point is `./src/main/java/group3/App.java`
 
 ## Test Usage
 
-run ```java group3.TestRunner```
+run ```mvn test```
+
+The tests will run twice as we use the intelliJ IDE which utilises the TestRunner class we built to customise what tests are run.
+For simplicity of running these tests outside of this environment, the broad stroke command above is easiest. It runs all the tests
+but also runs the TestRunner that by default runs all the tests too.
+
+There has been a system out intentionally left in the system test to show the output off all the metrics run over this project.
+This is just the easiest way to see it all in one place
 
 
 ## Metrics
