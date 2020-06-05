@@ -61,8 +61,8 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         String jsonMethodString = gson.toJson(methodCommentAnalysisDescription);
 
         String json = "";
-        String formattedJsonClassString = String.format("{\"Comments Count where class ratio greater than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonClassString);
-        String formattedJsonMethodString = String.format("{\"Comments Count where method ratio greater than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonClassString);
+        String formattedJsonClassString = String.format("{\"Comments Count where class ratio less than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonClassString);
+        String formattedJsonMethodString = String.format("{\"Comments Count where method ratio less than or equal to %s%s\": %s}", commentRatioDefault, "%", jsonMethodString);
         if(onAll) {
             return String.format("{\"Comments Count\": [%s\n, %s\n]}", formattedJsonClassString, formattedJsonMethodString);
         } else if (onClass) {
@@ -101,7 +101,12 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         int startLine = object.getPosition().getLine();
         int endLine = object.getPosition().getEndLine();
         int totalLineCount = endLine - startLine;
-        double ratio = ((double)totalCommentsCount / (double)totalLineCount) * 100;
+        double ratio;
+        if(totalCommentsCount == 0 && totalLineCount == 0) {
+            ratio = 100;
+        } else {
+            ratio = ((double) totalCommentsCount / (double) totalLineCount) * 100;
+        }
         return ratio;
     }
     public List<HashMap<String , Double>> runAnaylsisMode(CtElement object) {
@@ -137,7 +142,7 @@ public class CommentsCountAnalysis extends MetricAnalysis {
         return totalCommentsCount;
     }
     public int calculateCountForObject(CtElement object) {
-        return Query.getElements(object.getFactory(), new TypeFilter<CtComment>(CtComment.class)).size();
+        return Query.getElements(object, new TypeFilter<CtComment>(CtComment.class)).size();
     }
     public int calculateDocStringCount(CtElement object) {
         int docStringCommentsCount = object.getComments().size();
