@@ -24,7 +24,7 @@ public class MethodCountTest
     public void test_nonzeromethods()
     {
         Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\method_count\\method_CountTest1.java", true);
-        CyclomaticTracker tester = new CyclomaticTracker(new String[] {});
+        MethodCountTracker tester = new MethodCountTracker(new String[] {});
         tester.run(launcher);
         int res = tester.getCount("methodCountTest1");
         assertEquals(3, res);
