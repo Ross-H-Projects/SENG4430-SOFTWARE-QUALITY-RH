@@ -11,7 +11,7 @@ public class ConditionalNestingTracker extends MetricTracker {
 
     public ConditionalNestingTracker(String[] args) {
         Options options = new Options();
-        options.addOption("ratio", true, "");
+        options.addOption("depth", true, "");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -31,7 +31,7 @@ public class ConditionalNestingTracker extends MetricTracker {
             }
             catch (NumberFormatException e)
             {
-                System.out.println("-ratio flag value is not a integer");
+                System.out.println("-depth flag value is not a integer");
                 System.exit(1);
             }
         }

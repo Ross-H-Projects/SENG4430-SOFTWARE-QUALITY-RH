@@ -148,6 +148,39 @@ Example usage:
 
 `-m "fog_index"`
 
+### Comments Count
+
+Output Explanation:
+
+For each class outputs the comment ratio of code score of the input object. If the input flag is in * mode the ratio will be applied to both class and methods. If the mode is on class, the metric will be applied to all classes. If the mode is on method the metric will be applied to all methods in each class. for every method in that class.
+            
+Example usage: 
+Default
+`-m "comments_count"`
+
+On Class
+`-m "comments_count -mode onClass"`
+
+On Method
+`-m "comments_count -mode onMethod"`
+
+Set Ratio
+`-m "comments_count -ratio 25"`
+
+### Depth of Conditional Nesting
+
+Output Explanation:
+
+For each class outputs each method where the method contains a depth of if statements conditions with a depth more than the depth limit (Default 3)
+
+Example usage: 
+
+Default
+`-m "depth_conditional_nesting"`
+
+Setting Conditional Depth
+`-m "depth_conditional_nesting -depth 5"`
+
 
 ### Depth Of Inheritance
 
