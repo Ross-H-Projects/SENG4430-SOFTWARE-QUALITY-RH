@@ -132,16 +132,16 @@ Example usage:
 
 Output Explanation:
 
-{'Coupling': {
-	'Coupling Total': 64,
-	'Weighted Graph': {
-		'A3': {
-			'Page': 2,
-			'Process': 2,
-			'MemoryManagementUnit': 0,
-			'CPU': 6
-		},
-		...
+    {'Coupling': {
+        'Coupling Total': 64,
+        'Weighted Graph': {
+            'A3': {
+                'Page': 2,
+                'Process': 2,
+                'MemoryManagementUnit': 0,
+                'CPU': 6
+            },
+            ...
 
 The running the coupling metric returns a json that features two main elements. C
 
@@ -152,7 +152,7 @@ One classes is said to be coupled with another on a unidirectional basis; parent
 
 Example usage:
 
-`-m "coupling"'
+`-m "coupling"`
 
 Option:
 
@@ -167,29 +167,29 @@ Example usage:
 
 Output Explanation:
 
-{'Halstead Complexity': {
-	'Halstead Numbers': {
-		'number of distinct operators (n1)': 10,
-		'number of distinct operands (n2)': 14,
-		'total number of operators (N1)': 12,
-		'total number of operands (N2)': 22,
-		},
-	'Halstead Complexity Measures': {
-		'Diffulty': 5.0,
-		'Volume': 155.88872502451935,
-		'Time required to program': 43.30242361792204(sec),
-		'Effort': 779.4436251225967,
-		'Program vocabulary': 24,
-		'Program length': 34,
-		'Estimated program length': 86.52224985768007,
-		'Delivered bugs': 0.02823158219728793,
-		},
-	}
-}
+    {'Halstead Complexity': {
+        'Halstead Numbers': {
+            'number of distinct operators (n1)': 10,
+            'number of distinct operands (n2)': 14,
+            'total number of operators (N1)': 12,
+            'total number of operands (N2)': 22,
+            },
+        'Halstead Complexity Measures': {
+            'Diffulty': 5.0,
+            'Volume': 155.88872502451935,
+            'Time required to program': 43.30242361792204(sec),
+            'Effort': 779.4436251225967,
+            'Program vocabulary': 24,
+            'Program length': 34,
+            'Estimated program length': 86.52224985768007,
+            'Delivered bugs': 0.02823158219728793,
+            },
+        }
+    }
 
 Halstead complexity measures are calculated from four counts: number of distinct operators, distinct operands, total number of operators, and total number of operands.
 All 37 ASCII operators in the java language are counted except "=".
 
 Example usage:
 
-`-m "halstead_complexity"'
+`-m "halstead_complexity"`
