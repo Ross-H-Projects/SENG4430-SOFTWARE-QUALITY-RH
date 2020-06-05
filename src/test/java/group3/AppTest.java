@@ -43,7 +43,9 @@ public class AppTest
                 ,"fan_in"
                 ,"-m"
                 ,"halstead_complexity"
+                ,"-m"
                 , "comments_count"
+                ,"-m"
                 , "depth_conditional_nesting"
         };
 
