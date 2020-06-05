@@ -63,7 +63,7 @@ public class CyclomaticComplexityTest
                 assertEquals(2, res);
     }
 
-    }//Test includes only "if" and "else" decision points
+    //Test includes only "if" and "else" decision points
     @Test
     public void test_if_else()
     {

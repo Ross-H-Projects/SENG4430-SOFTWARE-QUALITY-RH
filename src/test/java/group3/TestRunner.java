@@ -63,7 +63,7 @@ public class TestRunner {
             case "fog_index":
                 testClass = FogIndexTest.class;
                 break;
-            case "cyclomatic_complexity"
+            case "cyclomatic_complexity":
                 testClass = CyclomaticComplexityTest.class;
                 break;
             case "method_count":
