@@ -294,3 +294,37 @@ All 37 ASCII operators in the java language are counted except "=".
 Example usage:
 
 `-m "halstead_complexity"`
+
+### Cyclomatic Complexity
+Output Explanation:
+
+              "CyclomaticComplexity": {
+              "cyclomaticTest7.main": 3,
+              "cyclomaticTest4.main": 2,
+              "cyclomaticTest2.main": 3,
+              "cyclomaticTest3.main": 2,
+              "cyclomaticTest.main": 8,
+              "cyclomaticTest6.main": 3,
+              "cyclomaticTest5.main": 2,
+              "cyclomaticTest1.main": 1
+            }
+            
+Cyclomatic complexity measures are used to calculate the number of decision points that exist within the system. This is done by considering if, for, while, and case statements, and also operational decision points such as && or ||. This system will make a recommendation that the user has a few too many decision points at a complexity of 11-15, and a recommendation that they have far too many at any value higher than 15.
+
+Example usage:
+
+`-m "cyclomatic_complexity"`
+
+### Method Count
+Output Explanation:
+
+              "MethodCount": {
+  "method_CountTest": 0,
+  "method_CountTest1": 3
+}
+            
+Method count simply counts the number of methods present in each presented class.
+
+Example usage:
+
+`-m "method_count"`
