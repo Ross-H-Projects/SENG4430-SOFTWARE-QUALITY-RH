@@ -31,7 +31,7 @@ public class CouplingTest {
         Launcher launcher = Utilities.importCodeSample("code_samples/Coupling_Example/c1", false);
         CouplingAnalysis tester = new CouplingAnalysis();
         tester.performAnalysis(launcher);
-        assertEquals("Coupling for couplingTest.java must be 15", 15, (int) tester.getCouplingTotal());
+        assertEquals("Coupling for c1 must be 64", 64, (int) tester.getCouplingTotal());
 
     }
 
@@ -82,7 +82,7 @@ public class CouplingTest {
                 "\t\t\t'MemoryManagementUnit': 4\n" +
                 "\t\t}\n" +
                 "\t}\n" +
-                "}\n";
+                "}";
 
         assertEquals("Coupling for code_samples/Coupling_Example/c1 directory must be:\n", expectedJson, resultJson);
 
