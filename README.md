@@ -132,8 +132,64 @@ Example usage:
 
 Output Explanation:
 
-`Method Scores`: For each class; Outputs the fog index score for every method in that class. The fog index score is based on the comments attached to the method.
+{'Coupling': {
+	'Coupling Total': 64,
+	'Weighted Graph': {
+		'A3': {
+			'Page': 2,
+			'Process': 2,
+			'MemoryManagementUnit': 0,
+			'CPU': 6
+		},
+		...
+
+The running the coupling metric returns a json that features two main elements. C
+
+'Coupling Total': counts the number of instances of paramater coupling (implicit constructor, explicit method calls through constructed object reference, explicit static calls) between classes taken as pairs.
+One classes is said to be coupled with another on a unidirectional basis; parent/child relationship. If class A is coupled with class B it does not entail that Class B is coupled with Class A.
+
+ 'Weigheted Graph': For each class in analysed program shows if it is coupled with any of the other classes if the corresponding class possesses value greater than zero, and shows the amount of times the class couples with the corresponding class.
 
 Example usage:
 
-`-m "fog_index"`
+`-m "coupling"'
+
+Option:
+
+'-min': Allows user to specify a lower threshold for the class-to-class coupling values in the weighted graph portion of the json output.
+In the instance of very large programs this can help to locate points of copious coupling by eliminating class-to-class non-coupling values (E.g. 'MemoryManagementUnit': 0,) and coupling values below the threshold from display.
+
+Example usage:
+
+`-m "coupling -min 3"`
+
+### Halstead Complexity
+
+Output Explanation:
+
+{'Halstead Complexity': {
+	'Halstead Numbers': {
+		'number of distinct operators (n1)': 10,
+		'number of distinct operands (n2)': 14,
+		'total number of operators (N1)': 12,
+		'total number of operands (N2)': 22,
+		},
+	'Halstead Complexity Measures': {
+		'Diffulty': 5.0,
+		'Volume': 155.88872502451935,
+		'Time required to program': 43.30242361792204(sec),
+		'Effort': 779.4436251225967,
+		'Program vocabulary': 24,
+		'Program length': 34,
+		'Estimated program length': 86.52224985768007,
+		'Delivered bugs': 0.02823158219728793,
+		},
+	}
+}
+
+Halstead complexity measures are calculated from four counts: number of distinct operators, distinct operands, total number of operators, and total number of operands.
+All 37 ASCII operators in the java language are counted except "=".
+
+Example usage:
+
+`-m "halstead_complexity"'
