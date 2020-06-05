@@ -61,6 +61,7 @@ public class AppTest
         System.out.flush();
         System.setOut(old);
         String programOutput = new String(baos.toByteArray(), Charset.defaultCharset());
+        System.out.println(programOutput);
         programOutput = programOutput.replaceAll("\\s+","");
 
         // read in system test expected  output from file
