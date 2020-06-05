@@ -39,6 +39,39 @@ Example usage:
 
 `-m "fan_in -module -max 2"`
 
+Output Explanation:
+
+```
+"Fan In": {
+    "mode": "method",
+    "result":{
+        "FanIn1": {
+            "FanIn1()": 2,
+            "FanIn1_1()": 1
+        }
+    }
+}
+```
+The above snippet shows an example output for fan in in method mode. The result is an object containing class names as keys.
+The value of each class is another object, with method names (and parameter definitions) which contain the corresponding fan in value
+
+```
+"Fan In": {
+    "mode": "module",
+    "result":{
+        "FanIn1": 2,
+        "FanIn3": 0,
+        "FanIn2": 2
+    }
+}
+```
+The above snippet shows fan in run in module mode. In this mode, the result object contains class names as keys again,
+but instead of another object, their values are just the fan in score of the entire class
+
+*NOTE:* Running method mode and module mode over the same code will not produce the same totals.
+As in, summing the score for each method in a class in method mode will not necessarily equal the score given to a class in module mode.
+This is due to the way they are defined as stated above
+
 ### Fan Out
 
 Options:
@@ -52,6 +85,41 @@ Options:
 Example usage:
 
 `-m "fan_out -module -min 10"`
+
+Output Explanation:
+```
+"Fan Out": {
+    "mode": "method",
+    "result":{
+        "FanOut1": {
+            "fanOut1_1()": 3,
+            "FanOut1()": 0
+        }
+    }
+}
+```
+
+The above snippet shows an example output for fan out in method mode. The result is an object containing class names as keys.
+The value of each class is another object, with method names (and parameter definitions) which contain the corresponding fan out value
+
+```
+"Fan Out": {
+    "mode": "module",
+    "result":{
+        "FanOut1": 1,
+        "FanOut2": 1,
+        "FanOut3": 2,
+        "FanOut4": 1,
+    }
+}
+```
+
+The above snippet shows fan out run in module mode. In this mode, the result object contains class names as keys again,
+but instead of another object, their values are just the fan out score of the entire class
+
+*NOTE:* Running method mode and module mode over the same code will not produce the same totals.
+As in, summing the score for each method in a class in method mode will not necessarily equal the score given to a class in module mode.
+This is due to the way they are defined as stated above
 
 ### Average Length of Identifiers
 
