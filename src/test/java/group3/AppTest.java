@@ -43,6 +43,8 @@ public class AppTest
                 ,"fan_in"
                 ,"-m"
                 ,"halstead_complexity"
+                , "comments_count"
+                , "depth_conditional_nesting"
         };
 
         PrintStream old = System.out;
