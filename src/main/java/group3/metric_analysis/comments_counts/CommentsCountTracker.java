@@ -33,7 +33,7 @@ public class CommentsCountTracker extends MetricTracker {
 
         String metricMode = cmd.getOptionValue("mode");
         if (metricMode == null) {
-            metricMode = "*";
+            metricMode = "onClass";
         }
         switch (metricMode) {
             //performs metric on both class and method
