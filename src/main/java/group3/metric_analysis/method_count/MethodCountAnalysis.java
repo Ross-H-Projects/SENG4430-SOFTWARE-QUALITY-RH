@@ -17,14 +17,17 @@ public class MethodCountAnalysis extends MetricAnalysis {
 
     private HashMap<String, Integer> classMethodScores;
 
+    //Constructor
     public MethodCountAnalysis() {
         classMethodScores = new HashMap<String, Integer>();
     }
 
+    //Returns analysis
     public HashMap<String, Integer> getClassMethodScores() {
         return classMethodScores;
     }
 
+    //Performs analysis, counting the number of methods per class
     public void performAnalysis (Launcher launcher) {
         for (CtClass<?> classObject : Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class))) {
             List<CtMethod> methods = classObject.getElements(new TypeFilter<CtMethod>(CtMethod.class));

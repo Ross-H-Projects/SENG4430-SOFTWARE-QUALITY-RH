@@ -63,6 +63,12 @@ public class TestRunner {
             case "fog_index":
                 testClass = FogIndexTest.class;
                 break;
+            case "cyclomatic_complexity"
+                testClass = CyclomaticComplexityTest.class;
+                break;
+            case "method_count":
+                testClass = MethodCountTest.class;
+                break;
             default:
                 throw new IllegalArgumentException("Test " + metric + " is invalid");
         }

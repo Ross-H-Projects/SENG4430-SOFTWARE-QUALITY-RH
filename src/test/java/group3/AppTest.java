@@ -43,6 +43,10 @@ public class AppTest
                 ,"fan_in"
                 ,"-m"
                 ,"halstead_complexity"
+                ,"-m"
+                ,"cyclomatic_complexity"
+                ,"-m"
+                ,"method_count"
         };
 
         PrintStream old = System.out;
