@@ -16,7 +16,9 @@ import org.junit.runners.Suite;
         ConditionalTest.class,
         CommentTest.class,
         LackOfCohesionTest.class,
-        FogIndexTest.class
+        FogIndexTest.class,
+        CyclomaticComplexityTest.class,
+        MethodCountTest.class
 })
 
 public class TestSuite {

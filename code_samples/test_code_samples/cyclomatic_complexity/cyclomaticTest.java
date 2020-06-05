@@ -13,6 +13,8 @@ public class cyclomaticTest{
                             default:
                                 break;
                         }
+                    } else {
+
                     }
                 }
             }

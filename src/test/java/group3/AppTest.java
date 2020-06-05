@@ -47,6 +47,10 @@ public class AppTest
                 , "comments_count"
                 ,"-m"
                 , "depth_conditional_nesting"
+                ,"-m"
+                ,"cyclomatic_complexity"
+                ,"-m"
+                ,"method_count"
         };
 
         PrintStream old = System.out;
