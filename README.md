@@ -39,6 +39,39 @@ Example usage:
 
 `-m "fan_in -module -max 2"`
 
+Output Explanation:
+
+```
+"Fan In": {
+    "mode": "method",
+    "result":{
+        "FanIn1": {
+            "FanIn1()": 2,
+            "FanIn1_1()": 1
+        }
+    }
+}
+```
+The above snippet shows an example output for fan in in method mode. The result is an object containing class names as keys.
+The value of each class is another object, with method names (and parameter definitions) which contain the corresponding fan in value
+
+```
+"Fan In": {
+    "mode": "module",
+    "result":{
+        "FanIn1": 2,
+        "FanIn3": 0,
+        "FanIn2": 2
+    }
+}
+```
+The above snippet shows fan in run in module mode. In this mode, the result object contains class names as keys again,
+but instead of another object, their values are just the fan in score of the entire class
+
+*NOTE:* Running method mode and module mode over the same code will not produce the same totals.
+As in, summing the score for each method in a class in method mode will not necessarily equal the score given to a class in module mode.
+This is due to the way they are defined as stated above
+
 ### Fan Out
 
 Options:
@@ -52,6 +85,41 @@ Options:
 Example usage:
 
 `-m "fan_out -module -min 10"`
+
+Output Explanation:
+```
+"Fan Out": {
+    "mode": "method",
+    "result":{
+        "FanOut1": {
+            "fanOut1_1()": 3,
+            "FanOut1()": 0
+        }
+    }
+}
+```
+
+The above snippet shows an example output for fan out in method mode. The result is an object containing class names as keys.
+The value of each class is another object, with method names (and parameter definitions) which contain the corresponding fan out value
+
+```
+"Fan Out": {
+    "mode": "module",
+    "result":{
+        "FanOut1": 1,
+        "FanOut2": 1,
+        "FanOut3": 2,
+        "FanOut4": 1,
+    }
+}
+```
+
+The above snippet shows fan out run in module mode. In this mode, the result object contains class names as keys again,
+but instead of another object, their values are just the fan out score of the entire class
+
+*NOTE:* Running method mode and module mode over the same code will not produce the same totals.
+As in, summing the score for each method in a class in method mode will not necessarily equal the score given to a class in module mode.
+This is due to the way they are defined as stated above
 
 ### Average Length of Identifiers
 
@@ -79,6 +147,39 @@ Output Explanation:
 Example usage:
 
 `-m "fog_index"`
+
+### Comments Count
+
+Output Explanation:
+
+For each class outputs the comment ratio of code score of the input object. If the input flag is in * mode the ratio will be applied to both class and methods. If the mode is on class, the metric will be applied to all classes. If the mode is on method the metric will be applied to all methods in each class. for every method in that class.
+            
+Example usage: 
+Default
+`-m "comments_count"`
+
+On Class
+`-m "comments_count -mode onClass"`
+
+On Method
+`-m "comments_count -mode onMethod"`
+
+Set Ratio
+`-m "comments_count -ratio 25"`
+
+### Depth of Conditional Nesting
+
+Output Explanation:
+
+For each class outputs each method where the method contains a depth of if statements conditions with a depth more than the depth limit (Default 3)
+
+Example usage: 
+
+Default
+`-m "depth_conditional_nesting"`
+
+Setting Conditional Depth
+`-m "depth_conditional_nesting -depth 5"`
 
 
 ### Depth Of Inheritance
@@ -132,8 +233,64 @@ Example usage:
 
 Output Explanation:
 
-`Method Scores`: For each class; Outputs the fog index score for every method in that class. The fog index score is based on the comments attached to the method.
+    {'Coupling': {
+        'Coupling Total': 64,
+        'Weighted Graph': {
+            'A3': {
+                'Page': 2,
+                'Process': 2,
+                'MemoryManagementUnit': 0,
+                'CPU': 6
+            },
+            ...
+
+The running the coupling metric returns a json that features two main elements. C
+
+'Coupling Total': counts the number of instances of paramater coupling (implicit constructor, explicit method calls through constructed object reference, explicit static calls) between classes taken as pairs.
+One classes is said to be coupled with another on a unidirectional basis; parent/child relationship. If class A is coupled with class B it does not entail that Class B is coupled with Class A.
+
+ 'Weigheted Graph': For each class in analysed program shows if it is coupled with any of the other classes if the corresponding class possesses value greater than zero, and shows the amount of times the class couples with the corresponding class.
 
 Example usage:
 
-`-m "fog_index"`
+`-m "coupling"`
+
+Option:
+
+'-min': Allows user to specify a lower threshold for the class-to-class coupling values in the weighted graph portion of the json output.
+In the instance of very large programs this can help to locate points of copious coupling by eliminating class-to-class non-coupling values (E.g. 'MemoryManagementUnit': 0,) and coupling values below the threshold from display.
+
+Example usage:
+
+`-m "coupling -min 3"`
+
+### Halstead Complexity
+
+Output Explanation:
+
+    {'Halstead Complexity': {
+        'Halstead Numbers': {
+            'number of distinct operators (n1)': 10,
+            'number of distinct operands (n2)': 14,
+            'total number of operators (N1)': 12,
+            'total number of operands (N2)': 22,
+            },
+        'Halstead Complexity Measures': {
+            'Diffulty': 5.0,
+            'Volume': 155.88872502451935,
+            'Time required to program': 43.30242361792204(sec),
+            'Effort': 779.4436251225967,
+            'Program vocabulary': 24,
+            'Program length': 34,
+            'Estimated program length': 86.52224985768007,
+            'Delivered bugs': 0.02823158219728793,
+            },
+        }
+    }
+
+Halstead complexity measures are calculated from four counts: number of distinct operators, distinct operands, total number of operators, and total number of operands.
+All 37 ASCII operators in the java language are counted except "=".
+
+Example usage:
+
+`-m "halstead_complexity"`

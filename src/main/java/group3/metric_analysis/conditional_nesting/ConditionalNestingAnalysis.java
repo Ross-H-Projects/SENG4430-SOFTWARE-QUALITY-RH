@@ -31,6 +31,15 @@ public class ConditionalNestingAnalysis extends MetricAnalysis {
         classConditionalNestingScores = new HashMap<String, HashMap<String, Integer>>();
     }
     //Returns json output of calculated class's conditional nesting scores >= nesting limit
+    public String getClassConditionalNestingScoresJsonUnformatted() {
+        HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = getClassConditionalNestingScores();
+        HashMap<String, HashMap<String, HashMap<String, Integer>>> finalClassConditionalNestingScoresDescription = new HashMap<String, HashMap<String, HashMap<String, Integer>>>();
+        finalClassConditionalNestingScoresDescription.put(String.format("Depth of Conditional Nesting where nesting is %s or more", conditionalNestingLimit), getClassConditionalNestingScores());
+        Gson gson = new Gson();
+        String json = gson.toJson(finalClassConditionalNestingScoresDescription);
+        return json;
+    }
+    //Returns json output of calculated class's conditional nesting scores >= nesting limit
     public String getClassConditionalNestingScoresJson() {
         HashMap<String, HashMap<String, Integer>> finalClassConditionalNestingScores = getClassConditionalNestingScores();
         HashMap<String, HashMap<String, HashMap<String, Integer>>> finalClassConditionalNestingScoresDescription = new HashMap<String, HashMap<String, HashMap<String, Integer>>>();
