@@ -15,11 +15,10 @@ import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.visitor.Query;
 import spoon.reflect.visitor.filter.TypeFilter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for Depth of Conditional Nesting Algorithm.
@@ -569,18 +568,54 @@ public class ConditionalTest
         ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
         assertEquals(analysis.doDepth(method), 4);
     }
-//    /**
-//     * Test analysis class output
-//     */
-//    @Test
-//    public void test_analysis_class_output()
-//    {
-//        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\conditional_nesting\\test_if_behaviour\\TestIfBehaviour.java", true);
-//        CtClass classObject = Query.getElements(launcher.getFactory(), new TypeFilter<CtClass<?>>(CtClass.class)).get(0);
-//
-//        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis();
-//        analysis.performAnalysis(launcher);
-//        System.out.println()
-//        assertEquals(analysis.getClassConditionalNestingScoresJson(), "{TestIfBehaviour={testIfBehaviour_depth_3_8()=3, testIfBehaviour_depth_4_1()=4, testIfBehaviour_depth_4_2()=4, testIfBehaviour_depth_4_3()=4, testIfBehaviour_depth_4_4()=4, testIfBehaviour_depth_4_5()=4, testIfBehaviour_depth_3_2()=3, testIfBehaviour_depth_3_3()=3, testIfBehaviour_depth_3_1()=3, testIfBehaviour_depth_3_6()=3, testIfBehaviour_depth_3_7()=3, testIfBehaviour_depth_3_4()=3, testIfBehaviour_depth_3_5()=3}}");
-//    }
+
+    /**
+     * Test comparison between third party application output and Condition Output
+     */
+    @Test
+    public void test_against_third_party_application() {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\fastjson", true);
+        ConditionalNestingAnalysis analysis = new ConditionalNestingAnalysis(6);
+        analysis.performAnalysis(launcher);
+        int count = 0;
+        for (Map.Entry<String, HashMap<String, Integer>> classObject : analysis.getClassConditionalNestingScores().entrySet()) {
+            String classString = classObject.getKey();
+            HashMap<String, Integer> MethodMaxDepth = classObject.getValue();
+            count += MethodMaxDepth.size();
+        }
+        //Checking that the returned value was less than compared to the third party was as close as I could get.
+        //It is possible that the third party application took into account switch statements, depth of loops etc which
+        //is why a greater value was returned from the third party application
+        assertTrue(count<=7);
+    }
+    /**
+     * Test params changing output
+     */
+    @Test
+    public void test_minDepthParam() {
+        int minDepth;
+        Launcher launcher = Utilities.importCodeSample("code_samples\\fastjson", true);
+        ConditionalNestingAnalysis analysis;
+
+        String json1;
+        String json2;
+        String json3;
+
+        minDepth = 5;
+        analysis = new ConditionalNestingAnalysis(minDepth);
+        analysis.performAnalysis(launcher);
+        json1 = analysis.getClassConditionalNestingScoresJsonUnformatted();
+
+        minDepth = 6;
+        analysis = new ConditionalNestingAnalysis(minDepth);
+        analysis.performAnalysis(launcher);
+        json2 = analysis.getClassConditionalNestingScoresJsonUnformatted();
+
+        minDepth = 7;
+        analysis = new ConditionalNestingAnalysis(minDepth);
+        analysis.performAnalysis(launcher);
+        json3 = analysis.getClassConditionalNestingScoresJsonUnformatted();
+
+        assertTrue(json1.length() >= json2.length() && json2.length() >= json3.length());
+    }
 }
