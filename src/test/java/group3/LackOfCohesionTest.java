@@ -60,6 +60,64 @@ public class LackOfCohesionTest {
         assertEquals("Class Ratio should be:\n", 1.0f, (float) resultRatios.get("A"), 0.0000001);
     }
 
+    /**
+     * Test our results against a 3rd party tool with a toy example
+     * The 3rd party tool can be found here: https://github.com/mauricioaniche/ck
+     *
+     * Note: We are looking at 'tcc; metric outputted from the above mentioned tool. Also we need to comment out the
+     * Constructors in the java files being analysed as the 3rd party tool counts them as methods in its calculation of the metric
+     * where as we do not.
+     */
+    @Test
+    public void test3rdPartyToyExample() {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\LackOfCohesion3", false);
+
+        LackOfCohesion lackOfCohesion = new LackOfCohesion();
+
+        lackOfCohesion.performAnalysis(launcher);
+
+        HashMap<String, CtClass<?>> resultClasses = lackOfCohesion.getClasses();
+        HashMap<String, Float> resultRatios = lackOfCohesion.getClassCohesionRatios();
+
+        assertEquals("Class Name should be:\n", "A", resultClasses.get("A").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 1.0f, resultRatios.get("A"), 0.01);
+
+        assertEquals("Class Name should be:\n", "B", resultClasses.get("B").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 0.66f, resultRatios.get("B"), 0.01);
+    }
+
+    /**
+     * Test our results against a 3rd party tool with a 'code from the wild' example
+     * The 3rd party tool can be found here: https://github.com/mauricioaniche/ck
+     *
+     * Note: We are looking at 'tcc; metric outputted from the above mentioned tool. Also we need to comment out the
+     * Constructors in the java files being analysed as the 3rd party tool counts them as methods in its calculation of the metric
+     * where as we do not.
+     */
+    @Test
+    public void test3rdPartyWildExample() {
+        Launcher launcher = Utilities.importCodeSample("code_samples\\test_code_samples\\LackOfCohesion4", false);
+
+        LackOfCohesion lackOfCohesion = new LackOfCohesion();
+
+        lackOfCohesion.performAnalysis(launcher);
+
+        HashMap<String, CtClass<?>> resultClasses = lackOfCohesion.getClasses();
+        HashMap<String, Float> resultRatios = lackOfCohesion.getClassCohesionRatios();
+
+        assertEquals("Class Name should be:\n", "BookRunner", resultClasses.get("BookRunner").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 1.0f, resultRatios.get("BookRunner"), 0.01);
+
+        assertEquals("Class Name should be:\n", "Book", resultClasses.get("Book").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 1.0f, resultRatios.get("Book"), 0.01);
+
+        assertEquals("Class Name should be:\n", "MotorBikeRunner", resultClasses.get("MotorBikeRunner").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 1.0f, resultRatios.get("MotorBikeRunner"), 0.01);
+
+        assertEquals("Class Name should be:\n", "MotorBike", resultClasses.get("MotorBike").getQualifiedName());
+        assertEquals("Class ratio should be:\n", 0.6f, resultRatios.get("MotorBike"), 0.01);
+    }
+
 
     /**
      * Test the json output for the toy example 1 code sample

@@ -1,22 +1,22 @@
 
 
-public class A {
-    int a = 1;
-    B[] b;
+public class B {
+    int x;
+    int y;
 
-//    A() {
+//    B() {
 //
 //    }
 
     public void arb1 () {
-        a = 1;
+        x = 1;
     }
 
     public void arb2 () {
-        a = 1;
+        y = 1;
     }
 
     public void arb3() {
-        a = 1;
+        y = x * 3;
     }
 }
